@@ -79,4 +79,19 @@
         <tag>Hexo 指令</tag>
       </tags>
   </entry>
+  <entry>
+    <title>關於嚴格模式</title>
+    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
+<span id="more"></span>
+
+<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
+<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
 </search>
