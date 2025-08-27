@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="深入了解 TypeScript 的核心概念、語法特性，以及如何在實際專案中應用這個強大的 JavaScript 超集語言。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript 完整介紹：從入門到實戰">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="深入了解 TypeScript 的核心概念、語法特性，以及如何在實際專案中應用這個強大的 JavaScript 超集語言。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-01-27T02:00:00.000Z">
+<meta property="article:modified_time" content="2025-01-27T02:00:00.000Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="前端開發">
+<meta property="article:tag" content="程式語言">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/","path":"2025/01/27/TypeScript 介紹/","title":"TypeScript 完整介紹：從入門到實戰"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TypeScript 完整介紹：從入門到實戰 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-TypeScript%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 TypeScript？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%8E%AF-%E7%82%BA%E4%BB%80%E9%BA%BC%E9%81%B8%E6%93%87-TypeScript%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">🎯 為什麼選擇 TypeScript？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%9A%80-%E5%BF%AB%E9%80%9F%E9%96%8B%E5%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">🚀 快速開始</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-TypeScript"><span class="nav-number">2.1.</span> <span class="nav-text">安裝 TypeScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%80%8B-TypeScript-%E6%AA%94%E6%A1%88"><span class="nav-number">2.2.</span> <span class="nav-text">第一個 TypeScript 檔案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9A-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text">📚 核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E5%9E%8B%E5%88%A5"><span class="nav-number">3.1.</span> <span class="nav-text">1. 基本型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%8B%E9%9D%A2-Interface"><span class="nav-number">3.2.</span> <span class="nav-text">2. 介面 (Interface)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%A1%9E%E5%88%A5-Classes"><span class="nav-number">3.3.</span> <span class="nav-text">3. 類別 (Classes)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B3%9B%E5%9E%8B-Generics"><span class="nav-number">3.4.</span> <span class="nav-text">4. 泛型 (Generics)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%81%AF%E5%90%88%E5%9E%8B%E5%88%A5%E8%88%87%E4%BA%A4%E9%9B%86%E5%9E%8B%E5%88%A5"><span class="nav-number">3.5.</span> <span class="nav-text">5. 聯合型別與交集型別</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9A%99%EF%B8%8F-%E9%80%B2%E9%9A%8E%E7%89%B9%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">⚙️ 進階特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9E%8B%E5%88%A5%E5%88%A5%E5%90%8D-Type-Aliases"><span class="nav-number">4.1.</span> <span class="nav-text">1. 型別別名 (Type Aliases)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%A2%9D%E4%BB%B6%E5%9E%8B%E5%88%A5"><span class="nav-number">4.2.</span> <span class="nav-text">2. 條件型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%98%A0%E5%B0%84%E5%9E%8B%E5%88%A5"><span class="nav-number">4.3.</span> <span class="nav-text">3. 映射型別</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%9B%A0%EF%B8%8F-%E5%AF%A6%E6%88%B0%E6%87%89%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">🛠️ 實戰應用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeScript-%E8%A8%AD%E5%AE%9A%E6%AA%94-tsconfig-json"><span class="nav-number">5.1.</span> <span class="nav-text">TypeScript 設定檔 (tsconfig.json)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React-TypeScript-%E7%AF%84%E4%BE%8B"><span class="nav-number">5.2.</span> <span class="nav-text">React + TypeScript 範例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%9D-%E6%9C%80%E4%BD%B3%E5%AF%A6%E8%B8%90"><span class="nav-number">6.</span> <span class="nav-text">📝 最佳實踐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9E%8B%E5%88%A5%E5%AE%9A%E7%BE%A9"><span class="nav-number">6.1.</span> <span class="nav-text">1. 型別定義</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%8C%AF%E8%AA%A4%E8%99%95%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">2. 錯誤處理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%8D-%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E8%88%87%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88"><span class="nav-number">7.</span> <span class="nav-text">🔍 常見問題與解決方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9E%8B%E5%88%A5%E6%96%B7%E8%A8%80"><span class="nav-number">7.1.</span> <span class="nav-text">1. 型別斷言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8F%AF%E9%81%B8%E9%8F%88%E8%88%87%E7%A9%BA%E5%80%BC%E5%90%88%E4%BD%B5"><span class="nav-number">7.2.</span> <span class="nav-text">2. 可選鏈與空值合併</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8E%93-%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90%E8%88%87%E5%B7%A5%E5%85%B7"><span class="nav-number">8.</span> <span class="nav-text">🎓 學習資源與工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%96%A6%E5%B7%A5%E5%85%B7"><span class="nav-number">8.1.</span> <span class="nav-text">推薦工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%B8%E7%BF%92%E8%B3%87%E6%BA%90"><span class="nav-number">8.2.</span> <span class="nav-text">學習資源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%88-%E7%B8%BD%E7%B5%90"><span class="nav-number">9.</span> <span class="nav-text">📈 總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%9A%80-%E4%B8%8B%E4%B8%80%E6%AD%A5"><span class="nav-number">10.</span> <span class="nav-text">🚀 下一步</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="TypeScript 完整介紹：從入門到實戰 | Arvin's Blog">
+      <meta itemprop="description" content="深入了解 TypeScript 的核心概念、語法特性，以及如何在實際專案中應用這個強大的 JavaScript 超集語言。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TypeScript 完整介紹：從入門到實戰
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-01-27 10:00:00" itemprop="dateCreated datePublished" datetime="2025-01-27T10:00:00+08:00">2025-01-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E8%A1%93%E6%95%99%E5%AD%B8/" itemprop="url" rel="index"><span itemprop="name">技術教學</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">深入了解 TypeScript 的核心概念、語法特性，以及如何在實際專案中應用這個強大的 JavaScript 超集語言。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
+<span id="more"></span>
+
+<h3 id="🎯-為什麼選擇-TypeScript？"><a href="#🎯-為什麼選擇-TypeScript？" class="headerlink" title="🎯 為什麼選擇 TypeScript？"></a>🎯 為什麼選擇 TypeScript？</h3><ol>
+<li><strong>靜態型別檢查</strong> - 在編譯時期就能發現錯誤</li>
+<li><strong>更好的 IDE 支援</strong> - 智能提示、自動完成、重構工具</li>
+<li><strong>增強的可讀性</strong> - 代碼更容易理解和維護</li>
+<li><strong>漸進式採用</strong> - 可以逐步將現有 JavaScript 專案遷移到 TypeScript</li>
+</ol>
+<h2 id="🚀-快速開始"><a href="#🚀-快速開始" class="headerlink" title="🚀 快速開始"></a>🚀 快速開始</h2><h3 id="安裝-TypeScript"><a href="#安裝-TypeScript" class="headerlink" title="安裝 TypeScript"></a>安裝 TypeScript</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全域安裝</span></span><br><span class="line">npm install -g typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 專案內安裝</span></span><br><span class="line">npm install --save-dev typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證安裝</span></span><br><span class="line">tsc --version</span><br></pre></td></tr></table></figure>
+
+<h3 id="第一個-TypeScript-檔案"><a href="#第一個-TypeScript-檔案" class="headerlink" title="第一個 TypeScript 檔案"></a>第一個 TypeScript 檔案</h3><p>建立 <code>hello.ts</code> 檔案：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">name: <span class="built_in">string</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`Hello, <span class="subst">$&#123;name&#125;</span>!`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">userName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">greet</span>(userName));</span><br></pre></td></tr></table></figure>
+
+<p>編譯並執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 編譯</span></span><br><span class="line">tsc hello.ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行生成的 JavaScript</span></span><br><span class="line">node hello.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="📚-核心概念"><a href="#📚-核心概念" class="headerlink" title="📚 核心概念"></a>📚 核心概念</h2><h3 id="1-基本型別"><a href="#1-基本型別" class="headerlink" title="1. 基本型別"></a>1. 基本型別</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本型別</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isDone</span>: <span class="built_in">boolean</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">decimal</span>: <span class="built_in">number</span> = <span class="number">6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">color</span>: <span class="built_in">string</span> = <span class="string">&quot;blue&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">list</span>: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="attr">tuple</span>: [<span class="built_in">string</span>, <span class="built_in">number</span>] = [<span class="string">&quot;hello&quot;</span>, <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Any 型別（盡量避免使用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">notSure</span>: <span class="built_in">any</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Void 型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">warnUser</span>(<span class="params"></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;This is a warning message&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Null 和 Undefined</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">u</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">n</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-介面-Interface"><a href="#2-介面-Interface" class="headerlink" title="2. 介面 (Interface)"></a>2. 介面 (Interface)</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="attr">firstName</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">lastName</span>: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>; <span class="comment">// 可選屬性</span></span><br><span class="line">  <span class="keyword">readonly</span> <span class="attr">id</span>: <span class="built_in">number</span>; <span class="comment">// 唯讀屬性</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createPerson</span>(<span class="params">person: Person</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;person.firstName&#125;</span> <span class="subst">$&#123;person.lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">user</span>: <span class="title class_">Person</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">firstName</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">lastName</span>: <span class="string">&quot;Doe&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-類別-Classes"><a href="#3-類別-Classes" class="headerlink" title="3. 類別 (Classes)"></a>3. 類別 (Classes)</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">protected</span> <span class="attr">species</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="attr">age</span>: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, species: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">species</span> = species;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">makeSound</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> makes a sound`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="title function_">getInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> is a <span class="subst">$&#123;<span class="variable language_">this</span>.species&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">breed</span>: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, breed: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(name, <span class="string">&quot;Canine&quot;</span>, age);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">breed</span> = breed;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">bark</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Woof! Woof!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">makeSound</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">getBreedInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.getInfo()&#125;</span> of breed <span class="subst">$&#123;<span class="variable language_">this</span>.breed&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-泛型-Generics"><a href="#4-泛型-Generics" class="headerlink" title="4. 泛型 (Generics)"></a>4. 泛型 (Generics)</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 泛型函數</span></span><br><span class="line"><span class="keyword">function</span> identity&lt;T&gt;(<span class="attr">arg</span>: T): T &#123;</span><br><span class="line">  <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> output1 = identity&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;myString&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> output2 = identity&lt;<span class="built_in">number</span>&gt;(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型介面</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">GenericIdentityFn</span>&lt;T&gt; &#123;</span><br><span class="line">  (<span class="attr">arg</span>: T): T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型類別</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GenericNumber</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">zeroValue</span>: T;</span><br><span class="line">  <span class="attr">add</span>: <span class="function">(<span class="params">x: T, y: T</span>) =&gt;</span> T;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">zero: T, addFn: (x: T, y: T) =&gt; T</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">zeroValue</span> = zero;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">add</span> = addFn;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-聯合型別與交集型別"><a href="#5-聯合型別與交集型別" class="headerlink" title="5. 聯合型別與交集型別"></a>5. 聯合型別與交集型別</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 聯合型別</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">StringOrNumber</span> = <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">padLeft</span>(<span class="params">value: <span class="built_in">string</span>, padding: StringOrNumber</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Array</span>(padding + <span class="number">1</span>).<span class="title function_">join</span>(<span class="string">&quot; &quot;</span>) + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Expected string or number, got &#x27;<span class="subst">$&#123;padding&#125;</span>&#x27;.`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交集型別</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ErrorHandling</span> &#123;</span><br><span class="line">  <span class="attr">success</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  error?: &#123; <span class="attr">message</span>: <span class="built_in">string</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ArtworksData</span> &#123;</span><br><span class="line">  <span class="attr">artworks</span>: &#123; <span class="attr">title</span>: <span class="built_in">string</span> &#125;[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ArtworksResponse</span> = <span class="title class_">ArtworksData</span> &amp; <span class="title class_">ErrorHandling</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="⚙️-進階特性"><a href="#⚙️-進階特性" class="headerlink" title="⚙️ 進階特性"></a>⚙️ 進階特性</h2><h3 id="1-型別別名-Type-Aliases"><a href="#1-型別別名-Type-Aliases" class="headerlink" title="1. 型別別名 (Type Aliases)"></a>1. 型別別名 (Type Aliases)</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Point</span> = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">y</span>: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EventHandler</span> = <span class="function">(<span class="params">event: Event</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Status</span> = <span class="string">&quot;loading&quot;</span> | <span class="string">&quot;success&quot;</span> | <span class="string">&quot;error&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-條件型別"><a href="#2-條件型別" class="headerlink" title="2. 條件型別"></a>2. 條件型別</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">MessageOf</span>&lt;T&gt; = T <span class="keyword">extends</span> &#123; <span class="attr">message</span>: infer U &#125; ? U : <span class="built_in">never</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Email</span> &#123;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">  <span class="title function_">bark</span>(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EmailMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Email</span>&gt;; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">DogMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Dog</span>&gt;; <span class="comment">// never</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-映射型別"><a href="#3-映射型別" class="headerlink" title="3. 映射型別"></a>3. 映射型別</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Readonly</span>&lt;T&gt; = &#123;</span><br><span class="line">  <span class="keyword">readonly</span> [P <span class="keyword">in</span> keyof T]: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Partial</span>&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]?: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="attr">title</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">description</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">completed</span>: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ReadonlyTodo</span> = <span class="title class_">Readonly</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">PartialTodo</span> = <span class="title class_">Partial</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🛠️-實戰應用"><a href="#🛠️-實戰應用" class="headerlink" title="🛠️ 實戰應用"></a>🛠️ 實戰應用</h2><h3 id="TypeScript-設定檔-tsconfig-json"><a href="#TypeScript-設定檔-tsconfig-json" class="headerlink" title="TypeScript 設定檔 (tsconfig.json)"></a>TypeScript 設定檔 (tsconfig.json)</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="string">&quot;DOM&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./dist&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./src&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;forceConsistentCasingInFileNames&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;resolveJsonModule&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declaration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declarationMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">,</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="React-TypeScript-範例"><a href="#React-TypeScript-範例" class="headerlink" title="React + TypeScript 範例"></a>React + TypeScript 範例</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">email</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">UserListProps</span> &#123;</span><br><span class="line">  initialUsers?: <span class="title class_">User</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">UserList</span>: <span class="title class_">React</span>.<span class="property">FC</span>&lt;<span class="title class_">UserListProps</span>&gt; = <span class="function">(<span class="params">&#123; initialUsers = [] &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [users, setUsers] = useState&lt;<span class="title class_">User</span>[]&gt;(initialUsers);</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState&lt;<span class="built_in">boolean</span>&gt;(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fetchUsers = <span class="keyword">async</span> (): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; =&gt; &#123;</span><br><span class="line">      <span class="title function_">setLoading</span>(<span class="literal">true</span>);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/api/users&quot;</span>);</span><br><span class="line">        <span class="keyword">const</span> <span class="attr">userData</span>: <span class="title class_">User</span>[] = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">        <span class="title function_">setUsers</span>(userData);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Failed to fetch users:&quot;</span>, error);</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="title function_">setLoading</span>(<span class="literal">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initialUsers.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="title function_">fetchUsers</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [initialUsers.<span class="property">length</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (loading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;users.map((user: User) =&gt; (</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;user.id&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;user.name&#125; - &#123;user.email&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      ))&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">UserList</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="📝-最佳實踐"><a href="#📝-最佳實踐" class="headerlink" title="📝 最佳實踐"></a>📝 最佳實踐</h2><h3 id="1-型別定義"><a href="#1-型別定義" class="headerlink" title="1. 型別定義"></a>1. 型別定義</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ✅ 好的做法</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ApiResponse</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: T;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 避免使用 any</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processData</span>(<span class="params">data: <span class="built_in">any</span></span>): <span class="built_in">any</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ✅ 使用具體型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processUserData</span>(<span class="params">data: User[]</span>): <span class="title class_">ProcessedUser</span>[] &#123;</span><br><span class="line">  <span class="keyword">return</span> data.<span class="title function_">map</span>(<span class="function">(<span class="params">user</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">id</span>: user.<span class="property">id</span>,</span><br><span class="line">    <span class="attr">displayName</span>: <span class="string">`<span class="subst">$&#123;user.firstName&#125;</span> <span class="subst">$&#123;user.lastName&#125;</span>`</span>,</span><br><span class="line">    <span class="attr">isActive</span>: user.<span class="property">status</span> === <span class="string">&quot;active&quot;</span>,</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-錯誤處理"><a href="#2-錯誤處理" class="headerlink" title="2. 錯誤處理"></a>2. 錯誤處理</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Result</span>&lt;T, E = <span class="title class_">Error</span>&gt; =</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>;</span><br><span class="line">      <span class="attr">data</span>: T;</span><br><span class="line">    &#125;</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>;</span><br><span class="line">      <span class="attr">error</span>: E;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUserData</span>(<span class="params">id: <span class="built_in">string</span></span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Result</span>&lt;<span class="title class_">User</span>&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`/api/users/<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">error</span>: <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`HTTP <span class="subst">$&#123;response.status&#125;</span>: <span class="subst">$&#123;response.statusText&#125;</span>`</span>),</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">success</span>: <span class="literal">true</span>, <span class="attr">data</span>: user &#125;;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">error</span>: error <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? error : <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Unknown error&quot;</span>),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🔍-常見問題與解決方案"><a href="#🔍-常見問題與解決方案" class="headerlink" title="🔍 常見問題與解決方案"></a>🔍 常見問題與解決方案</h2><h3 id="1-型別斷言"><a href="#1-型別斷言" class="headerlink" title="1. 型別斷言"></a>1. 型別斷言</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 型別斷言（謹慎使用）</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">someValue</span>: <span class="built_in">unknown</span> = <span class="string">&quot;this is a string&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">string</span>).<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更安全的做法</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isString</span>(<span class="params">value: <span class="built_in">unknown</span></span>): value is <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_">isString</span>(someValue)) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = someValue.<span class="property">length</span>; <span class="comment">// TypeScript 知道這裡是 string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-可選鏈與空值合併"><a href="#2-可選鏈與空值合併" class="headerlink" title="2. 可選鏈與空值合併"></a>2. 可選鏈與空值合併</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">NestedObject</span> &#123;</span><br><span class="line">  level1?: &#123;</span><br><span class="line">    level2?: &#123;</span><br><span class="line">      value?: <span class="built_in">string</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">obj</span>: <span class="title class_">NestedObject</span> = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可選鏈</span></span><br><span class="line"><span class="keyword">const</span> value = obj.<span class="property">level1</span>?.<span class="property">level2</span>?.<span class="property">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空值合併</span></span><br><span class="line"><span class="keyword">const</span> displayValue = value ?? <span class="string">&quot;Default Value&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🎓-學習資源與工具"><a href="#🎓-學習資源與工具" class="headerlink" title="🎓 學習資源與工具"></a>🎓 學習資源與工具</h2><h3 id="推薦工具"><a href="#推薦工具" class="headerlink" title="推薦工具"></a>推薦工具</h3><ul>
+<li><strong>VS Code</strong> - 最佳的 TypeScript 開發體驗</li>
+<li><strong>TypeScript Playground</strong> - 在線練習和測試</li>
+<li><strong>TSLint&#x2F;ESLint</strong> - 代碼檢查工具</li>
+<li><strong>Prettier</strong> - 代碼格式化工具</li>
+</ul>
+<h3 id="學習資源"><a href="#學習資源" class="headerlink" title="學習資源"></a>學習資源</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/">TypeScript 官方文檔</a></li>
+<li><a target="_blank" rel="noopener" href="https://basarat.gitbook.io/typescript/">TypeScript Deep Dive</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/typescript-cheatsheets/react">React TypeScript 速查表</a></li>
+</ul>
+<h2 id="📈-總結"><a href="#📈-總結" class="headerlink" title="📈 總結"></a>📈 總結</h2><p>TypeScript 為 JavaScript 開發帶來了強大的型別系統，幫助開發者：</p>
+<ol>
+<li><strong>提前發現錯誤</strong> - 編譯時期的型別檢查</li>
+<li><strong>提升開發效率</strong> - 更好的 IDE 支援和智能提示</li>
+<li><strong>改善代碼品質</strong> - 更清晰的 API 設計和文檔</li>
+<li><strong>降低維護成本</strong> - 重構更安全，代碼更容易理解</li>
+</ol>
+<p>對於現代 JavaScript 開發，特別是大型專案，TypeScript 已經成為不可或缺的工具。它不僅提升了開發體驗，也讓代碼更加健壯和可維護。</p>
+<h2 id="🚀-下一步"><a href="#🚀-下一步" class="headerlink" title="🚀 下一步"></a>🚀 下一步</h2><p>如果您剛開始學習 TypeScript，建議：</p>
+<ol>
+<li>從簡單的型別標註開始</li>
+<li>逐步學習介面和類別</li>
+<li>在小專案中實踐</li>
+<li>探索進階特性如泛型和條件型別</li>
+<li>整合到您喜愛的框架中（React, Vue, Angular）</li>
+</ol>
+<p>開始您的 TypeScript 之旅吧！這將是一個值得投資的技術選擇。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>小提示</strong>: 記住，TypeScript 的目標不是替代 JavaScript，而是讓 JavaScript 開發更加安全和高效。漸進式採用是最佳策略！</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/" rel="tag"># 前端開發</a>
+              <a href="/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/" rel="tag"># 程式語言</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/" rel="prev" title="關於嚴格模式">
+                  <i class="fa fa-angle-left"></i> 關於嚴格模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/08/27/hello-world/" rel="next" title="Hello World">
+                  Hello World <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
