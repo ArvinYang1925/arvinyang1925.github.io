@@ -19,28 +19,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。">
+    <meta name="description" content="前言哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。 從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="關於嚴格模式">
-<meta property="og:url" content="https://arvinyang1925.github.io/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="Day 1 - Typescript + Node.js 系列藍圖">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/index.html">
 <meta property="og:site_name" content="Arvin&#39;s Blog">
-<meta property="og:description" content="在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。">
+<meta property="og:description" content="前言哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。 從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-06-12T07:18:14.000Z">
-<meta property="article:modified_time" content="2025-08-27T13:25:14.334Z">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true">
+<meta property="article:published_time" content="2025-09-15T03:26:27.000Z">
+<meta property="article:modified_time" content="2025-09-15T03:29:59.693Z">
 <meta property="article:author" content="Arvin Yang">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="前端,後端,生活">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true">
 
 
-<link rel="canonical" href="https://arvinyang1925.github.io/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/">
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/","path":"2024/06/12/關於嚴格模式/","title":"關於嚴格模式"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/","path":"2025/09/15/Day 1 - Typescript + Node.js 系列藍圖/","title":"Day 1 - Typescript + Node.js 系列藍圖"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>關於嚴格模式 | Arvin's Blog</title>
+<title>Day 1 - Typescript + Node.js 系列藍圖 | Arvin's Blog</title>
   
 
 
@@ -123,7 +124,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E7%9A%84%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">JavaScript 的嚴格模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-%E7%9A%84%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">PHP 的嚴格模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">3.</span> <span class="nav-text">總結</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8-TypeScript%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">為什麼要用 TypeScript？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0%E8%97%8D%E5%9C%96%E8%88%87%E8%A6%8F%E5%8A%83"><span class="nav-number">3.</span> <span class="nav-text">系列文章藍圖與規劃</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -172,7 +173,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,12 +186,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="關於嚴格模式 | Arvin's Blog">
+      <meta itemprop="name" content="Day 1 - Typescript + Node.js 系列藍圖 | Arvin's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          關於嚴格模式
+          Day 1 - Typescript + Node.js 系列藍圖
         </h1>
 
         <div class="post-meta-container">
@@ -200,15 +201,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2024-06-12 15:18:14" itemprop="dateCreated datePublished" datetime="2024-06-12T15:18:14+08:00">2024-06-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-08-27 21:25:14" itemprop="dateModified" datetime="2025-08-27T21:25:14+08:00">2025-08-27</time>
+      <time title="創建時間：2025-09-15 11:26:27 / 修改時間：11:29:59" itemprop="dateCreated datePublished" datetime="2025-09-15T11:26:27+08:00">2025-09-15</time>
     </span>
 
   
@@ -220,12 +215,25 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
+    <div class="post-body" itemprop="articleBody"><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
+<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
 <span id="more"></span>
 
-<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
-<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
+<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
+<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
+<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
+<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
+<p>這份藍圖將分為以下幾個階段：</p>
+<ol>
+<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
+<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
+<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
+<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
+<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
+</ol>
+<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
+<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
 
     </div>
 
@@ -234,23 +242,16 @@
     
 
     <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-              <a href="/tags/PHP/" rel="tag"># PHP</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/" rel="prev" title="常用 Hexo 指令帶你無往不利">
-                  <i class="fa fa-angle-left"></i> 常用 Hexo 指令帶你無往不利
+                <a href="/2025/08/27/hello-world/" rel="prev" title="Hello World">
+                  <i class="fa fa-angle-left"></i> Hello World
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/" rel="next" title="TypeScript 完整介紹：從入門到實戰">
-                  TypeScript 完整介紹：從入門到實戰 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

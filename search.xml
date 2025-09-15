@@ -1,97 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>常用 Hexo 指令帶你無往不利</title>
-    <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
-    <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new 文章名稱</span><br><span class="line">hexo generate 產生 public 資料夾內容</span><br><span class="line">hexo server</span><br><span class="line">hexo clean 清理緩存</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
+    <title>Day 1 - Typescript + Node.js 系列藍圖</title>
+    <url>/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
+<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
 <span id="more"></span>
 
+<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
+<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
+<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
+<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
+<p>這份藍圖將分為以下幾個階段：</p>
 <ol>
-<li><p><strong>安装 Hexo</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>初始化 Hexo 项目</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>生成静态文件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>启动本地服务器</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>新建文章</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new &lt;title&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>发布文章</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>清理缓存和生成的静态文件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>列出所有 Hexo 命令</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo list</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>查看 Hexo 帮助信息</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>安装插件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install &lt;plugin-name&gt; --save</span><br></pre></td></tr></table></figure></li>
+<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
+<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
+<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
+<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
+<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
 </ol>
-<p>以下是一些额外的有用命令和操作：</p>
-<ul>
-<li><p><strong>新建页面</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new page &lt;page-name&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>草稿转发布</strong><br>如果你使用 <code>hexo new draft &lt;title&gt;</code> 创建了草稿，可以通过以下命令将草稿发布为正式文章：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo publish &lt;title&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>生成并部署</strong><br>这会在生成静态文件后立即部署它们：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>查看当前配置</strong><br>你可以直接编辑 <code>_config.yml</code> 文件来配置 Hexo，但也可以用以下命令查看当前配置：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo config</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>这些命令涵盖了 Hexo 的大部分基本功能，可以帮助你快速上手并管理你的博客。</p>
-]]></content>
-      <tags>
-        <tag>Hexo 指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>關於嚴格模式</title>
-    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
-<span id="more"></span>
-
-<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
-<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
-]]></content>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
+<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
 ]]></content>
   </entry>
   <entry>
@@ -179,10 +109,104 @@
         <category>技術教學</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
         <tag>TypeScript</tag>
+        <tag>JavaScript</tag>
         <tag>前端開發</tag>
         <tag>程式語言</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>常用 Hexo 指令帶你無往不利</title>
+    <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
+    <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new 文章名稱</span><br><span class="line">hexo generate 產生 public 資料夾內容</span><br><span class="line">hexo server</span><br><span class="line">hexo clean 清理緩存</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<ol>
+<li><p><strong>安装 Hexo</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>初始化 Hexo 项目</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成静态文件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启动本地服务器</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>新建文章</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new &lt;title&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>发布文章</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>清理缓存和生成的静态文件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>列出所有 Hexo 命令</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看 Hexo 帮助信息</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装插件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install &lt;plugin-name&gt; --save</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>以下是一些额外的有用命令和操作：</p>
+<ul>
+<li><p><strong>新建页面</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new page &lt;page-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>草稿转发布</strong><br>如果你使用 <code>hexo new draft &lt;title&gt;</code> 创建了草稿，可以通过以下命令将草稿发布为正式文章：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo publish &lt;title&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成并部署</strong><br>这会在生成静态文件后立即部署它们：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看当前配置</strong><br>你可以直接编辑 <code>_config.yml</code> 文件来配置 Hexo，但也可以用以下命令查看当前配置：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo config</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>这些命令涵盖了 Hexo 的大部分基本功能，可以帮助你快速上手并管理你的博客。</p>
+]]></content>
+      <tags>
+        <tag>Hexo 指令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>關於嚴格模式</title>
+    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
+<span id="more"></span>
+
+<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
+<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
 </search>
