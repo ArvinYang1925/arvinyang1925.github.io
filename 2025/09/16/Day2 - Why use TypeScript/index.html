@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在開始之前，先讓我們來談談今天的主角 —— TypeScript。 許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 JavaScript 的超集（superset），它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/16/Day2%20-%20Why%20use%20TypeScript/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="在開始之前，先讓我們來談談今天的主角 —— TypeScript。 許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 JavaScript 的超集（superset），它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true">
+<meta property="article:published_time" content="2025-09-16T02:36:28.000Z">
+<meta property="article:modified_time" content="2025-09-16T02:39:18.789Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/16/Day2%20-%20Why%20use%20TypeScript/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/16/Day2%20-%20Why%20use%20TypeScript/","path":"2025/09/16/Day2 - Why use TypeScript/","title":"Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢） | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81TypeScript-%E7%B0%A1%E4%BB%8B%E8%88%87%E7%99%BC%E5%B1%95%E6%AD%B7%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">一、TypeScript 簡介與發展歷史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81TypeScript-%E8%88%87-JavaScript-%E7%9A%84%E9%97%9C%E4%BF%82"><span class="nav-number">2.</span> <span class="nav-text">二、TypeScript 與 JavaScript 的關係</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81TypeScript-%E7%9A%84%E5%84%AA%E9%BB%9E"><span class="nav-number">3.</span> <span class="nav-text">三、TypeScript 的優點</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8-TypeScript-%E9%96%8B%E7%99%BC-Node-js%EF%BC%9F%EF%BC%88%E5%83%B9%E5%80%BC%E8%88%87%E8%B6%A8%E5%8B%A2%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%83%B9%E5%80%BC"><span class="nav-number">4.1.</span> <span class="nav-text">1. 價值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B6%A8%E5%8B%A2"><span class="nav-number">4.2.</span> <span class="nav-text">2. 趨勢</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/16/Day2%20-%20Why%20use%20TypeScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢） | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-16 10:36:28 / 修改時間：10:39:18" itemprop="dateCreated datePublished" datetime="2025-09-16T10:36:28+08:00">2025-09-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
+<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
+<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
+<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
+<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
+<hr>
+<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
+<ul>
+<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
+<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
+</ul>
+<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
+<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
+<hr>
+<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
+<ol>
+<li><strong>靜態型別檢查</strong><ul>
+<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
+<li>例如：<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>更好的 IDE 支援</strong><ul>
+<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
+<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
+</ul>
+</li>
+<li><strong>程式結構更清晰</strong><ul>
+<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
+</ul>
+</li>
+<li><strong>降低維護成本</strong><ul>
+<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
+<blockquote>
+<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
+</blockquote>
+<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
+<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
+<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
+<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
+<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
+</ul>
+<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
+<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
+<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
+<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
+</ul>
+<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
+<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
+<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
+<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
+<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/" rel="prev" title="Day 1 - Typescript + Node.js 系列藍圖">
+                  <i class="fa fa-angle-left"></i> Day 1 - Typescript + Node.js 系列藍圖
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

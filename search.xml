@@ -23,6 +23,9 @@
 <p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
 <p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
 ]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
   </entry>
   <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
@@ -207,6 +210,76 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
+    <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
+    <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
+<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
+<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
+<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
+<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
+<hr>
+<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
+<ul>
+<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
+<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
+</ul>
+<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
+<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
+<hr>
+<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
+<ol>
+<li><strong>靜態型別檢查</strong><ul>
+<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
+<li>例如：<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>更好的 IDE 支援</strong><ul>
+<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
+<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
+</ul>
+</li>
+<li><strong>程式結構更清晰</strong><ul>
+<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
+</ul>
+</li>
+<li><strong>降低維護成本</strong><ul>
+<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
+<blockquote>
+<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
+</blockquote>
+<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
+<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
+<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
+<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
+<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
+</ul>
+<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
+<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
+<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
+<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
+</ul>
+<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
+<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
+<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
+<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
+<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
       </tags>
   </entry>
 </search>
