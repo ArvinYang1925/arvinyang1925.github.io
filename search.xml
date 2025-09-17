@@ -28,6 +28,139 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
+    <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
+    <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
+<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
+<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
+<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
+<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
+<hr>
+<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
+<ul>
+<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
+<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
+</ul>
+<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
+<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
+<hr>
+<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
+<ol>
+<li><strong>靜態型別檢查</strong><ul>
+<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
+<li>例如：<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><strong>更好的 IDE 支援</strong><ul>
+<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
+<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
+</ul>
+</li>
+<li><strong>程式結構更清晰</strong><ul>
+<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
+</ul>
+</li>
+<li><strong>降低維護成本</strong><ul>
+<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
+<blockquote>
+<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
+</blockquote>
+<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
+<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
+<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
+<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
+<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
+</ul>
+<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
+<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
+<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
+<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
+</ul>
+<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
+<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
+<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
+<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
+<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
+    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
+    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
+<hr>
+<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
+<ul>
+<li><strong>string</strong>：字串</li>
+<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
+<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
+<li><strong>array</strong>：陣列</li>
+<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
+<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
+<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
+<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
+<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
+</ul>
+<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
+<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
+<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
+</ul>
+<hr>
+<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
+<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>物件結構清楚表達</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>與 API 或外部資料互動</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
+<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
+<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
+</ul>
+<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
     <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
     <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
@@ -210,76 +343,6 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
-    <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
-    <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
-<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
-<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
-<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
-<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
-<hr>
-<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
-<ul>
-<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
-<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
-</ul>
-<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
-<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
-<hr>
-<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
-<ol>
-<li><strong>靜態型別檢查</strong><ul>
-<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
-<li>例如：<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><strong>更好的 IDE 支援</strong><ul>
-<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
-<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
-</ul>
-</li>
-<li><strong>程式結構更清晰</strong><ul>
-<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
-</ul>
-</li>
-<li><strong>降低維護成本</strong><ul>
-<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
-<blockquote>
-<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
-</blockquote>
-<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
-<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
-<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
-<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
-<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
-</ul>
-<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
-<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
-<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
-<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
-</ul>
-<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
-<hr>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
-<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
-<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
-<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
-<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
       </tags>
   </entry>
 </search>
