@@ -161,6 +161,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
+    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
+    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
+<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
+<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
+<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
+<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>車票 ID（可能是數字 &#x2F; 字串）</li>
+<li>車廂座位（可能是 “A12” 也可能是 12）</li>
+<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
+<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
+<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
+<li>可讀性高，適合大型專案。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
+<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
+<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
+<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
+<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
+</ul>
+<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
     <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
     <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
