@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Day 5 - TypeScript 核心語法 (3)：interface、type、generics</title>
+    <url>/2025/09/19/5/</url>
+    <content><![CDATA[<p>昨天我們介紹了 <strong>Union</strong> 和 <strong>Enum</strong>，今天要進一步學習如何用 <strong>Interface、Type、Generics</strong> 來讓程式更有結構、更可重用。</p>
+<p>這次一樣用「搭火車」的例子 🚄，幫助你快速理解！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Interface（介面）"><a href="#1-Interface（介面）" class="headerlink" title="1. Interface（介面）"></a>1. Interface（介面）</h2><p>介面用來定義「物件的形狀」，就像規劃「火車乘客」需要有什麼資料。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Passenger</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  seat?: <span class="built_in">string</span>; <span class="comment">// 可選屬性（可能沒劃位）</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">passengerA</span>: <span class="title class_">Passenger</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">passengerB</span>: <span class="title class_">Passenger</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Alice&quot;</span>,</span><br><span class="line">  <span class="attr">seat</span>: <span class="string">&quot;A12&quot;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>👉 特點：</p>
+<ul>
+<li>適合用來描述「物件結構」。</li>
+<li>支援 <strong>extends</strong>（繼承），方便擴充。</li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">VipPassenger</span> <span class="keyword">extends</span> <span class="title class_">Passenger</span> &#123;</span><br><span class="line">  <span class="attr">loungeAccess</span>: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">vip</span>: <span class="title class_">VipPassenger</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Bob&quot;</span>,</span><br><span class="line">  <span class="attr">seat</span>: <span class="string">&quot;B10&quot;</span>,</span><br><span class="line">  <span class="attr">loungeAccess</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-Type（型別別名）"><a href="#2-Type（型別別名）" class="headerlink" title="2. Type（型別別名）"></a>2. Type（型別別名）</h2><p><code>type</code> 與 <code>interface</code> 很像，不過它更靈活，不只可以描述物件，還能用來定義 <strong>聯合型別、基本型別別名</strong>。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 車票編號可能是數字或字串</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">TicketID</span> = <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客物件</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">PassengerType</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="title class_">TicketID</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">passengerC</span>: <span class="title class_">PassengerType</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="string">&quot;T-123&quot;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Charlie&quot;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>👉 差異比較：</p>
+<ul>
+<li><strong>interface</strong>：專注描述物件結構，可繼承、擴充。</li>
+<li><strong>type</strong>：更靈活，可以描述各種型別組合（物件、Union、Tuple 等）。</li>
+</ul>
+<hr>
+<h2 id="3-泛型（Generics）"><a href="#3-泛型（Generics）" class="headerlink" title="3. 泛型（Generics）"></a>3. 泛型（Generics）</h2><p>泛型就像「火車車廂」🚃：</p>
+<p>同樣的車廂結構，可以載不同種類的乘客或貨物。</p>
+<h3 id="函式中的泛型"><a href="#函式中的泛型" class="headerlink" title="函式中的泛型"></a>函式中的泛型</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> identity&lt;T&gt;(<span class="attr">value</span>: T): T &#123;</span><br><span class="line">  <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 明確指定型別</span></span><br><span class="line"><span class="keyword">const</span> ticketNumber = identity&lt;<span class="built_in">number</span>&gt;(<span class="number">12345</span>);</span><br><span class="line"><span class="keyword">const</span> passengerName = identity&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;David&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以自動推斷</span></span><br><span class="line"><span class="keyword">const</span> autoTicket = <span class="title function_">identity</span>(<span class="string">&quot;E12&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="介面中的泛型"><a href="#介面中的泛型" class="headerlink" title="介面中的泛型"></a>介面中的泛型</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">TrainResponse</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">data</span>: T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回傳單一乘客</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">passengerResponse</span>: <span class="title class_">TrainResponse</span>&lt;<span class="title class_">Passenger</span>&gt; = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">data</span>: &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 回傳乘客陣列</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">passengersResponse</span>: <span class="title class_">TrainResponse</span>&lt;<span class="title class_">Passenger</span>[]&gt; = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">data</span>: [</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">&quot;Alice&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">&quot;Bob&quot;</span>, <span class="attr">seat</span>: <span class="string">&quot;C3&quot;</span> &#125;,</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="類別中的泛型"><a href="#類別中的泛型" class="headerlink" title="類別中的泛型"></a>類別中的泛型</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TrainCar</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">items</span>: T[] = [];</span><br><span class="line"></span><br><span class="line">  <span class="title function_">add</span>(<span class="params">item: T</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">items</span>.<span class="title function_">push</span>(item);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">getAll</span>(): T[] &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">items</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立「乘客車廂」</span></span><br><span class="line"><span class="keyword">const</span> passengerCar = <span class="keyword">new</span> <span class="title class_">TrainCar</span>&lt;<span class="title class_">Passenger</span>&gt;();</span><br><span class="line">passengerCar.<span class="title function_">add</span>(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span> &#125;);</span><br><span class="line">passengerCar.<span class="title function_">add</span>(&#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">&quot;Alice&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立「行李車廂」</span></span><br><span class="line"><span class="keyword">const</span> luggageCar = <span class="keyword">new</span> <span class="title class_">TrainCar</span>&lt;<span class="built_in">string</span>&gt;();</span><br><span class="line">luggageCar.<span class="title function_">add</span>(<span class="string">&quot;背包&quot;</span>);</span><br><span class="line">luggageCar.<span class="title function_">add</span>(<span class="string">&quot;行李箱&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengerCar.<span class="title function_">getAll</span>());</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(luggageCar.<span class="title function_">getAll</span>());</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Interface</strong>：適合描述物件結構，例如「乘客」或「車票」。</li>
+<li><strong>Type</strong>：更靈活，可以描述 <strong>物件 + Union + Tuple</strong>，常用來定義「票號、付款方式」等。</li>
+<li><strong>Generics</strong>：像「火車車廂」，同一套結構可以裝不同型別，讓程式碼更可重用。</li>
+</ul>
+<hr>
+<h2 id="Interface-vs-Type-vs-Generics-對照表"><a href="#Interface-vs-Type-vs-Generics-對照表" class="headerlink" title="Interface vs Type vs Generics 對照表"></a>Interface vs Type vs Generics 對照表</h2><table>
+<thead>
+<tr>
+<th>特點</th>
+<th>Interface</th>
+<th>Type</th>
+<th>Generics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>用途</strong></td>
+<td>定義物件結構</td>
+<td>定義各種型別（物件、Union、Tuple…）</td>
+<td>建立可重用、保留型別的模板</td>
+</tr>
+<tr>
+<td><strong>延伸性</strong></td>
+<td>可用 <code>extends</code> 繼承、擴充</td>
+<td>不可繼承，但可用 <code>&amp;</code> 做交集合併</td>
+<td>可套用在函式、介面、類別</td>
+</tr>
+<tr>
+<td><strong>優點</strong></td>
+<td>清楚描述物件結構、支援擴充</td>
+<td>彈性大，可用於各種型別組合</td>
+<td>可重用，提高型別安全性</td>
+</tr>
+</tbody></table>
+<hr>
+<p>👉 明天（Day 6）我們會開始進入實戰的一個全新篇章，開始初始化一個 <strong>TypeScript + Node.js 專案 !</strong></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 1 - Typescript + Node.js 系列藍圖</title>
     <url>/2025/09/15/Day%201%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
     <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
