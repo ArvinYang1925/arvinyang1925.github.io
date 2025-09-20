@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="昨天我們聊了很多概念，今天開始要動手實作啦！💻 我們的目標很簡單：建立一個能跑起來的 TypeScript + Node.js 專案環境，並讓瀏覽器成功回應 「Hello, iThome2025 !」 🚀 準備好了嗎？Let’s go！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="昨天我們聊了很多概念，今天開始要動手實作啦！💻 我們的目標很簡單：建立一個能跑起來的 TypeScript + Node.js 專案環境，並讓瀏覽器成功回應 「Hello, iThome2025 !」 🚀 準備好了嗎？Let’s go！">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-09-20T12:26:24.000Z">
+<meta property="article:modified_time" content="2025-09-20T12:29:29.344Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/","path":"2025/09/20/Day6 - Node.js + TS (1)/","title":"Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%B0%88%E6%A1%88%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">一、專案初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%96%8B%E4%B8%80%E5%80%8B%E5%B0%88%E6%A1%88%E8%B3%87%E6%96%99%E5%A4%BE"><span class="nav-number">1.1.</span> <span class="nav-text">1. 開一個專案資料夾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8A%A0%E4%B8%8A-gitignore"><span class="nav-number">1.2.</span> <span class="nav-text">2. 加上 .gitignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%9D%E5%A7%8B%E5%8C%96-Node-js-%E5%B0%88%E6%A1%88"><span class="nav-number">1.3.</span> <span class="nav-text">3. 初始化 Node.js 專案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%9D%E5%BF%85%E8%A6%81%E5%A5%97%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">二、安裝必要套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%A8%AD%E5%AE%9A-TypeScript"><span class="nav-number">3.</span> <span class="nav-text">三、設定 TypeScript</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B-tsconfig-json"><span class="nav-number">3.1.</span> <span class="nav-text">1. 建立 tsconfig.json</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AF%AB%E7%AC%AC%E4%B8%80%E6%94%AF%E7%A8%8B%E5%BC%8F-%F0%9F%9A%80"><span class="nav-number">4.</span> <span class="nav-text">四、寫第一支程式 🚀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%95%9F%E5%8B%95%E8%88%87%E6%B8%AC%E8%A9%A6"><span class="nav-number">5.</span> <span class="nav-text">五、啟動與測試</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BF%AE%E6%94%B9-package-json"><span class="nav-number">5.1.</span> <span class="nav-text">1. 修改 package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%95%9F%E5%8B%95%E4%BC%BA%E6%9C%8D%E5%99%A8"><span class="nav-number">5.2.</span> <span class="nav-text">2. 啟動伺服器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%96%8B%E7%80%8F%E8%A6%BD%E5%99%A8%E6%B8%AC%E8%A9%A6"><span class="nav-number">5.3.</span> <span class="nav-text">3. 開瀏覽器測試</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">6.</span> <span class="nav-text">小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%BA%90"><span class="nav-number">7.</span> <span class="nav-text">補充資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-20 20:26:24 / 修改時間：20:29:29" itemprop="dateCreated datePublished" datetime="2025-09-20T20:26:24+08:00">2025-09-20</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
+<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
+<p>準備好了嗎？Let’s go！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
+<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
+<hr>
+<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
+<hr>
+<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
+<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
+<hr>
+<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
+<ul>
+<li><strong>Express</strong>：後端 API 框架</li>
+<li><strong>TypeScript</strong>：型別安全</li>
+<li><strong>@types</strong>：型別定義檔</li>
+<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
+</ul>
+<p>一次裝好：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
+<hr>
+<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這邊要記住幾個關鍵設定：</p>
+<ul>
+<li><code>rootDir</code> → 原始碼放哪裡</li>
+<li><code>outDir</code> → 編譯輸出到哪裡</li>
+<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
+<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
+</ul>
+<p>然後新增一個 <code>src</code> 資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>寫入以下內容：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
+<hr>
+<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果一切順利，你會看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
+<ul>
+<li>Git 分支管理</li>
+<li>設定 <code>.gitignore</code></li>
+<li>初始化 <code>package.json</code></li>
+<li>安裝必要套件</li>
+<li>設定 TypeScript</li>
+<li>建立第一個 Express 程式</li>
+</ul>
+<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
+<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit message: Day 6 - set up Express + TS environment</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/19/Day%205%20-%20TypeScript%20-%20interface%E3%80%81type%E3%80%81generics/" rel="prev" title="Day 5 - TypeScript 核心語法 (3)：interface、type、generics">
+                  <i class="fa fa-angle-left"></i> Day 5 - TypeScript 核心語法 (3)：interface、type、generics
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
