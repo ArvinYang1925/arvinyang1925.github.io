@@ -161,75 +161,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
-    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
-    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
-<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
-<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
-<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
-<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
-</ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>車票 ID（可能是數字 &#x2F; 字串）</li>
-<li>車廂座位（可能是 “A12” 也可能是 12）</li>
-<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
-<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
-<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
-<li>可讀性高，適合大型專案。</li>
-</ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
-<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
-<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
-<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
-<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
-</ul>
-<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 5 - TypeScript 核心語法 (3)：interface、type、generics</title>
     <url>/2025/09/19/Day5%20-%20TypeScript%20-%20interface%E3%80%81type%E3%80%81generics/</url>
     <content><![CDATA[<p>昨天我們介紹了 <strong>Union</strong> 和 <strong>Enum</strong>，今天要進一步學習如何用 <strong>Interface、Type、Generics</strong> 來讓程式更有結構、更可重用。</p>
@@ -411,6 +342,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
+    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
+    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
+<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
+<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
+<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
+<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>車票 ID（可能是數字 &#x2F; 字串）</li>
+<li>車廂座位（可能是 “A12” 也可能是 12）</li>
+<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
+<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
+<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
+<li>可讀性高，適合大型專案。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
+<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
+<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
+<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
+<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
+</ul>
+<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 7 - 如何建立一個 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</title>
     <url>/2025/09/21/Day7%20-%20Node.js%20+%20TS%20(2)/</url>
     <content><![CDATA[<p>嗨～昨天我們已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong>。接著，在正式開發 API 之前，先來點暖身 —— 建立一個清晰、可維護的專案架構，並完成環境變數與資料庫連線設定。這些基礎工具就是未來專案能否穩定推進的關鍵。</p>
@@ -583,6 +583,82 @@
       </tags>
   </entry>
   <entry>
+    <title>關於嚴格模式</title>
+    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
+<span id="more"></span>
+
+<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
+<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能</title>
+    <url>/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/</url>
+    <content><![CDATA[<p>在學習 <strong>Express + TypeScript + TypeORM</strong> 的過程中，<code>TodoList API</code> 是非常適合新手上手的練習案例。</p>
+<p>因為它的邏輯簡單（新增、讀取、更新、刪除），卻又涵蓋了 RESTful API 的核心概念：</p>
+<ul>
+<li><strong>CRUD</strong>（Create &#x2F; Read &#x2F; Update &#x2F; Delete）</li>
+<li><strong>Controller &#x2F; Route 分層</strong></li>
+<li><strong>與資料庫的互動（Repository）</strong></li>
+</ul>
+<p>這樣的練習不僅可以打好基礎，還能快速理解 <strong>後端架構設計</strong> 的常見模式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="建立-Controller"><a href="#建立-Controller" class="headerlink" title="建立 Controller"></a>建立 Controller</h2><p>Controller（控制器）是 <strong>專門負責處理業務邏輯</strong> 的地方：</p>
+<ul>
+<li>收到請求 (<code>req</code>) → 驗證&#x2F;處理 → 回傳回應 (<code>res</code>)</li>
+<li>不直接決定路由，而是提供「功能」讓 Route 使用</li>
+<li>好處是：<strong>程式碼結構清楚、可讀性佳、方便測試與維護</strong></li>
+</ul>
+<p>建立 <code>src/controllers/todoController.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodos</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todos = <span class="keyword">await</span> todoRepository.<span class="title function_">find</span>();</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: todos &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">if</span> (!title) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; title &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; title, completed &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = title !== <span class="literal">undefined</span> ? title : todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = completed !== <span class="literal">undefined</span> ? completed : todo.<span class="property">completed</span>;</span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deleteTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> todoRepository.<span class="title function_">delete</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">affected</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: result &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定路由"><a href="#設定路由" class="headerlink" title="設定路由"></a>設定路由</h2><p>Route（路由）的工作就是 <strong>決定請求要交給哪個 Controller 處理</strong>。</p>
+<p>它就像是 <strong>導航地圖</strong>：</p>
+<ul>
+<li><code>GET /todos</code> → 查詢所有代辦事項 → <code>getTodos</code></li>
+<li><code>POST /todos</code> → 建立新代辦 → <code>createTodo</code></li>
+<li><code>PUT /todos/:id</code> → 更新某筆代辦 → <code>updateTodo</code></li>
+<li><code>DELETE /todos/:id</code> → 刪除某筆代辦 → <code>deleteTodo</code></li>
+</ul>
+<p>這樣一來，Controller 和 Route 的責任就分得很清楚：</p>
+<ul>
+<li><strong>Route &#x3D; 請求分配器</strong></li>
+<li><strong>Controller &#x3D; 處理邏輯</strong></li>
+</ul>
+<p>建立 <code>src/routes/todoRoutes.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="整合到主程式"><a href="#整合到主程式" class="headerlink" title="整合到主程式"></a>整合到主程式</h2><p>最後一步就是在 <code>app.ts</code> 裡，把 <code>todoRoutes</code> 整合進主程式。</p>
+<p>這樣當使用者發送請求到 <code>/api/todos</code> 時，Express 就會把它交給我們剛剛寫好的 <code>todoRoutes</code>，再由對應的 Controller 去處理。</p>
+<p>修改 <code>src/app.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes); <span class="comment">// 加上 Todo 路由</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;❌ DB connection failed:&quot;</span>, err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>👉 到這裡，我們就完成了一個最基礎的 TodoList API。</p>
+<p>但是目前還沒有資料庫可以測試 (還不能用 Postman 打 API 😂)，下一篇我們就來介紹 Render 服務上的資料庫應用，把整段串接起來。</p>
+<hr>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d766050e40229dd97cd90a5c94c667d14cc90c2f">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit : Day 8 initialize todo‑list API</p>
+</blockquote>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2025/08/27/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -659,21 +735,6 @@
 ]]></content>
       <tags>
         <tag>Hexo 指令</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>關於嚴格模式</title>
-    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
-<span id="more"></span>
-
-<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
-<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
-]]></content>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>PHP</tag>
       </tags>
   </entry>
 </search>
