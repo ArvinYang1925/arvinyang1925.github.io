@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言 - 什麼是資料庫？簡單來說，資料庫（Database） 是一種用來 儲存、管理與存取資料 的系統。 它能幫助我們把資料有條理地組織起來，並透過查詢語言（例如 SQL）快速檢索與更新。 常見的資料庫類型有：  關聯式資料庫（RDBMS）：以表格（Tables）方式存放資料，支援 SQL，例如 MySQL、PostgreSQL、SQLite。 非關聯式資料庫（NoSQL）：不一定使用表格，常見於">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 9｜Render 雲端啟動：資料庫連線全攻略">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/23/Day9%20-%20Render-pgsql-db/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言 - 什麼是資料庫？簡單來說，資料庫（Database） 是一種用來 儲存、管理與存取資料 的系統。 它能幫助我們把資料有條理地組織起來，並透過查詢語言（例如 SQL）快速檢索與更新。 常見的資料庫類型有：  關聯式資料庫（RDBMS）：以表格（Tables）方式存放資料，支援 SQL，例如 MySQL、PostgreSQL、SQLite。 非關聯式資料庫（NoSQL）：不一定使用表格，常見於">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/1-create-pg-database.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/2-new-pg-db-info.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/3-db-instance.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/4-external-url.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/5-dbeaver-test-conn.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/6-db-connected.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/7-ssl-problem.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/8-nodejs-conn-success.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/9-todo-table.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/10-postman-create-todo.png?raw=true">
+<meta property="article:published_time" content="2025-09-23T12:20:50.000Z">
+<meta property="article:modified_time" content="2025-09-23T12:24:32.480Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Render">
+<meta property="article:tag" content="pgSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/1-create-pg-database.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/23/Day9%20-%20Render-pgsql-db/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/23/Day9%20-%20Render-pgsql-db/","path":"2025/09/23/Day9 - Render-pgsql-db/","title":"Day 9｜Render 雲端啟動：資料庫連線全攻略"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 9｜Render 雲端啟動：資料庫連線全攻略 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80-%E4%BB%80%E9%BA%BC%E6%98%AF%E8%B3%87%E6%96%99%E5%BA%AB%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">前言 - 什麼是資料庫？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E8%B3%87%E6%96%99%E5%BA%AB%E6%AF%94%E8%BC%83"><span class="nav-number">1.1.</span> <span class="nav-text">常見資料庫比較</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Render-%E8%B3%87%E6%96%99%E5%BA%AB%E6%9C%8D%E5%8B%99%E7%B0%A1%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">Render 資料庫服務簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E5%BB%BA%E7%AB%8B-PostgreSQL-%E8%B3%87%E6%96%99%E5%BA%AB"><span class="nav-number">3.</span> <span class="nav-text">✅ 建立 PostgreSQL 資料庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E8%B3%87%E6%96%99%E5%BA%AB%E5%AD%98%E5%8F%96%E6%96%B9%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">✅ 資料庫存取方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#External-Database-URL"><span class="nav-number">4.1.</span> <span class="nav-text">External Database URL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-DBeaver-%E6%B8%AC%E8%A9%A6%E9%80%A3%E7%B7%9A"><span class="nav-number">5.</span> <span class="nav-text">用 DBeaver 測試連線</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E8%88%87%E9%80%A3%E7%B7%9A%E6%AD%A5%E9%A9%9F"><span class="nav-number">5.1.</span> <span class="nav-text">安裝與連線步驟</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-%E5%B0%88%E6%A1%88%E9%80%A3%E7%B7%9A-Render-%E8%B3%87%E6%96%99%E5%BA%AB%E8%88%87-API-%E6%B8%AC%E8%A9%A6"><span class="nav-number">6.</span> <span class="nav-text">Node.js 專案連線 Render 資料庫與 API 測試</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-env-%E6%AA%94%E6%A1%88%EF%BC%8C%E5%8A%A0%E5%85%A5%E8%B3%87%E6%96%99%E5%BA%AB%E9%80%A3%E7%B7%9A%E8%B3%87%E8%A8%8A"><span class="nav-number">6.1.</span> <span class="nav-text">修改 .env 檔案，加入資料庫連線資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E5%8B%95%E4%BC%BA%E6%9C%8D%E5%99%A8%E4%B8%A6%E6%B8%AC%E8%A9%A6%E9%80%A3%E7%B7%9A"><span class="nav-number">6.2.</span> <span class="nav-text">啟動伺服器並測試連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%B1%BA-SSL-%E5%95%8F%E9%A1%8C"><span class="nav-number">6.3.</span> <span class="nav-text">解決 SSL 問題</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API-%E6%B8%AC%E8%A9%A6%E7%AF%84%E4%BE%8B"><span class="nav-number">7.</span> <span class="nav-text">API 測試範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Postman-%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C"><span class="nav-number">8.</span> <span class="nav-text">Postman 測試結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8E%AF-%E4%BB%8A%E6%97%A5%E6%94%B6%E7%A9%AB"><span class="nav-number">9.</span> <span class="nav-text">🎯 今日收穫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">補充資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/23/Day9%20-%20Render-pgsql-db/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 9｜Render 雲端啟動：資料庫連線全攻略 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 9｜Render 雲端啟動：資料庫連線全攻略
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-23 20:20:50 / 修改時間：20:24:32" itemprop="dateCreated datePublished" datetime="2025-09-23T20:20:50+08:00">2025-09-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言-什麼是資料庫？"><a href="#前言-什麼是資料庫？" class="headerlink" title="前言 - 什麼是資料庫？"></a>前言 - 什麼是資料庫？</h2><p>簡單來說，<strong>資料庫（Database）</strong> 是一種用來 <strong>儲存、管理與存取資料</strong> 的系統。</p>
+<p>它能幫助我們把資料有條理地組織起來，並透過查詢語言（例如 SQL）快速檢索與更新。</p>
+<p>常見的資料庫類型有：</p>
+<ul>
+<li><strong>關聯式資料庫（RDBMS）</strong>：以表格（Tables）方式存放資料，支援 SQL，例如 MySQL、PostgreSQL、SQLite。</li>
+<li><strong>非關聯式資料庫（NoSQL）</strong>：不一定使用表格，常見於 JSON 文件、Key-Value、Graph 等結構，例如 MongoDB、Redis。</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="常見資料庫比較"><a href="#常見資料庫比較" class="headerlink" title="常見資料庫比較"></a>常見資料庫比較</h3><table>
+<thead>
+<tr>
+<th>特點</th>
+<th>MySQL</th>
+<th>PostgreSQL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>歷史</td>
+<td>1995 年誕生，社群廣泛</td>
+<td>1996 年誕生，功能強大</td>
+</tr>
+<tr>
+<td>使用場景</td>
+<td>網站後端（WordPress、電商系統）</td>
+<td>複雜商業系統、數據分析平台</td>
+</tr>
+<tr>
+<td>SQL 標準相容</td>
+<td>普及但部分不相容</td>
+<td>高度相容 ANSI-SQL</td>
+</tr>
+<tr>
+<td>擴充能力</td>
+<td>功能完整，但擴展性略少</td>
+<td>支援更多型別（JSON、陣列）、自定義函數</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>讀取速度快，適合高頻查詢</td>
+<td>交易一致性（ACID）更嚴謹</td>
+</tr>
+<tr>
+<td>儲存 JSON</td>
+<td>有支援，但功能較基本</td>
+<td>支援 JSONB，操作更強大</td>
+</tr>
+<tr>
+<td>授權</td>
+<td>開源 GPL</td>
+<td>開源 PostgreSQL License</td>
+</tr>
+</tbody></table>
+<p>👉 <strong>簡單來說</strong>：</p>
+<ul>
+<li><strong>MySQL</strong>：適合中小型專案或網站開發。</li>
+<li><strong>PostgreSQL</strong>：功能更全面，適合大型專案、金融系統、數據分析。</li>
+</ul>
+<p>以上為兩種資料庫的主要定位，但實際選擇時還是要根據具體團隊需求和情境來決定。</p>
+<hr>
+<h2 id="Render-資料庫服務簡介"><a href="#Render-資料庫服務簡介" class="headerlink" title="Render 資料庫服務簡介"></a>Render 資料庫服務簡介</h2><p>Render 除了能部署前後端應用程式，也提供 <strong>PostgreSQL 資料庫服務</strong>，其優點包括：</p>
+<ul>
+<li>免費方案可用（適合開發 &#x2F; 測試）。</li>
+<li>內建 <strong>自動備份</strong> 功能。</li>
+<li>提供 <strong>Connection Info</strong>，可直接複製連線字串使用。</li>
+<li>支援外部連線（可用 DBeaver、pgAdmin、psql 連線）。</li>
+<li>內建 SSL 安全機制，保障連線安全。</li>
+</ul>
+<hr>
+<h2 id="✅-建立-PostgreSQL-資料庫"><a href="#✅-建立-PostgreSQL-資料庫" class="headerlink" title="✅ 建立 PostgreSQL 資料庫"></a>✅ 建立 PostgreSQL 資料庫</h2><ol>
+<li>點擊右上角的 <strong>「New」</strong> 按鈕。</li>
+<li>選擇「<strong>Postgres</strong>」。</li>
+</ol>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/1-create-pg-database.png?raw=true" alt="Screenshot 2025-04-24 at 9.21.05 PM"></p>
+<ol>
+<li>設定資料庫細節（如下）：<ul>
+<li><strong>Name</strong>：資料庫 Instance 名稱。</li>
+<li><strong>Region</strong>：選擇靠近你的地區（例如 Singapore 新加坡）。</li>
+<li><strong>Database Name &#x2F; User &#x2F; Password</strong>：Render 會自動產生，也可以自訂。</li>
+<li><strong>Plan Option</strong>：先選擇 Free 方案即可，方便測試使用。<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/2-new-pg-db-info.png?raw=true" alt="dashboard.render.com_new_database"></li>
+</ul>
+</li>
+<li>點擊「<strong>Create Database</strong>」。</li>
+<li>等待 DB Instance 生成後，即可在 Dashboard 中看到。</li>
+</ol>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/3-db-instance.png?raw=true"></p>
+<ol start="4">
+<li>點擊對應的 Service Name 以查看資料庫詳細資訊。</li>
+</ol>
+<hr>
+<h2 id="✅-資料庫存取方式"><a href="#✅-資料庫存取方式" class="headerlink" title="✅ 資料庫存取方式"></a>✅ 資料庫存取方式</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/4-external-url.png?raw=true"></p>
+<p>Render 會自動產生一組 <strong>外部連線網址（External Connection URL）</strong>，可供應用程式或團隊使用：</p>
+<ul>
+<li>進入 Postgres 資料庫頁面。</li>
+<li>在「<strong>Connection Info</strong>」找到 <code>External Database URL</code>。</li>
+<li>複製這組 URL，並用於 <code>psql</code>、DBeaver、應用程式或 ORM。</li>
+</ul>
+<p>ℹ️ 注意：這組 URL 含有帳號密碼，<strong>務必保護好，不要放在 GitHub 等公開地方</strong>。</p>
+<hr>
+<h3 id="External-Database-URL"><a href="#External-Database-URL" class="headerlink" title="External Database URL"></a>External Database URL</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgresql://node_ts_demo_db_user:&lt;password&gt;@dpg-d33uq4q4d50c73ejo3rg-a.singapore-postgres.render.com/node_ts_demo_db</span><br></pre></td></tr></table></figure>
+
+<p>格式通常為：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postgres://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;/&lt;dbname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>拆解（設定 DBeaver 可用）：</p>
+<ul>
+<li><strong>使用者</strong>：node_ts_demo_db_user</li>
+<li><strong>密碼</strong>：password</li>
+<li><strong>主機</strong>：<a target="_blank" rel="noopener" href="http://dpg-d33uq4q4d50c73ejo3rg-a.singapore-postgres.render.com/">dpg-d33uq4q4d50c73ejo3rg-a.singapore-postgres.render.com</a></li>
+<li><strong>資料庫名稱</strong>：node_ts_demo_db</li>
+</ul>
+<hr>
+<h2 id="用-DBeaver-測試連線"><a href="#用-DBeaver-測試連線" class="headerlink" title="用 DBeaver 測試連線"></a>用 DBeaver 測試連線</h2><p><a target="_blank" rel="noopener" href="https://dbeaver.io/">DBeaver</a> 是一款跨平台的開源資料庫管理工具，支援 MySQL、PostgreSQL、SQLite、MongoDB 等多種資料庫。</p>
+<h3 id="安裝與連線步驟"><a href="#安裝與連線步驟" class="headerlink" title="安裝與連線步驟"></a>安裝與連線步驟</h3><ol>
+<li><p>下載並安裝 DBeaver。</p>
+</li>
+<li><p>點選「<strong>New Database Connection</strong>」。</p>
+</li>
+<li><p>選擇「<strong>PostgreSQL</strong>」。</p>
+</li>
+<li><p>輸入 Render 提供的資訊：</p>
+<ul>
+<li><strong>Host</strong>：<code>dpg-xxxxx.singapore-postgres.render.com</code></li>
+<li><strong>Database</strong>：<code>ts_template_db</code></li>
+<li><strong>Username</strong>：<code>ts_template_db_user</code></li>
+<li><strong>Password</strong>：<code>password</code></li>
+<li><strong>Port</strong>：<code>5432</code><br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/5-dbeaver-test-conn.png?raw=true"></li>
+</ul>
+</li>
+<li><p>點擊 <strong>Test Connection</strong>，成功會顯示「Connected」。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/6-db-connected.png?raw=true"></p>
+</li>
+</ol>
+<hr>
+<h2 id="Node-js-專案連線-Render-資料庫與-API-測試"><a href="#Node-js-專案連線-Render-資料庫與-API-測試" class="headerlink" title="Node.js 專案連線 Render 資料庫與 API 測試"></a>Node.js 專案連線 Render 資料庫與 API 測試</h2><h3 id="修改-env-檔案，加入資料庫連線資訊"><a href="#修改-env-檔案，加入資料庫連線資訊" class="headerlink" title="修改 .env 檔案，加入資料庫連線資訊"></a>修改 <code>.env</code> 檔案，加入資料庫連線資訊</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DB_HOST=dpg-d33uq4q4d50c73ejo3rg-a.singapore-postgres.render.com</span><br><span class="line">DB_NAME=node_ts_demo_db</span><br><span class="line">DB_USERNAME=node_ts_demo_db_user</span><br><span class="line">DB_PASSWORD=password</span><br><span class="line">DB_PORT=5432</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟動伺服器並測試連線"><a href="#啟動伺服器並測試連線" class="headerlink" title="啟動伺服器並測試連線"></a>啟動伺服器並測試連線</h3><p>使用先前 Day 6 設定好的 script：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/7-ssl-problem.png?raw=true"></p>
+<p>會發現連線失敗，因為 SSL 相關問題。</p>
+<hr>
+<h3 id="解決-SSL-問題"><a href="#解決-SSL-問題" class="headerlink" title="解決 SSL 問題"></a>解決 SSL 問題</h3><ul>
+<li><strong>開發環境</strong>：可暫時關閉驗證以便快速測試。</li>
+<li><strong>正式環境（Production）</strong>：建議保持預設驗證（<code>true</code>），以確保安全性。</li>
+</ul>
+<p>若遇到 SSL 連線錯誤，在 <code>db.ts</code> 的 <code>AppDataSource</code> 配置中加入：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ssl</span>: &#123; <span class="attr">rejectUnauthorized</span>: <span class="literal">false</span> &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>更新後的 <code>src/config/db.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">AppDataSource</span> = <span class="keyword">new</span> <span class="title class_">DataSource</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&quot;postgres&quot;</span>,</span><br><span class="line">  <span class="attr">host</span>: process.<span class="property">env</span>.<span class="property">DB_HOST</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="title class_">Number</span>(process.<span class="property">env</span>.<span class="property">DB_PORT</span>),</span><br><span class="line">  <span class="attr">username</span>: process.<span class="property">env</span>.<span class="property">DB_USERNAME</span>,</span><br><span class="line">  <span class="attr">password</span>: process.<span class="property">env</span>.<span class="property">DB_PASSWORD</span>,</span><br><span class="line">  <span class="attr">database</span>: process.<span class="property">env</span>.<span class="property">DB_NAME</span>,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="title class_">Todo</span>],</span><br><span class="line">  <span class="attr">synchronize</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">logging</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">ssl</span>: &#123; <span class="attr">rejectUnauthorized</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>✅ 成功連線的終端機畫面：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/8-nodejs-conn-success.png?raw=true"></p>
+<p>(可觀察到 typeORM 已經跟資料庫互動並藉由 Todo Entity 創立 Todo 表格)</p>
+<p>DBeaver 畫面：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/9-todo-table.png?raw=true"></p>
+<hr>
+<h2 id="API-測試範例"><a href="#API-測試範例" class="headerlink" title="API 測試範例"></a>API 測試範例</h2><p>使用 Postman 測試幾個簡單的 API：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路徑</th>
+<th>Body 範例</th>
+<th>回應範例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>/api/todos</code></td>
+<td>-</td>
+<td><code>&#123; &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: [ ... ] &#125;</code></td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/todos</code></td>
+<td><code>&#123; &quot;title&quot;: &quot;學 TypeScript&quot; &#125;</code></td>
+<td><code>&#123; &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: &#123; &quot;id&quot;: &quot;xxx&quot;, &quot;title&quot;: &quot;學 TypeScript&quot;, &quot;completed&quot;: false &#125; &#125;</code></td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>/api/todos/&lt;uuid&gt;</code></td>
+<td><code>&#123; &quot;completed&quot;: true &#125;</code></td>
+<td><code>&#123; &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: &#123; &quot;id&quot;: &quot;1&quot;, &quot;title&quot;: &quot;學 TypeScript&quot;, &quot;completed&quot;: true &#125; &#125;</code></td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/todos/&lt;uuid&gt;</code></td>
+<td>-</td>
+<td><code>&#123; &quot;status&quot;: &quot;success&quot;, &quot;data&quot;: &#123; &quot;affected&quot;: 1 &#125; &#125;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Postman-測試結果"><a href="#Postman-測試結果" class="headerlink" title="Postman 測試結果"></a>Postman 測試結果</h2><p>成功新增 API 資料：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day9-Render-DB/10-postman-create-todo.png?raw=true"></p>
+<hr>
+<h2 id="🎯-今日收穫"><a href="#🎯-今日收穫" class="headerlink" title="🎯 今日收穫"></a>🎯 今日收穫</h2><p>今天我們不只學會了如何在 Render 上建立 PostgreSQL 資料庫，還實際完成了幾件關鍵任務：</p>
+<ul>
+<li>了解了 <strong>資料庫的基本概念</strong>，並比較了 MySQL 與 PostgreSQL 的差異。</li>
+<li>在 Render 建立了 <strong>Postgres 資料庫服務</strong>，並熟悉了連線方式。</li>
+<li>使用 <strong>DBeaver</strong> 成功測試連線，確認資料庫可以正常使用。</li>
+<li>在 <strong>Node.js + TypeORM 專案</strong>中完成連線，並處理 SSL 問題。</li>
+<li>用 <strong>Postman</strong> 驗證了 API 與資料庫的互動，確認 CRUD 功能正常。</li>
+</ul>
+<p>👉 到這一步，我們的專案已經有了「<strong>完整的後端 + 真實的雲端資料庫</strong>」，下一步就能進一步嘗試部署專案了！ 🚀</p>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/280a18f58c08410d2aebf95f6781766a45b18946">Github 範例程式碼</a></p>
+<blockquote>
+<p>git commit : setup render database connection info</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Render/" rel="tag"># Render</a>
+              <a href="/tags/pgSQL/" rel="tag"># pgSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/" rel="prev" title="Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能">
+                  <i class="fa fa-angle-left"></i> Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
