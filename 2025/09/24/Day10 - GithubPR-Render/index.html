@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Render 服務簡介 在前幾天的系列文章中，我們已經完成了本地端的環境建置與功能實作。但真實專案裡，光是「我的電腦能跑」是不夠的，我們需要把服務放到雲端，讓全世界都能存取。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/24/Day10%20-%20GithubPR-Render/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="Render 服務簡介 在前幾天的系列文章中，我們已經完成了本地端的環境建置與功能實作。但真實專案裡，光是「我的電腦能跑」是不夠的，我們需要把服務放到雲端，讓全世界都能存取。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/2-signin-render.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/3-create-pr.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/4-pr-desc.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/5-check-pr.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/6-merge-result.png?raw=true">
+<meta property="article:published_time" content="2025-09-24T04:38:13.000Z">
+<meta property="article:modified_time" content="2025-09-24T04:52:56.114Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Render">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/24/Day10%20-%20GithubPR-Render/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/24/Day10%20-%20GithubPR-Render/","path":"2025/09/24/Day10 - GithubPR-Render/","title":"Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Render-%E6%9C%8D%E5%8B%99%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Render 服務簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-Github-%E5%B8%B3%E8%99%9F%E7%AC%AC%E4%B8%89%E6%96%B9%E7%99%BB%E5%85%A5-Render-%E6%9C%8D%E5%8B%99"><span class="nav-number">2.</span> <span class="nav-text">用 Github 帳號第三方登入 Render 服務</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-%E5%B0%88%E6%A1%88%E9%83%A8%E7%BD%B2%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD"><span class="nav-number">3.</span> <span class="nav-text">Node.js 專案部署前置作業</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-package-json"><span class="nav-number">3.1.</span> <span class="nav-text">修改 package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D-app-ts"><span class="nav-number">3.2.</span> <span class="nav-text">確認 app.ts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%AD%AF%E8%88%87%E9%81%8B%E8%A1%8C"><span class="nav-number">3.3.</span> <span class="nav-text">編譯與運行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub-Merge-PR-%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">GitHub Merge PR 流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-1-%E5%BB%BA%E7%AB%8B-Pull-Request"><span class="nav-number">4.1.</span> <span class="nav-text">Step 1. 建立 Pull Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-2-%E6%92%B0%E5%AF%AB-PR-%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.2.</span> <span class="nav-text">Step 2. 撰寫 PR 描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-3-%E6%AA%A2%E8%A6%96-PR-%E7%8B%80%E6%85%8B"><span class="nav-number">4.3.</span> <span class="nav-text">Step 3. 檢視 PR 狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step-4-%E5%90%88%E4%BD%B5%E5%88%B0-develop"><span class="nav-number">4.4.</span> <span class="nav-text">Step 4. 合併到 develop</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/24/Day10%20-%20GithubPR-Render/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-24 12:38:13 / 修改時間：12:52:56" itemprop="dateCreated datePublished" datetime="2025-09-24T12:38:13+08:00">2025-09-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="Render-服務簡介"><a href="#Render-服務簡介" class="headerlink" title="Render 服務簡介"></a>Render 服務簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true" alt="1-render.png"></p>
+<p>在前幾天的系列文章中，我們已經完成了本地端的環境建置與功能實作。但真實專案裡，光是「我的電腦能跑」是不夠的，我們需要把服務放到雲端，讓全世界都能存取。</p>
+<span id="more"></span>
+
+<p>常見的雲端平台有 <strong>AWS</strong>、<strong>GCP</strong>、<strong>Azure</strong> 等，它們提供完整的基礎建設服務（IaaS）。但對於初學者或中小型專案來說，這些平台的學習曲線偏高、設定也比較繁瑣。</p>
+<p><strong>Render</strong> 屬於 <strong>PaaS（平台即服務）</strong>，提供比 AWS、GCP 更直覺的部署體驗，只需要專注於程式碼本身，Render 就能自動幫我們完成環境建置、佈署、監控。</p>
+<p>👉 適合快速上手、部屬 Side Project 或個人練習專案。</p>
+<hr>
+<h2 id="用-Github-帳號第三方登入-Render-服務"><a href="#用-Github-帳號第三方登入-Render-服務" class="headerlink" title="用 Github 帳號第三方登入 Render 服務"></a>用 Github 帳號第三方登入 Render 服務</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/2-signin-render.png?raw=true" alt="Screenshot 2025-09-23 at 7.56.36 PM.png"></p>
+<p>Render 提供 <strong>Github 帳號登入</strong>，這樣做的好處是可以直接與 GitHub 專案連動。</p>
+<p>一旦我們在 GitHub 上有新的 commit（例如合併 PR），Render 就能自動觸發建置與部署。</p>
+<p><strong>優點：</strong></p>
+<ul>
+<li>自動同步 GitHub repo</li>
+<li>省去手動上傳程式碼的麻煩</li>
+<li>CI&#x2F;CD 整合更簡單</li>
+</ul>
+<hr>
+<h2 id="Node-js-專案部署前置作業"><a href="#Node-js-專案部署前置作業" class="headerlink" title="Node.js 專案部署前置作業"></a>Node.js 專案部署前置作業</h2><h3 id="修改-package-json"><a href="#修改-package-json" class="headerlink" title="修改 package.json"></a>修改 package.json</h3><ol>
+<li><p><strong>新增啟動與建置指令</strong></p>
+<ul>
+<li><p>在 <code>package.json</code> 的 <code>scripts</code> 中加入：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node dist/app.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tsc&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>start</code>：執行編譯後的程式。</p>
+</li>
+<li><p><code>build</code>：把 TypeScript 編譯為 JavaScript。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>指定 Node.js 版本</strong></p>
+<ul>
+<li><p>在 <code>package.json</code> 中加入：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;engines&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;node&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20.x&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>為什麼要指定版本？</strong><br>Render 預設可能使用不同的 Node.js 版本，如果與本地端差異過大，可能導致部署錯誤。<br>指定 Node.js 版本能確保 Render 的執行環境與我們本地端一致，減少版本不相容的問題。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="確認-app-ts"><a href="#確認-app-ts" class="headerlink" title="確認 app.ts"></a>確認 app.ts</h3><p>確保 <code>app.ts</code> 使用環境變數的 PORT：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Server is running on port <span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>⚠️ <strong>小提醒</strong></p>
+<p>在 Render 上，服務的埠號（<code>PORT</code>）是 <strong>自動分配</strong> 的，並透過 <code>process.env.PORT</code> 傳入程式。</p>
+<p>因此 <strong>不需要在 Render 控制台手動新增 <code>PORT</code> 環境變數</strong>。</p>
+<p>只要程式碼有寫：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>就能正確接收 Render 給的 Port。</p>
+<hr>
+<h3 id="編譯與運行"><a href="#編譯與運行" class="headerlink" title="編譯與運行"></a>編譯與運行</h3><p>在部署到 Render 前，先在本地端測試：</p>
+<ol>
+<li><p><strong>編譯程式碼</strong></p>
+<ul>
+<li><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>這會將 TypeScript 編譯為 JavaScript，輸出到 <code>dist</code> 資料夾。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>運行編譯後的程式</strong></p>
+<ul>
+<li><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>檢查是否能正常啟動伺服器並連接到資料庫。</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[注意]：本地端測試成功後再進行部署，確保程式碼無誤。</p>
+</blockquote>
+<blockquote>
+<p>commit : Day 10 Render Deploy setting</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/dec62b5d6891897d92eb39d5367be0471c9c2f37">範例程式碼</a></p>
+<hr>
+<h2 id="GitHub-Merge-PR-流程"><a href="#GitHub-Merge-PR-流程" class="headerlink" title="GitHub Merge PR 流程"></a>GitHub Merge PR 流程</h2><p>在專案開發時，我們通常會用 <strong>feature 分支</strong> 來開發新功能，完成後再透過 <strong>Pull Request (PR)</strong> 合併到 <code>develop</code> 分支。以下是簡單的操作流程：</p>
+<hr>
+<h3 id="Step-1-建立-Pull-Request"><a href="#Step-1-建立-Pull-Request" class="headerlink" title="Step 1. 建立 Pull Request"></a>Step 1. 建立 Pull Request</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/3-create-pr.png?raw=true" alt="Screenshot 2025-09-23 at 8.58.41 PM.png"></p>
+<p>點擊 <strong>Compare &amp; pull request</strong> !</p>
+<hr>
+<h3 id="Step-2-撰寫-PR-描述"><a href="#Step-2-撰寫-PR-描述" class="headerlink" title="Step 2. 撰寫 PR 描述"></a>Step 2. 撰寫 PR 描述</h3><p>選擇要合併的分支：</p>
+<ul>
+<li><strong>base</strong>：<code>develop</code></li>
+<li><strong>compare</strong>：<code>feature/init-ts-express</code></li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/4-pr-desc.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.06 PM.png"></p>
+<p>在描述區塊中，列出這次 PR 的主要變更，例如：</p>
+<ul>
+<li>初始化 Node.js + TypeScript 專案架構</li>
+<li>建立基本 Express server</li>
+<li>新增 TodoList API (CRUD)</li>
+<li>整合 TypeORM 與資料庫連線</li>
+</ul>
+<p>填寫 PR 標題與描述，準備送出 PR。按下 Create pull request !</p>
+<hr>
+<h3 id="Step-3-檢視-PR-狀態"><a href="#Step-3-檢視-PR-狀態" class="headerlink" title="Step 3. 檢視 PR 狀態"></a>Step 3. 檢視 PR 狀態</h3><p>送出 PR 後，可以看到 Commit 記錄與檔案變更。</p>
+<p>此時 GitHub 會檢查與 <code>develop</code> 分支是否有衝突：</p>
+<ul>
+<li>✅ <strong>No conflicts</strong> → 可以安全合併</li>
+<li>⚠️ <strong>有衝突</strong> → 需要先解決衝突</li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/5-check-pr.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.35 PM.png"></p>
+<hr>
+<h3 id="Step-4-合併到-develop"><a href="#Step-4-合併到-develop" class="headerlink" title="Step 4. 合併到 develop"></a>Step 4. 合併到 develop</h3><p>確認無誤後，點擊 <strong>Merge pull request</strong> → <strong>Confirm merge</strong>，就能把 feature 分支合併到 <code>develop</code>。</p>
+<p>合併完成後，<code>develop</code> 分支就會更新，包含最新的功能。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/6-merge-result.png?raw=true" alt="Screenshot 2025-09-23 at 9.02.07 PM.png"></p>
+<hr>
+<p>先完成這些步驟後，明天我們就能把 <code>develop</code> 分支部署到 Render 囉 🚀。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Render/" rel="tag"># Render</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/23/Day9%20-%20Render-pgsql-db/" rel="prev" title="Day 9｜Render 雲端啟動：資料庫連線全攻略">
+                  <i class="fa fa-angle-left"></i> Day 9｜Render 雲端啟動：資料庫連線全攻略
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
