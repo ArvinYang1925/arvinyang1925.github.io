@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Day 1 - Typescript + Node.js 系列藍圖</title>
+    <url>/2025/09/15/Day1%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
+<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
+<span id="more"></span>
+
+<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
+<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
+<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
+<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
+<p>這份藍圖將分為以下幾個階段：</p>
+<ol>
+<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
+<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
+<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
+<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
+<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
+</ol>
+<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
+<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR</title>
     <url>/2025/09/24/Day10%20-%20GithubPR-Render/</url>
     <content><![CDATA[<h2 id="Render-服務簡介"><a href="#Render-服務簡介" class="headerlink" title="Render 服務簡介"></a>Render 服務簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true" alt="1-render.png"></p>
@@ -125,30 +152,89 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 1 - Typescript + Node.js 系列藍圖</title>
-    <url>/2025/09/15/Day1%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
-    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
-<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
+    <title>Day 11｜一鍵上線！完整部署到 Render 的實戰流程</title>
+    <url>/2025/09/25/Day11%20-%20Render-NodeJS/</url>
+    <content><![CDATA[<p>昨天我們完成了部署的前置作業，今天當然要來實戰部署啦！這篇文章會帶你一步步把 Node.js + TypeScript 專案部署到 <strong>Render</strong>，並驗證 API 是否能正常運作。</p>
 <span id="more"></span>
 
-<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
-<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
-<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
-<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
-<p>這份藍圖將分為以下幾個階段：</p>
-<ol>
-<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
-<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
-<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
-<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
-<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
-</ol>
-<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
-<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
+<hr>
+<h2 id="Render-部署設定步驟"><a href="#Render-部署設定步驟" class="headerlink" title="Render 部署設定步驟"></a>Render 部署設定步驟</h2><h3 id="1-建立-Web-Service"><a href="#1-建立-Web-Service" class="headerlink" title="1. 建立 Web Service"></a>1. 建立 Web Service</h3><p>到 Render Dashboard 右上角點擊 <strong>New → Web Service</strong>，建立一個新的服務。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/1-new-web-service.png?raw=true"></p>
+<p>接著選擇 <strong>連結 GitHub 專案</strong>，點擊 <strong>Connect</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/2-link-github-repo.png?raw=true"></p>
+<hr>
+<h3 id="2-選擇專案與分支"><a href="#2-選擇專案與分支" class="headerlink" title="2. 選擇專案與分支"></a>2. 選擇專案與分支</h3><ul>
+<li><strong>Language</strong> 選擇 <code>Node</code></li>
+<li><strong>Branch</strong> 選擇 GitHub 專案的 <code>develop</code> 分支</li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/3-new-service-info.png?raw=true"></p>
+<hr>
+<h3 id="3-設定建置與啟動指令"><a href="#3-設定建置與啟動指令" class="headerlink" title="3. 設定建置與啟動指令"></a>3. 設定建置與啟動指令</h3><p>Render 需要知道如何建置與啟動專案。</p>
+<p><strong>建置指令 (Build Command)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/4-build-command.png?raw=true"></p>
+<p><strong>啟動指令 (Start Command)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/5-start-command.png?raw=true"></p>
+<hr>
+<h3 id="4-選擇-Instance-Type"><a href="#4-選擇-Instance-Type" class="headerlink" title="4. 選擇 Instance Type"></a>4. 選擇 Instance Type</h3><p>如果是學習或 Side Project，可以先選擇 <strong>Free 方案</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/6-instance-type.png?raw=true"></p>
+<hr>
+<h3 id="5-配置環境變數"><a href="#5-配置環境變數" class="headerlink" title="5. 配置環境變數"></a>5. 配置環境變數</h3><p>接著到 Environment Variables 區塊，新增專案需要的環境變數。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DB_HOST=&lt;你的資料庫主機&gt;</span><br><span class="line">DB_PORT=5432</span><br><span class="line">DB_USERNAME=&lt;你的使用者名稱&gt;</span><br><span class="line">DB_PASSWORD=&lt;你的密碼&gt;</span><br><span class="line">DB_NAME=&lt;你的資料庫名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/7-env.png?raw=true"></p>
+<p>點擊 <strong>Add from .env</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/8-add-env.png?raw=true"></p>
+<p>點擊 <strong>Add variables</strong>，就能看到變數成功新增。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/9-env-result.png?raw=true"></p>
+<hr>
+<h3 id="6-開始部署"><a href="#6-開始部署" class="headerlink" title="6. 開始部署"></a>6. 開始部署</h3><p>設定完成後，點擊 <strong>Deploy Web Service</strong>，Render 就會開始自動建置與部署。</p>
+<p><strong>部署中畫面</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/10-deploying.png?raw=true"></p>
+<p><strong>部署成功畫面</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/11-deployed.png?raw=true"></p>
+<hr>
+<h2 id="驗證部署結果"><a href="#驗證部署結果" class="headerlink" title="驗證部署結果"></a>驗證部署結果</h2><p>部署完成後，Render 會提供一個公開網址。</p>
+<p>透過該網址即可呼叫 API：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/12-req-link.png?raw=true"></p>
+<p>使用 Postman 測試新增 Todo 資料，API 回應正常 ✅</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/13-postman-test.png?raw=true"></p>
+<hr>
+<p>🎉 恭喜你完成了一個完整的 Express + TypeScript + TypeORM 後端專案，並成功部署到 Render！</p>
+<p>從這一步開始，你的專案已經能讓全世界存取了 。</p>
+<p>⚠️ <strong>小提醒：Render Free Plan 限制</strong></p>
+<p>如果你使用的是 Render 免費方案，會有以下幾點需要注意：</p>
+<ul>
+<li>服務若 <strong>15 分鐘沒有流量</strong>，會自動進入休眠狀態。</li>
+<li>當再次有人存取時，服務會重新啟動，通常需要等待 <strong>30 秒左右</strong>。</li>
+<li>免費方案的硬體資源有限，若專案流量大或需要長時間穩定服務，建議升級到付費方案。</li>
+</ul>
+<hr>
+<h2 id="結語：從準備到上線-🚀"><a href="#結語：從準備到上線-🚀" class="headerlink" title="結語：從準備到上線 🚀"></a>結語：從準備到上線 🚀</h2><p>在 <strong>Day 10</strong>，我們完成了部署的所有前置作業：</p>
+<ul>
+<li>認識 Render 與雲端平台的定位</li>
+<li>修改 <code>package.json</code>，指定 Node.js 版本</li>
+<li>調整程式碼以支援環境變數的 <code>PORT</code></li>
+<li>學會透過 GitHub PR 把 <code>feature</code> 分支合併到 <code>develop</code></li>
+</ul>
+<p>接著在 <strong>Day 11</strong>，我們則把 <code>develop</code> 分支部署到 Render，並完成：</p>
+<ul>
+<li>建立 Web Service</li>
+<li>設定 Build 與 Start 指令</li>
+<li>配置資料庫環境變數</li>
+<li>驗證部署成功，API 可以正常使用</li>
+</ul>
+<p>至此，我們已經把專案從「本地端」正式推上「雲端」，讓全世界都能透過網址存取 。</p>
+<p>接下來的篇章，我們將來點輕鬆的主題，介紹 Prettier 、ESLint 小工具，並逐步探索更多進階主題（檔案上傳、驗證系統等），讓專案更接近真實商業應用。</p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Render</tag>
       </tags>
   </entry>
   <entry>
@@ -216,6 +302,69 @@
 <p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
 <p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
 <p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
+    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
+    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
+<hr>
+<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
+<ul>
+<li><strong>string</strong>：字串</li>
+<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
+<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
+<li><strong>array</strong>：陣列</li>
+<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
+<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
+<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
+<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
+<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
+</ul>
+<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
+<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
+<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
+</ul>
+<hr>
+<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
+<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>物件結構清楚表達</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>與 API 或外部資料互動</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
+<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
+<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
+</ul>
+<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
+<hr>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
@@ -371,6 +520,107 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
+    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
+    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
+<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
+<p>準備好了嗎？Let’s go！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
+<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
+<hr>
+<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
+<hr>
+<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
+<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
+<hr>
+<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
+<ul>
+<li><strong>Express</strong>：後端 API 框架</li>
+<li><strong>TypeScript</strong>：型別安全</li>
+<li><strong>@types</strong>：型別定義檔</li>
+<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
+</ul>
+<p>一次裝好：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
+<hr>
+<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這邊要記住幾個關鍵設定：</p>
+<ul>
+<li><code>rootDir</code> → 原始碼放哪裡</li>
+<li><code>outDir</code> → 編譯輸出到哪裡</li>
+<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
+<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
+</ul>
+<p>然後新增一個 <code>src</code> 資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>寫入以下內容：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
+<hr>
+<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果一切順利，你會看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
+<ul>
+<li>Git 分支管理</li>
+<li>設定 <code>.gitignore</code></li>
+<li>初始化 <code>package.json</code></li>
+<li>安裝必要套件</li>
+<li>設定 TypeScript</li>
+<li>建立第一個 Express 程式</li>
+</ul>
+<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
+<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit message: Day 6 - set up Express + TS environment</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 7 - 如何建立一個 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</title>
     <url>/2025/09/21/Day7%20-%20Node.js%20+%20TS%20(2)/</url>
     <content><![CDATA[<p>嗨～昨天我們已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong>。接著，在正式開發 API 之前，先來點暖身 —— 建立一個清晰、可維護的專案架構，並完成環境變數與資料庫連線設定。這些基礎工具就是未來專案能否穩定推進的關鍵。</p>
@@ -510,276 +760,6 @@
       <tags>
         <tag>TypeScript</tag>
         <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
-    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
-    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
-<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
-<p>準備好了嗎？Let’s go！</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
-<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
-<hr>
-<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
-<hr>
-<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
-<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
-<hr>
-<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
-<ul>
-<li><strong>Express</strong>：後端 API 框架</li>
-<li><strong>TypeScript</strong>：型別安全</li>
-<li><strong>@types</strong>：型別定義檔</li>
-<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
-</ul>
-<p>一次裝好：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
-<hr>
-<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>這邊要記住幾個關鍵設定：</p>
-<ul>
-<li><code>rootDir</code> → 原始碼放哪裡</li>
-<li><code>outDir</code> → 編譯輸出到哪裡</li>
-<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
-<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
-</ul>
-<p>然後新增一個 <code>src</code> 資料夾：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>寫入以下內容：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
-<hr>
-<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果一切順利，你會看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
-<ul>
-<li>Git 分支管理</li>
-<li>設定 <code>.gitignore</code></li>
-<li>初始化 <code>package.json</code></li>
-<li>安裝必要套件</li>
-<li>設定 TypeScript</li>
-<li>建立第一個 Express 程式</li>
-</ul>
-<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
-<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
-<hr>
-<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
-<blockquote>
-<p>commit message: Day 6 - set up Express + TS environment</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
-    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
-    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
-<hr>
-<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
-<ul>
-<li><strong>string</strong>：字串</li>
-<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
-<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
-<li><strong>array</strong>：陣列</li>
-<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
-<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
-<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
-<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
-<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
-</ul>
-<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
-
-<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
-<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
-<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
-</ul>
-<hr>
-<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
-<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>物件結構清楚表達</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>與 API 或外部資料互動</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
-<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
-<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
-</ul>
-<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
-<hr>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TypeScript 完整介紹：從入門到實戰</title>
-    <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
-    <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
-<span id="more"></span>
-
-<h3 id="🎯-為什麼選擇-TypeScript？"><a href="#🎯-為什麼選擇-TypeScript？" class="headerlink" title="🎯 為什麼選擇 TypeScript？"></a>🎯 為什麼選擇 TypeScript？</h3><ol>
-<li><strong>靜態型別檢查</strong> - 在編譯時期就能發現錯誤</li>
-<li><strong>更好的 IDE 支援</strong> - 智能提示、自動完成、重構工具</li>
-<li><strong>增強的可讀性</strong> - 代碼更容易理解和維護</li>
-<li><strong>漸進式採用</strong> - 可以逐步將現有 JavaScript 專案遷移到 TypeScript</li>
-</ol>
-<h2 id="🚀-快速開始"><a href="#🚀-快速開始" class="headerlink" title="🚀 快速開始"></a>🚀 快速開始</h2><h3 id="安裝-TypeScript"><a href="#安裝-TypeScript" class="headerlink" title="安裝 TypeScript"></a>安裝 TypeScript</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 全域安裝</span></span><br><span class="line">npm install -g typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 專案內安裝</span></span><br><span class="line">npm install --save-dev typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證安裝</span></span><br><span class="line">tsc --version</span><br></pre></td></tr></table></figure>
-
-<h3 id="第一個-TypeScript-檔案"><a href="#第一個-TypeScript-檔案" class="headerlink" title="第一個 TypeScript 檔案"></a>第一個 TypeScript 檔案</h3><p>建立 <code>hello.ts</code> 檔案：</p>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">name: <span class="built_in">string</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`Hello, <span class="subst">$&#123;name&#125;</span>!`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">userName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">greet</span>(userName));</span><br></pre></td></tr></table></figure>
-
-<p>編譯並執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 編譯</span></span><br><span class="line">tsc hello.ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行生成的 JavaScript</span></span><br><span class="line">node hello.js</span><br></pre></td></tr></table></figure>
-
-<h2 id="📚-核心概念"><a href="#📚-核心概念" class="headerlink" title="📚 核心概念"></a>📚 核心概念</h2><h3 id="1-基本型別"><a href="#1-基本型別" class="headerlink" title="1. 基本型別"></a>1. 基本型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 基本型別</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isDone</span>: <span class="built_in">boolean</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">decimal</span>: <span class="built_in">number</span> = <span class="number">6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">color</span>: <span class="built_in">string</span> = <span class="string">&quot;blue&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">list</span>: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="attr">tuple</span>: [<span class="built_in">string</span>, <span class="built_in">number</span>] = [<span class="string">&quot;hello&quot;</span>, <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Any 型別（盡量避免使用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">notSure</span>: <span class="built_in">any</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Void 型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">warnUser</span>(<span class="params"></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;This is a warning message&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Null 和 Undefined</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">u</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">n</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-介面-Interface"><a href="#2-介面-Interface" class="headerlink" title="2. 介面 (Interface)"></a>2. 介面 (Interface)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="attr">firstName</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">lastName</span>: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>; <span class="comment">// 可選屬性</span></span><br><span class="line">  <span class="keyword">readonly</span> <span class="attr">id</span>: <span class="built_in">number</span>; <span class="comment">// 唯讀屬性</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createPerson</span>(<span class="params">person: Person</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;person.firstName&#125;</span> <span class="subst">$&#123;person.lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">user</span>: <span class="title class_">Person</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">firstName</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">lastName</span>: <span class="string">&quot;Doe&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-類別-Classes"><a href="#3-類別-Classes" class="headerlink" title="3. 類別 (Classes)"></a>3. 類別 (Classes)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">protected</span> <span class="attr">species</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="attr">age</span>: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, species: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">species</span> = species;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">makeSound</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> makes a sound`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="title function_">getInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> is a <span class="subst">$&#123;<span class="variable language_">this</span>.species&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">breed</span>: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, breed: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(name, <span class="string">&quot;Canine&quot;</span>, age);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">breed</span> = breed;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">bark</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Woof! Woof!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">makeSound</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">getBreedInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.getInfo()&#125;</span> of breed <span class="subst">$&#123;<span class="variable language_">this</span>.breed&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-泛型-Generics"><a href="#4-泛型-Generics" class="headerlink" title="4. 泛型 (Generics)"></a>4. 泛型 (Generics)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 泛型函數</span></span><br><span class="line"><span class="keyword">function</span> identity&lt;T&gt;(<span class="attr">arg</span>: T): T &#123;</span><br><span class="line">  <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> output1 = identity&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;myString&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> output2 = identity&lt;<span class="built_in">number</span>&gt;(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型介面</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">GenericIdentityFn</span>&lt;T&gt; &#123;</span><br><span class="line">  (<span class="attr">arg</span>: T): T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型類別</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GenericNumber</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">zeroValue</span>: T;</span><br><span class="line">  <span class="attr">add</span>: <span class="function">(<span class="params">x: T, y: T</span>) =&gt;</span> T;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">zero: T, addFn: (x: T, y: T) =&gt; T</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">zeroValue</span> = zero;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">add</span> = addFn;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-聯合型別與交集型別"><a href="#5-聯合型別與交集型別" class="headerlink" title="5. 聯合型別與交集型別"></a>5. 聯合型別與交集型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 聯合型別</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">StringOrNumber</span> = <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">padLeft</span>(<span class="params">value: <span class="built_in">string</span>, padding: StringOrNumber</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Array</span>(padding + <span class="number">1</span>).<span class="title function_">join</span>(<span class="string">&quot; &quot;</span>) + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Expected string or number, got &#x27;<span class="subst">$&#123;padding&#125;</span>&#x27;.`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交集型別</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ErrorHandling</span> &#123;</span><br><span class="line">  <span class="attr">success</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  error?: &#123; <span class="attr">message</span>: <span class="built_in">string</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ArtworksData</span> &#123;</span><br><span class="line">  <span class="attr">artworks</span>: &#123; <span class="attr">title</span>: <span class="built_in">string</span> &#125;[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ArtworksResponse</span> = <span class="title class_">ArtworksData</span> &amp; <span class="title class_">ErrorHandling</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="⚙️-進階特性"><a href="#⚙️-進階特性" class="headerlink" title="⚙️ 進階特性"></a>⚙️ 進階特性</h2><h3 id="1-型別別名-Type-Aliases"><a href="#1-型別別名-Type-Aliases" class="headerlink" title="1. 型別別名 (Type Aliases)"></a>1. 型別別名 (Type Aliases)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Point</span> = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">y</span>: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EventHandler</span> = <span class="function">(<span class="params">event: Event</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Status</span> = <span class="string">&quot;loading&quot;</span> | <span class="string">&quot;success&quot;</span> | <span class="string">&quot;error&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-條件型別"><a href="#2-條件型別" class="headerlink" title="2. 條件型別"></a>2. 條件型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">MessageOf</span>&lt;T&gt; = T <span class="keyword">extends</span> &#123; <span class="attr">message</span>: infer U &#125; ? U : <span class="built_in">never</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Email</span> &#123;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">  <span class="title function_">bark</span>(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EmailMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Email</span>&gt;; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">DogMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Dog</span>&gt;; <span class="comment">// never</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-映射型別"><a href="#3-映射型別" class="headerlink" title="3. 映射型別"></a>3. 映射型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Readonly</span>&lt;T&gt; = &#123;</span><br><span class="line">  <span class="keyword">readonly</span> [P <span class="keyword">in</span> keyof T]: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Partial</span>&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]?: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="attr">title</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">description</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">completed</span>: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ReadonlyTodo</span> = <span class="title class_">Readonly</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">PartialTodo</span> = <span class="title class_">Partial</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="🛠️-實戰應用"><a href="#🛠️-實戰應用" class="headerlink" title="🛠️ 實戰應用"></a>🛠️ 實戰應用</h2><h3 id="TypeScript-設定檔-tsconfig-json"><a href="#TypeScript-設定檔-tsconfig-json" class="headerlink" title="TypeScript 設定檔 (tsconfig.json)"></a>TypeScript 設定檔 (tsconfig.json)</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="string">&quot;DOM&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./dist&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./src&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;forceConsistentCasingInFileNames&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;resolveJsonModule&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declaration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declarationMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">,</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="React-TypeScript-範例"><a href="#React-TypeScript-範例" class="headerlink" title="React + TypeScript 範例"></a>React + TypeScript 範例</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">email</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">UserListProps</span> &#123;</span><br><span class="line">  initialUsers?: <span class="title class_">User</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">UserList</span>: <span class="title class_">React</span>.<span class="property">FC</span>&lt;<span class="title class_">UserListProps</span>&gt; = <span class="function">(<span class="params">&#123; initialUsers = [] &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [users, setUsers] = useState&lt;<span class="title class_">User</span>[]&gt;(initialUsers);</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState&lt;<span class="built_in">boolean</span>&gt;(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fetchUsers = <span class="keyword">async</span> (): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; =&gt; &#123;</span><br><span class="line">      <span class="title function_">setLoading</span>(<span class="literal">true</span>);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/api/users&quot;</span>);</span><br><span class="line">        <span class="keyword">const</span> <span class="attr">userData</span>: <span class="title class_">User</span>[] = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">        <span class="title function_">setUsers</span>(userData);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Failed to fetch users:&quot;</span>, error);</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="title function_">setLoading</span>(<span class="literal">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initialUsers.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="title function_">fetchUsers</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [initialUsers.<span class="property">length</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (loading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;users.map((user: User) =&gt; (</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;user.id&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;user.name&#125; - &#123;user.email&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      ))&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">UserList</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="📝-最佳實踐"><a href="#📝-最佳實踐" class="headerlink" title="📝 最佳實踐"></a>📝 最佳實踐</h2><h3 id="1-型別定義"><a href="#1-型別定義" class="headerlink" title="1. 型別定義"></a>1. 型別定義</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ✅ 好的做法</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ApiResponse</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: T;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 避免使用 any</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processData</span>(<span class="params">data: <span class="built_in">any</span></span>): <span class="built_in">any</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ✅ 使用具體型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processUserData</span>(<span class="params">data: User[]</span>): <span class="title class_">ProcessedUser</span>[] &#123;</span><br><span class="line">  <span class="keyword">return</span> data.<span class="title function_">map</span>(<span class="function">(<span class="params">user</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">id</span>: user.<span class="property">id</span>,</span><br><span class="line">    <span class="attr">displayName</span>: <span class="string">`<span class="subst">$&#123;user.firstName&#125;</span> <span class="subst">$&#123;user.lastName&#125;</span>`</span>,</span><br><span class="line">    <span class="attr">isActive</span>: user.<span class="property">status</span> === <span class="string">&quot;active&quot;</span>,</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-錯誤處理"><a href="#2-錯誤處理" class="headerlink" title="2. 錯誤處理"></a>2. 錯誤處理</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Result</span>&lt;T, E = <span class="title class_">Error</span>&gt; =</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>;</span><br><span class="line">      <span class="attr">data</span>: T;</span><br><span class="line">    &#125;</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>;</span><br><span class="line">      <span class="attr">error</span>: E;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUserData</span>(<span class="params">id: <span class="built_in">string</span></span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Result</span>&lt;<span class="title class_">User</span>&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`/api/users/<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">error</span>: <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`HTTP <span class="subst">$&#123;response.status&#125;</span>: <span class="subst">$&#123;response.statusText&#125;</span>`</span>),</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">success</span>: <span class="literal">true</span>, <span class="attr">data</span>: user &#125;;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">error</span>: error <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? error : <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Unknown error&quot;</span>),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="🔍-常見問題與解決方案"><a href="#🔍-常見問題與解決方案" class="headerlink" title="🔍 常見問題與解決方案"></a>🔍 常見問題與解決方案</h2><h3 id="1-型別斷言"><a href="#1-型別斷言" class="headerlink" title="1. 型別斷言"></a>1. 型別斷言</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 型別斷言（謹慎使用）</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">someValue</span>: <span class="built_in">unknown</span> = <span class="string">&quot;this is a string&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">string</span>).<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更安全的做法</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isString</span>(<span class="params">value: <span class="built_in">unknown</span></span>): value is <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_">isString</span>(someValue)) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = someValue.<span class="property">length</span>; <span class="comment">// TypeScript 知道這裡是 string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-可選鏈與空值合併"><a href="#2-可選鏈與空值合併" class="headerlink" title="2. 可選鏈與空值合併"></a>2. 可選鏈與空值合併</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">NestedObject</span> &#123;</span><br><span class="line">  level1?: &#123;</span><br><span class="line">    level2?: &#123;</span><br><span class="line">      value?: <span class="built_in">string</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">obj</span>: <span class="title class_">NestedObject</span> = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可選鏈</span></span><br><span class="line"><span class="keyword">const</span> value = obj.<span class="property">level1</span>?.<span class="property">level2</span>?.<span class="property">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空值合併</span></span><br><span class="line"><span class="keyword">const</span> displayValue = value ?? <span class="string">&quot;Default Value&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="🎓-學習資源與工具"><a href="#🎓-學習資源與工具" class="headerlink" title="🎓 學習資源與工具"></a>🎓 學習資源與工具</h2><h3 id="推薦工具"><a href="#推薦工具" class="headerlink" title="推薦工具"></a>推薦工具</h3><ul>
-<li><strong>VS Code</strong> - 最佳的 TypeScript 開發體驗</li>
-<li><strong>TypeScript Playground</strong> - 在線練習和測試</li>
-<li><strong>TSLint&#x2F;ESLint</strong> - 代碼檢查工具</li>
-<li><strong>Prettier</strong> - 代碼格式化工具</li>
-</ul>
-<h3 id="學習資源"><a href="#學習資源" class="headerlink" title="學習資源"></a>學習資源</h3><ul>
-<li><a href="https://www.typescriptlang.org/docs/">TypeScript 官方文檔</a></li>
-<li><a href="https://basarat.gitbook.io/typescript/">TypeScript Deep Dive</a></li>
-<li><a href="https://github.com/typescript-cheatsheets/react">React TypeScript 速查表</a></li>
-</ul>
-<h2 id="📈-總結"><a href="#📈-總結" class="headerlink" title="📈 總結"></a>📈 總結</h2><p>TypeScript 為 JavaScript 開發帶來了強大的型別系統，幫助開發者：</p>
-<ol>
-<li><strong>提前發現錯誤</strong> - 編譯時期的型別檢查</li>
-<li><strong>提升開發效率</strong> - 更好的 IDE 支援和智能提示</li>
-<li><strong>改善代碼品質</strong> - 更清晰的 API 設計和文檔</li>
-<li><strong>降低維護成本</strong> - 重構更安全，代碼更容易理解</li>
-</ol>
-<p>對於現代 JavaScript 開發，特別是大型專案，TypeScript 已經成為不可或缺的工具。它不僅提升了開發體驗，也讓代碼更加健壯和可維護。</p>
-<h2 id="🚀-下一步"><a href="#🚀-下一步" class="headerlink" title="🚀 下一步"></a>🚀 下一步</h2><p>如果您剛開始學習 TypeScript，建議：</p>
-<ol>
-<li>從簡單的型別標註開始</li>
-<li>逐步學習介面和類別</li>
-<li>在小專案中實踐</li>
-<li>探索進階特性如泛型和條件型別</li>
-<li>整合到您喜愛的框架中（React, Vue, Angular）</li>
-</ol>
-<p>開始您的 TypeScript 之旅吧！這將是一個值得投資的技術選擇。</p>
-<hr>
-<blockquote>
-<p>💡 <strong>小提示</strong>: 記住，TypeScript 的目標不是替代 JavaScript，而是讓 JavaScript 開發更加安全和高效。漸進式採用是最佳策略！</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>技術教學</category>
-      </categories>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>JavaScript</tag>
-        <tag>前端開發</tag>
-        <tag>程式語言</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>關於嚴格模式</title>
-    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
-<span id="more"></span>
-
-<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
-<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
-]]></content>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -1004,6 +984,117 @@
       </tags>
   </entry>
   <entry>
+    <title>TypeScript 完整介紹：從入門到實戰</title>
+    <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
+    <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
+<span id="more"></span>
+
+<h3 id="🎯-為什麼選擇-TypeScript？"><a href="#🎯-為什麼選擇-TypeScript？" class="headerlink" title="🎯 為什麼選擇 TypeScript？"></a>🎯 為什麼選擇 TypeScript？</h3><ol>
+<li><strong>靜態型別檢查</strong> - 在編譯時期就能發現錯誤</li>
+<li><strong>更好的 IDE 支援</strong> - 智能提示、自動完成、重構工具</li>
+<li><strong>增強的可讀性</strong> - 代碼更容易理解和維護</li>
+<li><strong>漸進式採用</strong> - 可以逐步將現有 JavaScript 專案遷移到 TypeScript</li>
+</ol>
+<h2 id="🚀-快速開始"><a href="#🚀-快速開始" class="headerlink" title="🚀 快速開始"></a>🚀 快速開始</h2><h3 id="安裝-TypeScript"><a href="#安裝-TypeScript" class="headerlink" title="安裝 TypeScript"></a>安裝 TypeScript</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 全域安裝</span></span><br><span class="line">npm install -g typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 專案內安裝</span></span><br><span class="line">npm install --save-dev typescript</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證安裝</span></span><br><span class="line">tsc --version</span><br></pre></td></tr></table></figure>
+
+<h3 id="第一個-TypeScript-檔案"><a href="#第一個-TypeScript-檔案" class="headerlink" title="第一個 TypeScript 檔案"></a>第一個 TypeScript 檔案</h3><p>建立 <code>hello.ts</code> 檔案：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">name: <span class="built_in">string</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`Hello, <span class="subst">$&#123;name&#125;</span>!`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">userName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">greet</span>(userName));</span><br></pre></td></tr></table></figure>
+
+<p>編譯並執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 編譯</span></span><br><span class="line">tsc hello.ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行生成的 JavaScript</span></span><br><span class="line">node hello.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="📚-核心概念"><a href="#📚-核心概念" class="headerlink" title="📚 核心概念"></a>📚 核心概念</h2><h3 id="1-基本型別"><a href="#1-基本型別" class="headerlink" title="1. 基本型別"></a>1. 基本型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 基本型別</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isDone</span>: <span class="built_in">boolean</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">decimal</span>: <span class="built_in">number</span> = <span class="number">6</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">color</span>: <span class="built_in">string</span> = <span class="string">&quot;blue&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">list</span>: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="attr">tuple</span>: [<span class="built_in">string</span>, <span class="built_in">number</span>] = [<span class="string">&quot;hello&quot;</span>, <span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Any 型別（盡量避免使用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">notSure</span>: <span class="built_in">any</span> = <span class="number">4</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Void 型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">warnUser</span>(<span class="params"></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;This is a warning message&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Null 和 Undefined</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">u</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">n</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-介面-Interface"><a href="#2-介面-Interface" class="headerlink" title="2. 介面 (Interface)"></a>2. 介面 (Interface)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">  <span class="attr">firstName</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">lastName</span>: <span class="built_in">string</span>;</span><br><span class="line">  age?: <span class="built_in">number</span>; <span class="comment">// 可選屬性</span></span><br><span class="line">  <span class="keyword">readonly</span> <span class="attr">id</span>: <span class="built_in">number</span>; <span class="comment">// 唯讀屬性</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createPerson</span>(<span class="params">person: Person</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;person.firstName&#125;</span> <span class="subst">$&#123;person.lastName&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">user</span>: <span class="title class_">Person</span> = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">firstName</span>: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  <span class="attr">lastName</span>: <span class="string">&quot;Doe&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">30</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-類別-Classes"><a href="#3-類別-Classes" class="headerlink" title="3. 類別 (Classes)"></a>3. 類別 (Classes)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">protected</span> <span class="attr">species</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="attr">age</span>: <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, species: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">species</span> = species;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">age</span> = age;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">makeSound</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> makes a sound`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> <span class="title function_">getInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> is a <span class="subst">$&#123;<span class="variable language_">this</span>.species&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Dog</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Animal</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="attr">breed</span>: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name: <span class="built_in">string</span>, breed: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(name, <span class="string">&quot;Canine&quot;</span>, age);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">breed</span> = breed;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">bark</span>(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Woof! Woof!&quot;</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">makeSound</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">getBreedInfo</span>(): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.getInfo()&#125;</span> of breed <span class="subst">$&#123;<span class="variable language_">this</span>.breed&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-泛型-Generics"><a href="#4-泛型-Generics" class="headerlink" title="4. 泛型 (Generics)"></a>4. 泛型 (Generics)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 泛型函數</span></span><br><span class="line"><span class="keyword">function</span> identity&lt;T&gt;(<span class="attr">arg</span>: T): T &#123;</span><br><span class="line">  <span class="keyword">return</span> arg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> output1 = identity&lt;<span class="built_in">string</span>&gt;(<span class="string">&quot;myString&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> output2 = identity&lt;<span class="built_in">number</span>&gt;(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型介面</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">GenericIdentityFn</span>&lt;T&gt; &#123;</span><br><span class="line">  (<span class="attr">arg</span>: T): T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型類別</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GenericNumber</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">zeroValue</span>: T;</span><br><span class="line">  <span class="attr">add</span>: <span class="function">(<span class="params">x: T, y: T</span>) =&gt;</span> T;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">zero: T, addFn: (x: T, y: T) =&gt; T</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">zeroValue</span> = zero;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">add</span> = addFn;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-聯合型別與交集型別"><a href="#5-聯合型別與交集型別" class="headerlink" title="5. 聯合型別與交集型別"></a>5. 聯合型別與交集型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 聯合型別</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">StringOrNumber</span> = <span class="built_in">string</span> | <span class="built_in">number</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">padLeft</span>(<span class="params">value: <span class="built_in">string</span>, padding: StringOrNumber</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;number&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Array</span>(padding + <span class="number">1</span>).<span class="title function_">join</span>(<span class="string">&quot; &quot;</span>) + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> padding === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> padding + value;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`Expected string or number, got &#x27;<span class="subst">$&#123;padding&#125;</span>&#x27;.`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交集型別</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ErrorHandling</span> &#123;</span><br><span class="line">  <span class="attr">success</span>: <span class="built_in">boolean</span>;</span><br><span class="line">  error?: &#123; <span class="attr">message</span>: <span class="built_in">string</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ArtworksData</span> &#123;</span><br><span class="line">  <span class="attr">artworks</span>: &#123; <span class="attr">title</span>: <span class="built_in">string</span> &#125;[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ArtworksResponse</span> = <span class="title class_">ArtworksData</span> &amp; <span class="title class_">ErrorHandling</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="⚙️-進階特性"><a href="#⚙️-進階特性" class="headerlink" title="⚙️ 進階特性"></a>⚙️ 進階特性</h2><h3 id="1-型別別名-Type-Aliases"><a href="#1-型別別名-Type-Aliases" class="headerlink" title="1. 型別別名 (Type Aliases)"></a>1. 型別別名 (Type Aliases)</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Point</span> = &#123;</span><br><span class="line">  <span class="attr">x</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">y</span>: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EventHandler</span> = <span class="function">(<span class="params">event: Event</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Status</span> = <span class="string">&quot;loading&quot;</span> | <span class="string">&quot;success&quot;</span> | <span class="string">&quot;error&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-條件型別"><a href="#2-條件型別" class="headerlink" title="2. 條件型別"></a>2. 條件型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">MessageOf</span>&lt;T&gt; = T <span class="keyword">extends</span> &#123; <span class="attr">message</span>: infer U &#125; ? U : <span class="built_in">never</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Email</span> &#123;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">  <span class="title function_">bark</span>(): <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">EmailMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Email</span>&gt;; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">DogMessageContents</span> = <span class="title class_">MessageOf</span>&lt;<span class="title class_">Dog</span>&gt;; <span class="comment">// never</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-映射型別"><a href="#3-映射型別" class="headerlink" title="3. 映射型別"></a>3. 映射型別</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Readonly</span>&lt;T&gt; = &#123;</span><br><span class="line">  <span class="keyword">readonly</span> [P <span class="keyword">in</span> keyof T]: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Partial</span>&lt;T&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof T]?: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="attr">title</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">description</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">completed</span>: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ReadonlyTodo</span> = <span class="title class_">Readonly</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">PartialTodo</span> = <span class="title class_">Partial</span>&lt;<span class="title class_">Todo</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🛠️-實戰應用"><a href="#🛠️-實戰應用" class="headerlink" title="🛠️ 實戰應用"></a>🛠️ 實戰應用</h2><h3 id="TypeScript-設定檔-tsconfig-json"><a href="#TypeScript-設定檔-tsconfig-json" class="headerlink" title="TypeScript 設定檔 (tsconfig.json)"></a>TypeScript 設定檔 (tsconfig.json)</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lib&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="string">&quot;DOM&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./dist&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./src&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;skipLibCheck&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;forceConsistentCasingInFileNames&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;resolveJsonModule&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declaration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;declarationMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;sourceMap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">,</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="React-TypeScript-範例"><a href="#React-TypeScript-範例" class="headerlink" title="React + TypeScript 範例"></a>React + TypeScript 範例</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">name</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">email</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">UserListProps</span> &#123;</span><br><span class="line">  initialUsers?: <span class="title class_">User</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">UserList</span>: <span class="title class_">React</span>.<span class="property">FC</span>&lt;<span class="title class_">UserListProps</span>&gt; = <span class="function">(<span class="params">&#123; initialUsers = [] &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [users, setUsers] = useState&lt;<span class="title class_">User</span>[]&gt;(initialUsers);</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = useState&lt;<span class="built_in">boolean</span>&gt;(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fetchUsers = <span class="keyword">async</span> (): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; =&gt; &#123;</span><br><span class="line">      <span class="title function_">setLoading</span>(<span class="literal">true</span>);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;/api/users&quot;</span>);</span><br><span class="line">        <span class="keyword">const</span> <span class="attr">userData</span>: <span class="title class_">User</span>[] = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">        <span class="title function_">setUsers</span>(userData);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;Failed to fetch users:&quot;</span>, error);</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="title function_">setLoading</span>(<span class="literal">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (initialUsers.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="title function_">fetchUsers</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [initialUsers.<span class="property">length</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (loading) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;users.map((user: User) =&gt; (</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;user.id&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          &#123;user.name&#125; - &#123;user.email&#125;</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      ))&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">UserList</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="📝-最佳實踐"><a href="#📝-最佳實踐" class="headerlink" title="📝 最佳實踐"></a>📝 最佳實踐</h2><h3 id="1-型別定義"><a href="#1-型別定義" class="headerlink" title="1. 型別定義"></a>1. 型別定義</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ✅ 好的做法</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ApiResponse</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">data</span>: T;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">message</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 避免使用 any</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processData</span>(<span class="params">data: <span class="built_in">any</span></span>): <span class="built_in">any</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ✅ 使用具體型別</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">processUserData</span>(<span class="params">data: User[]</span>): <span class="title class_">ProcessedUser</span>[] &#123;</span><br><span class="line">  <span class="keyword">return</span> data.<span class="title function_">map</span>(<span class="function">(<span class="params">user</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">id</span>: user.<span class="property">id</span>,</span><br><span class="line">    <span class="attr">displayName</span>: <span class="string">`<span class="subst">$&#123;user.firstName&#125;</span> <span class="subst">$&#123;user.lastName&#125;</span>`</span>,</span><br><span class="line">    <span class="attr">isActive</span>: user.<span class="property">status</span> === <span class="string">&quot;active&quot;</span>,</span><br><span class="line">  &#125;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-錯誤處理"><a href="#2-錯誤處理" class="headerlink" title="2. 錯誤處理"></a>2. 錯誤處理</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Result</span>&lt;T, E = <span class="title class_">Error</span>&gt; =</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">true</span>;</span><br><span class="line">      <span class="attr">data</span>: T;</span><br><span class="line">    &#125;</span><br><span class="line">  | &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>;</span><br><span class="line">      <span class="attr">error</span>: E;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fetchUserData</span>(<span class="params">id: <span class="built_in">string</span></span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Result</span>&lt;<span class="title class_">User</span>&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`/api/users/<span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">error</span>: <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`HTTP <span class="subst">$&#123;response.status&#125;</span>: <span class="subst">$&#123;response.statusText&#125;</span>`</span>),</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">success</span>: <span class="literal">true</span>, <span class="attr">data</span>: user &#125;;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">success</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">error</span>: error <span class="keyword">instanceof</span> <span class="title class_">Error</span> ? error : <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Unknown error&quot;</span>),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🔍-常見問題與解決方案"><a href="#🔍-常見問題與解決方案" class="headerlink" title="🔍 常見問題與解決方案"></a>🔍 常見問題與解決方案</h2><h3 id="1-型別斷言"><a href="#1-型別斷言" class="headerlink" title="1. 型別斷言"></a>1. 型別斷言</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 型別斷言（謹慎使用）</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">someValue</span>: <span class="built_in">unknown</span> = <span class="string">&quot;this is a string&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">string</span>).<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更安全的做法</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">isString</span>(<span class="params">value: <span class="built_in">unknown</span></span>): value is <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_">isString</span>(someValue)) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="attr">strLength</span>: <span class="built_in">number</span> = someValue.<span class="property">length</span>; <span class="comment">// TypeScript 知道這裡是 string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-可選鏈與空值合併"><a href="#2-可選鏈與空值合併" class="headerlink" title="2. 可選鏈與空值合併"></a>2. 可選鏈與空值合併</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">NestedObject</span> &#123;</span><br><span class="line">  level1?: &#123;</span><br><span class="line">    level2?: &#123;</span><br><span class="line">      value?: <span class="built_in">string</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">obj</span>: <span class="title class_">NestedObject</span> = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 可選鏈</span></span><br><span class="line"><span class="keyword">const</span> value = obj.<span class="property">level1</span>?.<span class="property">level2</span>?.<span class="property">value</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空值合併</span></span><br><span class="line"><span class="keyword">const</span> displayValue = value ?? <span class="string">&quot;Default Value&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="🎓-學習資源與工具"><a href="#🎓-學習資源與工具" class="headerlink" title="🎓 學習資源與工具"></a>🎓 學習資源與工具</h2><h3 id="推薦工具"><a href="#推薦工具" class="headerlink" title="推薦工具"></a>推薦工具</h3><ul>
+<li><strong>VS Code</strong> - 最佳的 TypeScript 開發體驗</li>
+<li><strong>TypeScript Playground</strong> - 在線練習和測試</li>
+<li><strong>TSLint&#x2F;ESLint</strong> - 代碼檢查工具</li>
+<li><strong>Prettier</strong> - 代碼格式化工具</li>
+</ul>
+<h3 id="學習資源"><a href="#學習資源" class="headerlink" title="學習資源"></a>學習資源</h3><ul>
+<li><a href="https://www.typescriptlang.org/docs/">TypeScript 官方文檔</a></li>
+<li><a href="https://basarat.gitbook.io/typescript/">TypeScript Deep Dive</a></li>
+<li><a href="https://github.com/typescript-cheatsheets/react">React TypeScript 速查表</a></li>
+</ul>
+<h2 id="📈-總結"><a href="#📈-總結" class="headerlink" title="📈 總結"></a>📈 總結</h2><p>TypeScript 為 JavaScript 開發帶來了強大的型別系統，幫助開發者：</p>
+<ol>
+<li><strong>提前發現錯誤</strong> - 編譯時期的型別檢查</li>
+<li><strong>提升開發效率</strong> - 更好的 IDE 支援和智能提示</li>
+<li><strong>改善代碼品質</strong> - 更清晰的 API 設計和文檔</li>
+<li><strong>降低維護成本</strong> - 重構更安全，代碼更容易理解</li>
+</ol>
+<p>對於現代 JavaScript 開發，特別是大型專案，TypeScript 已經成為不可或缺的工具。它不僅提升了開發體驗，也讓代碼更加健壯和可維護。</p>
+<h2 id="🚀-下一步"><a href="#🚀-下一步" class="headerlink" title="🚀 下一步"></a>🚀 下一步</h2><p>如果您剛開始學習 TypeScript，建議：</p>
+<ol>
+<li>從簡單的型別標註開始</li>
+<li>逐步學習介面和類別</li>
+<li>在小專案中實踐</li>
+<li>探索進階特性如泛型和條件型別</li>
+<li>整合到您喜愛的框架中（React, Vue, Angular）</li>
+</ol>
+<p>開始您的 TypeScript 之旅吧！這將是一個值得投資的技術選擇。</p>
+<hr>
+<blockquote>
+<p>💡 <strong>小提示</strong>: 記住，TypeScript 的目標不是替代 JavaScript，而是讓 JavaScript 開發更加安全和高效。漸進式採用是最佳策略！</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技術教學</category>
+      </categories>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>JavaScript</tag>
+        <tag>前端開發</tag>
+        <tag>程式語言</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>常用 Hexo 指令帶你無往不利</title>
     <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
     <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
@@ -1063,23 +1154,18 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <title>關於嚴格模式</title>
+    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
 <span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
+<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
 ]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>PHP</tag>
+      </tags>
   </entry>
 </search>
