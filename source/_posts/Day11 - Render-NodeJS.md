@@ -1,6 +1,6 @@
 ---
 layout: day
-title: Day 11｜一鍵上線！完整部署到 Render 的實戰流程
+title: Day 11 - 一鍵上線！完整部署到 Render 的實戰流程
 date: 2025-09-25 13:42:25
 tags:
   - TypeScript
