@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言在團隊開發時，大家常常會因為一些小細節爭得不可開交： 有人愛用單引號 &#39;，有人卻堅持雙引號 &quot;；有人在每行結尾必加分號，有人則覺得省略更簡潔；甚至連一行程式碼能寫多長，都可能成為爭論焦點。 這些差異雖然不影響程式能不能跑，但會導致專案越來越凌亂，Code Review 也常常淪為「引號大戰」、「縮排大戰」。 這些關於 Coding Style 的問題，當然要來利用一些好用的工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 12 - 程式碼自動排版神器：Prettier 實戰導入">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/26/Day12%20-%20Prettier/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言在團隊開發時，大家常常會因為一些小細節爭得不可開交： 有人愛用單引號 &#39;，有人卻堅持雙引號 &quot;；有人在每行結尾必加分號，有人則覺得省略更簡潔；甚至連一行程式碼能寫多長，都可能成為爭論焦點。 這些差異雖然不影響程式能不能跑，但會導致專案越來越凌亂，Code Review 也常常淪為「引號大戰」、「縮排大戰」。 這些關於 Coding Style 的問題，當然要來利用一些好用的工">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/1-Prettier.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/2-vscode-prettier.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/3-format-check.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/4-format-code.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/5-format-controller.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/6-format-route.png?raw=true">
+<meta property="article:published_time" content="2025-09-26T04:24:13.000Z">
+<meta property="article:modified_time" content="2025-09-26T04:26:29.957Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/1-Prettier.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/26/Day12%20-%20Prettier/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/26/Day12%20-%20Prettier/","path":"2025/09/26/Day12 - Prettier/","title":"Day 12 - 程式碼自動排版神器：Prettier 實戰導入"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 12 - 程式碼自動排版神器：Prettier 實戰導入 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81-Coding-Style%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">為什麼需要 Coding Style？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prettier-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">Prettier 是什麼？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E9%BB%9E"><span class="nav-number">3.1.</span> <span class="nav-text">特點</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSCode-%E5%AE%89%E8%A3%9D-Prettier-%E5%A5%97%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">VSCode 安裝 Prettier 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E5%8A%A0%E5%85%A5-Prettier"><span class="nav-number">5.</span> <span class="nav-text">專案加入 Prettier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-Prettier"><span class="nav-number">6.</span> <span class="nav-text">設定 Prettier</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%BD%E7%95%A5%E6%AA%94%E6%A1%88%EF%BC%9A-prettierignore"><span class="nav-number">7.</span> <span class="nav-text">忽略檔案：.prettierignore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E6%96%B0%E5%A2%9E-prettierignore%EF%BC%9F"><span class="nav-number">7.1.</span> <span class="nav-text">為什麼要新增 .prettierignore？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%AF%84%E4%BE%8B"><span class="nav-number">8.</span> <span class="nav-text">專案格式化範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">9.</span> <span class="nav-text">小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/26/Day12%20-%20Prettier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 12 - 程式碼自動排版神器：Prettier 實戰導入 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 12 - 程式碼自動排版神器：Prettier 實戰導入
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-26 12:24:13 / 修改時間：12:26:29" itemprop="dateCreated datePublished" datetime="2025-09-26T12:24:13+08:00">2025-09-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在團隊開發時，大家常常會因為一些小細節爭得不可開交：</p>
+<p>有人愛用單引號 <code>&#39;</code>，有人卻堅持雙引號 <code>&quot;</code>；有人在每行結尾必加分號，有人則覺得省略更簡潔；甚至連一行程式碼能寫多長，都可能成為爭論焦點。</p>
+<p>這些差異雖然不影響程式能不能跑，但會導致專案越來越凌亂，Code Review 也常常淪為「引號大戰」、「縮排大戰」。</p>
+<p>這些關於 Coding Style 的問題，當然要來利用一些好用的工具來解決。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="為什麼需要-Coding-Style？"><a href="#為什麼需要-Coding-Style？" class="headerlink" title="為什麼需要 Coding Style？"></a>為什麼需要 Coding Style？</h2><p>在開發專案時，每個人都有自己的習慣：</p>
+<ul>
+<li>有人喜歡 <code>單引號</code>，有人堅持 <code>雙引號</code>。</li>
+<li>有人會在每行 <strong>80 字元</strong>就換行，有人覺得 <strong>120 字元</strong>也沒問題。</li>
+<li>有人堅持在每行結尾加上 <code>;</code>，有人認為可以省略。</li>
+</ul>
+<p>這些差異雖然不會影響程式能不能執行，但會造成：</p>
+<ol>
+<li><strong>可讀性降低</strong>：程式碼風格不一致，團隊閱讀時需要額外的腦力轉換。</li>
+<li><strong>協作成本上升</strong>：Code Review 時會浪費時間在「引號」、「縮排」這些小事，而不是程式邏輯。</li>
+<li><strong>維護困難</strong>：專案越大，風格越不一致，日後接手的人會更痛苦。</li>
+</ol>
+<p>👉 為了避免這種情況，我們需要一個「統一的 Coding Style 工具」來幫忙。這就是 <strong>Prettier</strong> 出現的理由。</p>
+<hr>
+<h2 id="Prettier-是什麼？"><a href="#Prettier-是什麼？" class="headerlink" title="Prettier 是什麼？"></a>Prettier 是什麼？</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/1-Prettier.png?raw=true"></p>
+<p><a target="_blank" rel="noopener" href="https://prettier.io/">Prettier</a> 是一個「有主見的程式碼格式化工具」。</p>
+<p>它會自動幫你排版程式碼，確保整個專案的風格一致。</p>
+<h3 id="特點"><a href="#特點" class="headerlink" title="特點"></a>特點</h3><ul>
+<li><strong>專注在排版</strong>（縮排、引號、換行、逗號…）。</li>
+<li><strong>避免爭論</strong>：大家都用相同規則，開發者不需要再為風格吵架。</li>
+<li><strong>支援多種語言</strong>：JavaScript、TypeScript、JSON、Markdown、HTML、CSS…</li>
+</ul>
+<p>📌 簡單比喻：</p>
+<ul>
+<li><strong>Prettier</strong> &#x3D; 幫你「整理房間」，讓程式碼整齊乾淨。</li>
+<li><strong>ESLint</strong>（明天會介紹）&#x3D; 規範你的「生活習慣」，檢查程式寫法是否符合最佳實踐。</li>
+</ul>
+<hr>
+<h2 id="VSCode-安裝-Prettier-套件"><a href="#VSCode-安裝-Prettier-套件" class="headerlink" title="VSCode 安裝 Prettier 套件"></a>VSCode 安裝 Prettier 套件</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/2-vscode-prettier.png?raw=true"></p>
+<h2 id="專案加入-Prettier"><a href="#專案加入-Prettier" class="headerlink" title="專案加入 Prettier"></a>專案加入 Prettier</h2><p>安裝 Prettier：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev prettier</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定-Prettier"><a href="#設定-Prettier" class="headerlink" title="設定 Prettier"></a>設定 Prettier</h2><p>在專案根目錄新增 <code>.prettierrc</code>，統一規則：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;semi&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;singleQuote&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;trailingComma&quot;</span><span class="punctuation">:</span> <span class="string">&quot;all&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tabWidth&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;printWidth&quot;</span><span class="punctuation">:</span> <span class="number">140</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>說明：</p>
+<ul>
+<li><code>semi: true</code> → 每行結尾加上分號</li>
+<li><code>singleQuote: false</code> → 使用雙引號</li>
+<li><code>trailingComma: &quot;all&quot;</code> → 物件最後一項也加逗號（方便日後新增項目）</li>
+<li><code>tabWidth: 2</code> → 縮排 2 格</li>
+<li><code>printWidth: 140</code> → 每行最長 140 字元</li>
+</ul>
+<hr>
+<h2 id="忽略檔案：-prettierignore"><a href="#忽略檔案：-prettierignore" class="headerlink" title="忽略檔案：.prettierignore"></a>忽略檔案：<code>.prettierignore</code></h2><p>和 <code>.gitignore</code> 類似，這裡設定 Prettier 不要處理的檔案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"># 忽略依賴套件</span><br><span class="line">node_modules</span><br><span class="line"></span><br><span class="line"># 忽略編譯後的輸出</span><br><span class="line">dist</span><br><span class="line">build</span><br><span class="line"></span><br><span class="line"># 忽略環境變數設定檔</span><br><span class="line">.env</span><br><span class="line">.env.*</span><br><span class="line"></span><br><span class="line"># 忽略版本控制與鎖檔</span><br><span class="line">.git</span><br><span class="line">.gitignore</span><br><span class="line">package-lock.json</span><br><span class="line">yarn.lock</span><br><span class="line">pnpm-lock.yaml</span><br><span class="line"></span><br><span class="line"># 測試覆蓋率報告</span><br><span class="line">coverage</span><br><span class="line"></span><br><span class="line"># Log 檔案與紀錄</span><br><span class="line">logs</span><br><span class="line">*.log</span><br><span class="line"></span><br><span class="line"># 靜態資源或上傳資料</span><br><span class="line">public/</span><br><span class="line">static/</span><br><span class="line">uploads/</span><br><span class="line"></span><br><span class="line"># 忽略 Prettier 自己的 ignore 設定</span><br><span class="line">.prettierignore</span><br><span class="line"></span><br><span class="line"># 圖片與媒體檔案</span><br><span class="line">*.png</span><br><span class="line">*.jpg</span><br><span class="line">*.jpeg</span><br><span class="line">*.svg</span><br><span class="line">*.gif</span><br><span class="line">*.mp4</span><br><span class="line">*.webm</span><br><span class="line"></span><br><span class="line"># 可選：忽略資料庫檔案或 dump 檔</span><br><span class="line">*.sqlite</span><br><span class="line">*.sql</span><br><span class="line">*.dump</span><br></pre></td></tr></table></figure>
+
+<h3 id="為什麼要新增-prettierignore？"><a href="#為什麼要新增-prettierignore？" class="headerlink" title="為什麼要新增 .prettierignore？"></a>為什麼要新增 <code>.prettierignore</code>？</h3><ol>
+<li><strong>不必要格式化</strong>：像 <code>node_modules</code> 或 <code>dist</code>，不是我們自己寫的程式碼。</li>
+<li><strong>效能考量</strong>：避免 Prettier 處理大量無意義的檔案。</li>
+<li><strong>避免衝突</strong>：像 <code>.env</code> ，格式被改可能會出錯。</li>
+</ol>
+<hr>
+<h2 id="專案格式化範例"><a href="#專案格式化範例" class="headerlink" title="專案格式化範例"></a>專案格式化範例</h2><p>在 <code>package.json</code> 加入 scripts：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prettier --write \&quot;src/**/*.&#123;js,ts&#125;\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;format:check&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prettier --check \&quot;src/**/*.&#123;js,ts&#125;\&quot;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>npm run format:check</code>：只檢查，不會修改程式碼 (可發現 <code>todoController.ts</code> 和 <code>todoRoutes.ts</code> 有格式上的問題)<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/3-format-check.png?raw=true"></li>
+<li><code>npm run format</code>：自動格式化 <code>src</code> 底下的程式碼<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/4-format-code.png?raw=true"></li>
+<li>附上專案程式碼經過 prettier 格式化後的結果 (<a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commits/feature/init-ts-express/">https://github.com/ArvinYang1925/iThome2025-node-ts/commits/feature/init-ts-express/</a>)</li>
+</ul>
+<p><code>todoController.ts</code></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/5-format-controller.png?raw=true"></p>
+<p><code>todoRoutes.ts</code></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day12-Prettier/6-format-route.png?raw=true"></p>
+<p>成功透過 Prettier 格式化程式碼 💪</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Coding Style</strong>：避免專案變得凌亂，提高團隊協作效率。</li>
+<li><strong>Prettier</strong>：專注在「排版」，讓程式碼看起來統一且乾淨。</li>
+<li><strong>搭配 ESLint</strong>：Prettier 負責「長相」，ESLint 負責「習慣」，兩者搭配才完整。</li>
+</ul>
+<p>👉 明天 (Day12) 我們會介紹 <strong>ESLint</strong>，看看它如何幫助我們寫出更正確、更有品質的程式碼。</p>
+<hr>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/ce334a8f7f3366eb00ba95c1977326a03e3e72e2">Github 連結</a></p>
+<blockquote>
+<p>commit : setup prettier</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/m/articles/10294321">隨時隨地格式化 - Prettier</a></p>
+<p><a target="_blank" rel="noopener" href="https://israynotarray.com/javascript/20231031/1586150719/">你終究要用 Prettier，為什麼不一開始就用「Prettier」呢？</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/25/Day11%20-%20Render-NodeJS/" rel="prev" title="Day 11 - 一鍵上線！完整部署到 Render 的實戰流程">
+                  <i class="fa fa-angle-left"></i> Day 11 - 一鍵上線！完整部署到 Render 的實戰流程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
