@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="ESLint 的歷史與簡介 在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。  2000 年代，出現了 JSLint（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。 之後社群又發展出 JSHint，提供更彈性的規則與設定。 到了 2013 年，Nicholas C. Zakas（前 Yahoo! JS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 13 - 一致的程式碼：ESLint 導入">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/27/Day13%20-%20ESLint/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="ESLint 的歷史與簡介 在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。  2000 年代，出現了 JSLint（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。 之後社群又發展出 JSHint，提供更彈性的規則與設定。 到了 2013 年，Nicholas C. Zakas（前 Yahoo! JS">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/2-vscode-eslint.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/3-npm-run-lint.png?raw=true">
+<meta property="article:published_time" content="2025-09-26T16:13:49.000Z">
+<meta property="article:modified_time" content="2025-09-26T16:15:49.199Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/27/Day13%20-%20ESLint/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/27/Day13%20-%20ESLint/","path":"2025/09/27/Day13 - ESLint/","title":"Day 13 - 一致的程式碼：ESLint 導入"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 13 - 一致的程式碼：ESLint 導入 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ESLint-%E7%9A%84%E6%AD%B7%E5%8F%B2%E8%88%87%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">ESLint 的歷史與簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81-ESLint%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">為什麼需要 ESLint？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E6%AA%A2%E6%9F%A5%E7%AF%84%E4%BE%8B"><span class="nav-number">2.1.</span> <span class="nav-text">常見檢查範例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="nav-number">2.2.</span> <span class="nav-text">為什麼重要？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VSCode-%E5%AE%89%E8%A3%9D-ESLint"><span class="nav-number">3.</span> <span class="nav-text">VSCode 安裝 ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E5%AE%89%E8%A3%9D-ESLint"><span class="nav-number">4.</span> <span class="nav-text">專案安裝 ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-ESLint"><span class="nav-number">5.</span> <span class="nav-text">設定 ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6-ESLint"><span class="nav-number">6.</span> <span class="nav-text">測試 ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text">補充資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/27/Day13%20-%20ESLint/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 13 - 一致的程式碼：ESLint 導入 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 13 - 一致的程式碼：ESLint 導入
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-27 00:13:49 / 修改時間：00:15:49" itemprop="dateCreated datePublished" datetime="2025-09-27T00:13:49+08:00">2025-09-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="ESLint-的歷史與簡介"><a href="#ESLint-的歷史與簡介" class="headerlink" title="ESLint 的歷史與簡介"></a>ESLint 的歷史與簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true"></p>
+<p>在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。</p>
+<ul>
+<li>2000 年代，出現了 <strong>JSLint</strong>（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。</li>
+<li>之後社群又發展出 <strong>JSHint</strong>，提供更彈性的規則與設定。</li>
+<li>到了 <strong>2013 年</strong>，Nicholas C. Zakas（前 Yahoo! JS 團隊成員）推出 <strong>ESLint</strong>，透過「規則驅動 + 插件機制」，讓開發者可以自由擴展並制定專案專屬規範。</li>
+</ul>
+<p>今天，ESLint 已經成為 JavaScript&#x2F;TypeScript 專案裡最常見的程式碼檢查工具。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="為什麼需要-ESLint？"><a href="#為什麼需要-ESLint？" class="headerlink" title="為什麼需要 ESLint？"></a>為什麼需要 ESLint？</h2><p>和昨天的 <strong>Prettier</strong> 不同，ESLint 專注於 <strong>程式邏輯與最佳實踐</strong>。</p>
+<h3 id="常見檢查範例"><a href="#常見檢查範例" class="headerlink" title="常見檢查範例"></a>常見檢查範例</h3><ul>
+<li><strong>程式錯誤</strong>：未定義變數、未使用的變數、錯誤的語法。</li>
+<li><strong>最佳實踐</strong>：禁止使用 <code>var</code>、避免 <code>any</code>、規定函式宣告風格。</li>
+</ul>
+<h3 id="為什麼重要？"><a href="#為什麼重要？" class="headerlink" title="為什麼重要？"></a>為什麼重要？</h3><ol>
+<li><strong>降低 Bug 風險</strong>：提早發現潛在錯誤，避免程式在 runtime 才爆炸。</li>
+<li><strong>提升可讀性</strong>：團隊都遵守相同規範，程式碼更一致。</li>
+<li><strong>改善協作體驗</strong>：Code Review 時，機器會先抓語法與規範問題，讓人類專注於商業邏輯。</li>
+</ol>
+<p>👉 簡單來說：</p>
+<ul>
+<li><strong>Prettier</strong>：讓程式碼「好看」</li>
+<li><strong>ESLint</strong>：讓程式碼「正確」</li>
+</ul>
+<hr>
+<h2 id="VSCode-安裝-ESLint"><a href="#VSCode-安裝-ESLint" class="headerlink" title="VSCode 安裝 ESLint"></a>VSCode 安裝 ESLint</h2><p>這邊也建議在 VSCode 裡安裝 ESLint 套件：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/2-vscode-eslint.png?raw=true"></p>
+<hr>
+<h2 id="專案安裝-ESLint"><a href="#專案安裝-ESLint" class="headerlink" title="專案安裝 ESLint"></a>專案安裝 ESLint</h2><p>在專案裡安裝 ESLint 以及相關套件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install eslint @eslint/js eslint-config-prettier eslint-plugin-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定-ESLint"><a href="#設定-ESLint" class="headerlink" title="設定 ESLint"></a>設定 ESLint</h2><p>在專案根目錄新增 <code>eslint.config.js</code>：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> js = <span class="built_in">require</span>(<span class="string">&quot;@eslint/js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> globals = <span class="built_in">require</span>(<span class="string">&quot;globals&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">&quot;eslint-config-prettier&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsParser = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/parser&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsPlugin = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/eslint-plugin&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">files</span>: [<span class="string">&quot;**/*.ts&quot;</span>], <span class="comment">// 檢查 .ts 檔案</span></span><br><span class="line">    <span class="attr">languageOptions</span>: &#123;</span><br><span class="line">      <span class="attr">parser</span>: tsParser, <span class="comment">// 用 TypeScript 的解析器</span></span><br><span class="line">      <span class="attr">sourceType</span>: <span class="string">&quot;module&quot;</span>, <span class="comment">// 支援 ES 模組</span></span><br><span class="line">      <span class="attr">globals</span>: &#123;</span><br><span class="line">        ...globals.<span class="property">node</span>, <span class="comment">// Node.js 的全域變數（像 process）</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: &#123;</span><br><span class="line">      <span class="string">&quot;@typescript-eslint&quot;</span>: tsPlugin, <span class="comment">// TypeScript 專屬插件</span></span><br><span class="line">      <span class="attr">prettier</span>: <span class="built_in">require</span>(<span class="string">&quot;eslint-plugin-prettier&quot;</span>), <span class="comment">// Prettier 插件</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">rules</span>: &#123;</span><br><span class="line">      ...js.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// ESLint 基本規則</span></span><br><span class="line">      ...tsPlugin.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// TypeScript 推薦規則</span></span><br><span class="line">      ...prettier.<span class="property">rules</span>, <span class="comment">// 正確使用 prettier 配置</span></span><br><span class="line">      <span class="string">&quot;prettier/prettier&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// Prettier 格式錯誤會顯示</span></span><br><span class="line">      <span class="attr">semi</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;always&quot;</span>], <span class="comment">// 行尾一定要有分號</span></span><br><span class="line">      <span class="attr">quotes</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;double&quot;</span>], <span class="comment">// 用雙引號</span></span><br><span class="line">      <span class="string">&quot;no-var&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 不准用 var</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-unused-vars&quot;</span>: [<span class="string">&quot;error&quot;</span>], <span class="comment">// 不准有沒用到的變數</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-explicit-any&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 禁止使用 any 類型</span></span><br><span class="line">      <span class="comment">// 改用 TypeScript 版本的 func-style</span></span><br><span class="line">      <span class="string">&quot;func-style&quot;</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;declaration&quot;</span>, &#123; <span class="attr">allowArrowFunctions</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">      <span class="comment">// 禁止一般函式表達式</span></span><br><span class="line">      <span class="string">&quot;no-restricted-syntax&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;error&quot;</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">selector</span>: <span class="string">&quot;FunctionExpression&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;請使用函式宣告式或箭頭函式，避免使用一般函式表達式 😎&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>package.json</code> 裡加上 script：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;lint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lint:fix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot; --fix&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>npm run lint</code>：檢查程式碼規則</li>
+<li><code>npm run lint:fix</code>：自動修復能修的錯誤</li>
+</ul>
+<hr>
+<h2 id="測試-ESLint"><a href="#測試-ESLint" class="headerlink" title="測試 ESLint"></a>測試 ESLint</h2><p>在 <code>/src</code> 下新增 <code>testLint.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 1: sayHello 宣告但未使用</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">  <span class="comment">// 違反 2: 用 any 型別（TypeScript 規則）</span></span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&quot;Hello &quot;</span> + name; <span class="comment">// 違反 3: 用 var 宣告</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> unusedVar = <span class="number">42</span>; <span class="comment">// 違反 4: 未使用的變數</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 5:請使用函式宣告式或箭頭函式，避免使用一般函式表達式</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">function</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">a</span>(<span class="string">&quot;Peter&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/test&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Test route&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Server running on port 3000&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run lint</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/3-npm-run-lint.png?raw=true"></p>
+<p>你會看到 ESLint 把所有違規都列出來，幫助你更快找到問題。</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li>ESLint 誕生於 2013 年，是目前最常見的 JavaScript&#x2F;TypeScript 程式碼檢查工具。</li>
+<li>與 Prettier 搭配：<ul>
+<li><strong>Prettier</strong> → 排版風格一致</li>
+<li><strong>ESLint</strong> → 邏輯與規範正確</li>
+</ul>
+</li>
+<li>在專案中安裝、設定後，可以自動檢查、修復程式，避免錯誤。</li>
+</ul>
+<hr>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><blockquote>
+<p>commit : setup ESLint</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/2786c17e588e8598f42e8349a901f3d6717afe46">Github 連結</a></p>
+<p>👉 明天 (Day14) 我們則會來介紹 Zod 驗證 (API 驗證守護神)，期待期待 💪</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/26/Day12%20-%20Prettier/" rel="prev" title="Day 12 - 程式碼自動排版神器：Prettier 實戰導入">
+                  <i class="fa fa-angle-left"></i> Day 12 - 程式碼自動排版神器：Prettier 實戰導入
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
