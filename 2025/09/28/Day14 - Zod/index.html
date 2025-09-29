@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在開發後端 API 的時候，你一定遇過這些狀況：  前端傳來的資料少了一個欄位。 輸入的字串太長，直接讓資料庫報錯。 原本應該是 boolean，結果卻收到 &quot;true&quot; 或 1。  如果每次都要手動檢查 req.body，程式碼會變得又長又難維護。 👉 這時候，Zod 就是我們的防呆神器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 14 - API 驗證救星：用 Zod 驗證來檢查">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/28/Day14%20-%20Zod/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="在開發後端 API 的時候，你一定遇過這些狀況：  前端傳來的資料少了一個欄位。 輸入的字串太長，直接讓資料庫報錯。 原本應該是 boolean，結果卻收到 &quot;true&quot; 或 1。  如果每次都要手動檢查 req.body，程式碼會變得又長又難維護。 👉 這時候，Zod 就是我們的防呆神器。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day14-Zod/1-zod.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day14-Zod/2-postman-test.png?raw=true">
+<meta property="article:published_time" content="2025-09-28T11:36:53.000Z">
+<meta property="article:modified_time" content="2025-09-29T11:40:16.193Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day14-Zod/1-zod.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/28/Day14%20-%20Zod/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/28/Day14%20-%20Zod/","path":"2025/09/28/Day14 - Zod/","title":"Day 14 - API 驗證救星：用 Zod 驗證來檢查"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 14 - API 驗證救星：用 Zod 驗證來檢查 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8-Zod%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1. 為什麼要用 Zod？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Zod-%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98"><span class="nav-number">2.</span> <span class="nav-text">2. Zod 基礎知識</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%9D-Zod"><span class="nav-number">3.</span> <span class="nav-text">3. 安裝 Zod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%BB%BA%E7%AB%8B%E9%A9%97%E8%AD%89-Schema"><span class="nav-number">4.</span> <span class="nav-text">4. 建立驗證 Schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%9C%A8-Controller-%E4%BD%BF%E7%94%A8%E9%A9%97%E8%AD%89"><span class="nav-number">5.</span> <span class="nav-text">5. 在 Controller 使用驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%88%90%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">6. 成果展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%B8%BD%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">7. 總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%BA%90"><span class="nav-number">8.</span> <span class="nav-text">補充資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/28/Day14%20-%20Zod/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 14 - API 驗證救星：用 Zod 驗證來檢查 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 14 - API 驗證救星：用 Zod 驗證來檢查
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-28 19:36:53" itemprop="dateCreated datePublished" datetime="2025-09-28T19:36:53+08:00">2025-09-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-09-29 19:40:16" itemprop="dateModified" datetime="2025-09-29T19:40:16+08:00">2025-09-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在開發後端 API 的時候，你一定遇過這些狀況：</p>
+<ul>
+<li>前端傳來的資料少了一個欄位。</li>
+<li>輸入的字串太長，直接讓資料庫報錯。</li>
+<li>原本應該是 <code>boolean</code>，結果卻收到 <code>&quot;true&quot;</code> 或 <code>1</code>。</li>
+</ul>
+<p>如果每次都要手動檢查 <code>req.body</code>，程式碼會變得又長又難維護。</p>
+<p>👉 這時候，<strong>Zod 就是我們的防呆神器</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-為什麼要用-Zod？"><a href="#1-為什麼要用-Zod？" class="headerlink" title="1. 為什麼要用 Zod？"></a>1. 為什麼要用 Zod？</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day14-Zod/1-zod.png?raw=true"></p>
+<p>Zod 是一個 <strong>TypeScript-first 的資料驗證工具</strong>，它的特點包括：</p>
+<ul>
+<li><strong>語法直覺</strong>：<code>z.string().min(1)</code> 就能定義規則。</li>
+<li><strong>與 TS 整合</strong>：Schema 本身就是型別，可以直接推導。</li>
+<li><strong>後端防呆</strong>：避免錯誤資料寫進資料庫。</li>
+</ul>
+<hr>
+<h2 id="2-Zod-基礎知識"><a href="#2-Zod-基礎知識" class="headerlink" title="2. Zod 基礎知識"></a>2. Zod 基礎知識</h2><p>先來看一個小範例：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; z &#125; <span class="keyword">from</span> <span class="string">&quot;zod&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定義 schema</span></span><br><span class="line"><span class="keyword">const</span> userSchema = z.<span class="title function_">object</span>(&#123;</span><br><span class="line">  <span class="attr">name</span>: z.<span class="title function_">string</span>().<span class="title function_">min</span>(<span class="number">1</span>, <span class="string">&quot;Name is required&quot;</span>),</span><br><span class="line">  <span class="attr">age</span>: z.<span class="title function_">number</span>().<span class="title function_">int</span>().<span class="title function_">min</span>(<span class="number">0</span>),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 驗證資料</span></span><br><span class="line"><span class="keyword">const</span> result = userSchema.<span class="title function_">safeParse</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;&quot;</span>, <span class="attr">age</span>: -<span class="number">1</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!result.<span class="property">success</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(result.<span class="property">error</span>.<span class="property">errors</span>);</span><br><span class="line">  <span class="comment">// [</span></span><br><span class="line">  <span class="comment">//   &#123; message: &quot;Name is required&quot;, path: [&quot;name&quot;] &#125;,</span></span><br><span class="line">  <span class="comment">//   &#123; message: &quot;Number must be greater than or equal to 0&quot;, path: [&quot;age&quot;] &#125;</span></span><br><span class="line">  <span class="comment">// ]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>常見型別：</p>
+<ul>
+<li><code>z.string()</code>：字串</li>
+<li><code>z.number()</code>：數字</li>
+<li><code>z.boolean()</code>：布林</li>
+<li><code>z.object(&#123;...&#125;)</code>：物件</li>
+</ul>
+<p>常用驗證方法：</p>
+<ul>
+<li><code>.min(n)</code> &#x2F; <code>.max(n)</code>：限制範圍</li>
+<li><code>.optional()</code>：欄位可選</li>
+<li><code>.email()</code>：檢查 Email 格式</li>
+</ul>
+<p>也可用線上 Zod Playground 快速測試一下:</p>
+<p><a target="_blank" rel="noopener" href="https://zod-playground.vercel.app/?appdata=N4IgzgxgFgpgtgQxALhALwHQHsBGArGCAFwApgAdAOwAJrKE4ZlrMwiAnAS0oHMSBKDHG4kAjABpq5EADkGMapzDV2MAI4BXTqoAm0-uKq0EPJiwyUNcHDHYCM3UoOGUSABgNUAvvwDcIcRAANwQAGw0YMBQAbRBgOnlmaQApLChKaUkTMwAmN2ovEABdQKDbME4sShQQABYMUQbRAJAlAC0sHQBZbk4UADMwsBgvIA">https://zod-playground.vercel.app/?appdata=N4IgzgxgFgpgtgQxALhALwHQHsBGArGCAFwApgAdAOwAJrKE4ZlrMwiAnAS0oHMSBKDHG4kAjABpq5EADkGMapzDV2MAI4BXTqoAm0-uKq0EPJiwyUNcHDHYCM3UoOGUSABgNUAvvwDcIcRAANwQAGw0YMBQAbRBgOnlmaQApLChKaUkTMwAmN2ovEABdQKDbME4sShQQABYMUQbRAJAlAC0sHQBZbk4UADMwsBgvIA</a></p>
+<hr>
+<h2 id="3-安裝-Zod"><a href="#3-安裝-Zod" class="headerlink" title="3. 安裝 Zod"></a>3. 安裝 Zod</h2><p>在專案根目錄執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install zod</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-建立驗證-Schema"><a href="#4-建立驗證-Schema" class="headerlink" title="4. 建立驗證 Schema"></a>4. 建立驗證 Schema</h2><p>建立 <code>src/validator/todoValidation.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; z &#125; <span class="keyword">from</span> <span class="string">&quot;zod&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> createTodoSchema = z.<span class="title function_">object</span>(&#123;</span><br><span class="line">  <span class="attr">title</span>: z</span><br><span class="line">    .<span class="title function_">string</span>()</span><br><span class="line">    .<span class="title function_">min</span>(<span class="number">1</span>, &#123; <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;)</span><br><span class="line">    .<span class="title function_">max</span>(<span class="number">100</span>, &#123; <span class="attr">message</span>: <span class="string">&quot;Title must be at most 100 characters&quot;</span> &#125;),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> updateTodoSchema = z.<span class="title function_">object</span>(&#123;</span><br><span class="line">  <span class="attr">title</span>: z.<span class="title function_">string</span>().<span class="title function_">optional</span>(),</span><br><span class="line">  <span class="attr">completed</span>: z.<span class="title function_">boolean</span>().<span class="title function_">optional</span>(),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-在-Controller-使用驗證"><a href="#5-在-Controller-使用驗證" class="headerlink" title="5. 在 Controller 使用驗證"></a>5. 在 Controller 使用驗證</h2><p>在 <code>todoController.ts</code> 中對 <code>createTodo</code>、<code>updateTodo</code> 套用 <code>.safeParse()</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  createTodoSchema,</span><br><span class="line">  updateTodoSchema,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../validator/todoValidation&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> parsed = createTodoSchema.<span class="title function_">safeParse</span>(req.<span class="property">body</span>);</span><br><span class="line">    <span class="keyword">if</span> (!parsed.<span class="property">success</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;標題過長或過短&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; <span class="attr">title</span>: parsed.<span class="property">data</span>.<span class="property">title</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> parsed = updateTodoSchema.<span class="title function_">safeParse</span>(req.<span class="property">body</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!parsed.<span class="property">success</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;更新資料格式錯誤&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = parsed.<span class="property">data</span>.<span class="property">title</span> ?? todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = parsed.<span class="property">data</span>.<span class="property">completed</span> ?? todo.<span class="property">completed</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-成果展示"><a href="#6-成果展示" class="headerlink" title="6. 成果展示"></a>6. 成果展示</h2><ul>
+<li>✅ 正確資料 → 正常新增 &#x2F; 更新</li>
+<li>❌ 錯誤資料 → 直接被擋下並回傳錯誤訊息<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day14-Zod/2-postman-test.png?raw=true"></li>
+</ul>
+<hr>
+<h2 id="7-總結"><a href="#7-總結" class="headerlink" title="7. 總結"></a>7. 總結</h2><p>今天我們學到：</p>
+<ul>
+<li>Zod 是一個簡單直覺的 <strong>驗證工具</strong>。</li>
+<li>透過 <code>safeParse()</code> 可以有效攔截不合法資料。</li>
+<li>在 API Controller 直接使用 Schema，就能大幅提升專案的安全性與可維護性。</li>
+</ul>
+<p>下次寫 API 時，別忘了這個小幫手！</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
+<p>commit : add zod validation</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/2bf8d89d9096edd2960abf384ceb98528f43fc99">Github 連結</a></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zod.dev/">Zod 官方文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=zod+validation">Zod YouTube 教學</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/27/Day13%20-%20ESLint/" rel="prev" title="Day 13 - 一致的程式碼：ESLint 導入">
+                  <i class="fa fa-angle-left"></i> Day 13 - 一致的程式碼：ESLint 導入
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
