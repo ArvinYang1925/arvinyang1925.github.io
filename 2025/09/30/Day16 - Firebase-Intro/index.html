@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在前幾天，我們的 API 主要處理「資料」的 CRUD。 但在真實專案裡，除了文字資料，圖片與檔案上傳 也幾乎是必備功能（例如：會員大頭貼、商品圖片、文章配圖）。 這時候，Firebase Storage 就能派上用場啦！ 它是 Google 提供的雲端檔案儲存服務，適合開發者快速上手，特別適合 side project 或 prototype。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/30/Day16%20-%20Firebase-Intro/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="在前幾天，我們的 API 主要處理「資料」的 CRUD。 但在真實專案裡，除了文字資料，圖片與檔案上傳 也幾乎是必備功能（例如：會員大頭貼、商品圖片、文章配圖）。 這時候，Firebase Storage 就能派上用場啦！ 它是 Google 提供的雲端檔案儲存服務，適合開發者快速上手，特別適合 side project 或 prototype。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/1-friebase.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/2-new-project.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/3-project-name.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/4-proj-dashboard.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/5-menu-storage.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/6-upgrade-proj.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/7-link-account.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/8-choose-area.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/9-stander-start.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/10-finish-bucket.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/11-proj-setting.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/12-firebase-sdk.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/13-gen-key.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/14-json-file.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/15-join-lines.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/16-bucket-name.png?raw=true">
+<meta property="article:published_time" content="2025-09-30T14:48:18.000Z">
+<meta property="article:modified_time" content="2025-09-30T14:51:19.307Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/1-friebase.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/30/Day16%20-%20Firebase-Intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/30/Day16%20-%20Firebase-Intro/","path":"2025/09/30/Day16 - Firebase-Intro/","title":"Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Firebase-Storage-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1. Firebase Storage 是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%BB%BA%E7%AB%8B-Firebase-%E5%B0%88%E6%A1%88-%E9%96%8B%E5%95%9F-Storage"><span class="nav-number">2.</span> <span class="nav-text">2. 建立 Firebase 專案 &amp; 開啟 Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F%E4%B8%80%EF%BC%9A%E5%BB%BA%E7%AB%8B-Firebase-%E5%B0%88%E6%A1%88"><span class="nav-number">2.1.</span> <span class="nav-text">步驟一：建立 Firebase 專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F%E4%BA%8C%EF%BC%9A%E5%95%9F%E7%94%A8-Firebase-Storage"><span class="nav-number">2.2.</span> <span class="nav-text">步驟二：啟用 Firebase Storage</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A%E8%88%87%E9%87%91%E9%91%B0%E4%B8%8B%E8%BC%89"><span class="nav-number">3.</span> <span class="nav-text">3. 專案設定與金鑰下載</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B0%88%E6%A1%88%E8%A8%AD%E5%AE%9A%EF%BC%9A-env-%E6%AA%94%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">4. 專案設定：.env 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">5.結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/30/Day16%20-%20Firebase-Intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-09-30 22:48:18 / 修改時間：22:51:19" itemprop="dateCreated datePublished" datetime="2025-09-30T22:48:18+08:00">2025-09-30</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在前幾天，我們的 API 主要處理「資料」的 CRUD。</p>
+<p>但在真實專案裡，除了文字資料，<strong>圖片與檔案上傳</strong> 也幾乎是必備功能（例如：會員大頭貼、商品圖片、文章配圖）。</p>
+<p>這時候，<strong>Firebase Storage</strong> 就能派上用場啦！</p>
+<p>它是 Google 提供的雲端檔案儲存服務，適合開發者快速上手，特別適合 side project 或 prototype。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Firebase-Storage-是什麼？"><a href="#1-Firebase-Storage-是什麼？" class="headerlink" title="1. Firebase Storage 是什麼？"></a>1. Firebase Storage 是什麼？</h2><ul>
+<li>由 Google Firebase 提供的 <strong>雲端物件儲存</strong> 服務</li>
+<li>主要拿來存放 <strong>圖片、影片、音訊、PDF…</strong> 各種檔案</li>
+<li>優點：<ul>
+<li>直接綁 Firebase 專案（不用額外維護伺服器）</li>
+<li>提供安全規則（Security Rules）控制誰能讀寫</li>
+<li>有免費額度（適合 side project）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-建立-Firebase-專案-開啟-Storage"><a href="#2-建立-Firebase-專案-開啟-Storage" class="headerlink" title="2. 建立 Firebase 專案 &amp; 開啟 Storage"></a>2. 建立 Firebase 專案 &amp; 開啟 Storage</h2><h3 id="步驟一：建立-Firebase-專案"><a href="#步驟一：建立-Firebase-專案" class="headerlink" title="步驟一：建立 Firebase 專案"></a>步驟一：建立 Firebase 專案</h3><ol>
+<li><p>前往 <a target="_blank" rel="noopener" href="https://console.firebase.google.com/">Firebase Console</a> (點擊右上角 Go to console)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/1-friebase.png?raw=true"></p>
+</li>
+<li><p>點擊<strong>建立新的 Firebase 專案</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/2-new-project.png?raw=true"></p>
+</li>
+<li><p>輸入專案名稱（例如：<code>iThome2025-storage-demo</code>）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/3-project-name.png?raw=true"></p>
+</li>
+<li><p>完成建立後，就能進到專案儀表板</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/4-proj-dashboard.png?raw=true"></p>
+</li>
+</ol>
+<h3 id="步驟二：啟用-Firebase-Storage"><a href="#步驟二：啟用-Firebase-Storage" class="headerlink" title="步驟二：啟用 Firebase Storage"></a>步驟二：啟用 Firebase Storage</h3><ol>
+<li><p>在左側選單選 <strong>Storage</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/5-menu-storage.png?raw=true"></p>
+</li>
+<li><p>點擊 <strong>升級專案 (這邊會需要連接信用卡帳戶)</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/6-upgrade-proj.png?raw=true"></p>
+</li>
+<li><p>點擊連結帳戶 (免費額度：<strong>1 GB 儲存空間)</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/7-link-account.png?raw=true"></p>
+</li>
+<li><p>選擇地區（免付費位置）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/8-choose-area.png?raw=true"></p>
+</li>
+<li><p>勾選以正式模式啟動</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/9-stander-start.png?raw=true"></p>
+</li>
+<li><p>完成後會自動建立一個 <strong>Bucket</strong>（其實就是一個儲存檔案的空間）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/10-finish-bucket.png?raw=true"></p>
+</li>
+</ol>
+<p>📌 之後我們的專案就會透過這個 bucket 來存取檔案。</p>
+<hr>
+<h2 id="3-專案設定與金鑰下載"><a href="#3-專案設定與金鑰下載" class="headerlink" title="3. 專案設定與金鑰下載"></a>3. 專案設定與金鑰下載</h2><ol>
+<li><p>點擊小齒輪選專案設定</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/11-proj-setting.png?raw=true"></p>
+</li>
+<li><p>選擇服務帳戶 → Firebase Admin SDK → 選 Node.js → 產生新的私密金鑰</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/12-firebase-sdk.png?raw=true"></p>
+</li>
+<li><p>點擊產生金鑰後把這份 JSON 檔案保存好，後面會使用到 (<strong>金鑰不要存在公開的地方</strong>)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/13-gen-key.png?raw=true"></p>
+</li>
+<li><p>JSON 檔案大致如下</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/14-json-file.png?raw=true"></p>
+</li>
+</ol>
+<hr>
+<h2 id="4-專案設定：-env-檔案"><a href="#4-專案設定：-env-檔案" class="headerlink" title="4. 專案設定：.env 檔案"></a>4. 專案設定：.env 檔案</h2><p>在 <code>.env</code> 檔案中設定環境變數：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;放入將 JSON 檔案壓縮成一行的資訊&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=ithome2025-storage-demo.firebasestorage.app</span><br></pre></td></tr></table></figure>
+
+<p>1.設定 <code>FIREBASE_SERVICE_ACCOUNT</code> → 小技巧 (將 JSON 檔案壓縮成一行)</p>
+<p>VSCode → cmd+shift+P → Join Lines</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/15-join-lines.png?raw=true"></p>
+<p>2.設定 <code>FIREBASE_STORAGE_BUCKET</code> → 點擊複製資料夾路徑 → 去除 (gs:&#x2F;&#x2F;)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/16-bucket-name.png?raw=true"></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ithome2025-storage-demo.firebasestorage.app</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-結語"><a href="#5-結語" class="headerlink" title="5.結語"></a>5.結語</h2><p>到這裡，我們已經把 Firebase Storage 的基礎環境準備好：</p>
+<ul>
+<li>建立 Firebase 專案</li>
+<li>啟用 Storage 並建立 Bucket</li>
+<li>下載服務金鑰 &amp; 設定 <code>.env</code></li>
+</ul>
+<p>換句話說，<strong>我們已經準備好讓專案具備「檔案上傳」的能力</strong>啦！ 🚀</p>
+<p>不過今天還沒寫程式碼，先到這裡收尾。</p>
+<p>明天 Day 17 ✨，我們會進入實戰，使用 <strong>Node.js + multer</strong> 串接 Firebase Storage，實際測試檔案上傳，並取得公開 URL。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/29/Day15%20-%20JWT/" rel="prev" title="Day 15 - API 安全升級：JWT 登入驗證全流程實作">
+                  <i class="fa fa-angle-left"></i> Day 15 - API 安全升級：JWT 登入驗證全流程實作
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -336,6 +336,85 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 13 - 一致的程式碼：ESLint 導入</title>
+    <url>/2025/09/27/Day13%20-%20ESLint/</url>
+    <content><![CDATA[<h2 id="ESLint-的歷史與簡介"><a href="#ESLint-的歷史與簡介" class="headerlink" title="ESLint 的歷史與簡介"></a>ESLint 的歷史與簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true"></p>
+<p>在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。</p>
+<ul>
+<li>2000 年代，出現了 <strong>JSLint</strong>（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。</li>
+<li>之後社群又發展出 <strong>JSHint</strong>，提供更彈性的規則與設定。</li>
+<li>到了 <strong>2013 年</strong>，Nicholas C. Zakas（前 Yahoo! JS 團隊成員）推出 <strong>ESLint</strong>，透過「規則驅動 + 插件機制」，讓開發者可以自由擴展並制定專案專屬規範。</li>
+</ul>
+<p>今天，ESLint 已經成為 JavaScript&#x2F;TypeScript 專案裡最常見的程式碼檢查工具。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="為什麼需要-ESLint？"><a href="#為什麼需要-ESLint？" class="headerlink" title="為什麼需要 ESLint？"></a>為什麼需要 ESLint？</h2><p>和昨天的 <strong>Prettier</strong> 不同，ESLint 專注於 <strong>程式邏輯與最佳實踐</strong>。</p>
+<h3 id="常見檢查範例"><a href="#常見檢查範例" class="headerlink" title="常見檢查範例"></a>常見檢查範例</h3><ul>
+<li><strong>程式錯誤</strong>：未定義變數、未使用的變數、錯誤的語法。</li>
+<li><strong>最佳實踐</strong>：禁止使用 <code>var</code>、避免 <code>any</code>、規定函式宣告風格。</li>
+</ul>
+<h3 id="為什麼重要？"><a href="#為什麼重要？" class="headerlink" title="為什麼重要？"></a>為什麼重要？</h3><ol>
+<li><strong>降低 Bug 風險</strong>：提早發現潛在錯誤，避免程式在 runtime 才爆炸。</li>
+<li><strong>提升可讀性</strong>：團隊都遵守相同規範，程式碼更一致。</li>
+<li><strong>改善協作體驗</strong>：Code Review 時，機器會先抓語法與規範問題，讓人類專注於商業邏輯。</li>
+</ol>
+<p>👉 簡單來說：</p>
+<ul>
+<li><strong>Prettier</strong>：讓程式碼「好看」</li>
+<li><strong>ESLint</strong>：讓程式碼「正確」</li>
+</ul>
+<hr>
+<h2 id="VSCode-安裝-ESLint"><a href="#VSCode-安裝-ESLint" class="headerlink" title="VSCode 安裝 ESLint"></a>VSCode 安裝 ESLint</h2><p>這邊也建議在 VSCode 裡安裝 ESLint 套件：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/2-vscode-eslint.png?raw=true"></p>
+<hr>
+<h2 id="專案安裝-ESLint"><a href="#專案安裝-ESLint" class="headerlink" title="專案安裝 ESLint"></a>專案安裝 ESLint</h2><p>在專案裡安裝 ESLint 以及相關套件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install eslint @eslint/js eslint-config-prettier eslint-plugin-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定-ESLint"><a href="#設定-ESLint" class="headerlink" title="設定 ESLint"></a>設定 ESLint</h2><p>在專案根目錄新增 <code>eslint.config.js</code>：</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> js = <span class="built_in">require</span>(<span class="string">&quot;@eslint/js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> globals = <span class="built_in">require</span>(<span class="string">&quot;globals&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">&quot;eslint-config-prettier&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsParser = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/parser&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsPlugin = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/eslint-plugin&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">files</span>: [<span class="string">&quot;**/*.ts&quot;</span>], <span class="comment">// 檢查 .ts 檔案</span></span><br><span class="line">    <span class="attr">languageOptions</span>: &#123;</span><br><span class="line">      <span class="attr">parser</span>: tsParser, <span class="comment">// 用 TypeScript 的解析器</span></span><br><span class="line">      <span class="attr">sourceType</span>: <span class="string">&quot;module&quot;</span>, <span class="comment">// 支援 ES 模組</span></span><br><span class="line">      <span class="attr">globals</span>: &#123;</span><br><span class="line">        ...globals.<span class="property">node</span>, <span class="comment">// Node.js 的全域變數（像 process）</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: &#123;</span><br><span class="line">      <span class="string">&quot;@typescript-eslint&quot;</span>: tsPlugin, <span class="comment">// TypeScript 專屬插件</span></span><br><span class="line">      <span class="attr">prettier</span>: <span class="built_in">require</span>(<span class="string">&quot;eslint-plugin-prettier&quot;</span>), <span class="comment">// Prettier 插件</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">rules</span>: &#123;</span><br><span class="line">      ...js.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// ESLint 基本規則</span></span><br><span class="line">      ...tsPlugin.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// TypeScript 推薦規則</span></span><br><span class="line">      ...prettier.<span class="property">rules</span>, <span class="comment">// 正確使用 prettier 配置</span></span><br><span class="line">      <span class="string">&quot;prettier/prettier&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// Prettier 格式錯誤會顯示</span></span><br><span class="line">      <span class="attr">semi</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;always&quot;</span>], <span class="comment">// 行尾一定要有分號</span></span><br><span class="line">      <span class="attr">quotes</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;double&quot;</span>], <span class="comment">// 用雙引號</span></span><br><span class="line">      <span class="string">&quot;no-var&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 不准用 var</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-unused-vars&quot;</span>: [<span class="string">&quot;error&quot;</span>], <span class="comment">// 不准有沒用到的變數</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-explicit-any&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 禁止使用 any 類型</span></span><br><span class="line">      <span class="comment">// 改用 TypeScript 版本的 func-style</span></span><br><span class="line">      <span class="string">&quot;func-style&quot;</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;declaration&quot;</span>, &#123; <span class="attr">allowArrowFunctions</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">      <span class="comment">// 禁止一般函式表達式</span></span><br><span class="line">      <span class="string">&quot;no-restricted-syntax&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;error&quot;</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">selector</span>: <span class="string">&quot;FunctionExpression&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;請使用函式宣告式或箭頭函式，避免使用一般函式表達式 😎&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>package.json</code> 裡加上 script：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;lint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lint:fix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot; --fix&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>npm run lint</code>：檢查程式碼規則</li>
+<li><code>npm run lint:fix</code>：自動修復能修的錯誤</li>
+</ul>
+<hr>
+<h2 id="測試-ESLint"><a href="#測試-ESLint" class="headerlink" title="測試 ESLint"></a>測試 ESLint</h2><p>在 <code>/src</code> 下新增 <code>testLint.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 1: sayHello 宣告但未使用</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">  <span class="comment">// 違反 2: 用 any 型別（TypeScript 規則）</span></span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&quot;Hello &quot;</span> + name; <span class="comment">// 違反 3: 用 var 宣告</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> unusedVar = <span class="number">42</span>; <span class="comment">// 違反 4: 未使用的變數</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 5:請使用函式宣告式或箭頭函式，避免使用一般函式表達式</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">function</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">a</span>(<span class="string">&quot;Peter&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/test&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Test route&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Server running on port 3000&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run lint</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/3-npm-run-lint.png?raw=true"></p>
+<p>你會看到 ESLint 把所有違規都列出來，幫助你更快找到問題。</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li>ESLint 誕生於 2013 年，是目前最常見的 JavaScript&#x2F;TypeScript 程式碼檢查工具。</li>
+<li>與 Prettier 搭配：<ul>
+<li><strong>Prettier</strong> → 排版風格一致</li>
+<li><strong>ESLint</strong> → 邏輯與規範正確</li>
+</ul>
+</li>
+<li>在專案中安裝、設定後，可以自動檢查、修復程式，避免錯誤。</li>
+</ul>
+<hr>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><blockquote>
+<p>commit : setup ESLint</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/2786c17e588e8598f42e8349a901f3d6717afe46">Github 連結</a></p>
+<p>👉 明天 (Day14) 我們則會來介紹 Zod 驗證 (API 驗證守護神)，期待期待 💪</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 14 - API 驗證救星：用 Zod 驗證來檢查</title>
     <url>/2025/09/28/Day14%20-%20Zod/</url>
     <content><![CDATA[<p>在開發後端 API 的時候，你一定遇過這些狀況：</p>
@@ -500,6 +579,105 @@
 <p>commit : install jwt plugin and implement auth feature</p>
 </blockquote>
 <p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/cbaf0b87023e4232ee25ca63cfe873dde4613b4a">Github 連結</a></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業</title>
+    <url>/2025/09/30/Day16%20-%20Firebase-Intro/</url>
+    <content><![CDATA[<p>在前幾天，我們的 API 主要處理「資料」的 CRUD。</p>
+<p>但在真實專案裡，除了文字資料，<strong>圖片與檔案上傳</strong> 也幾乎是必備功能（例如：會員大頭貼、商品圖片、文章配圖）。</p>
+<p>這時候，<strong>Firebase Storage</strong> 就能派上用場啦！</p>
+<p>它是 Google 提供的雲端檔案儲存服務，適合開發者快速上手，特別適合 side project 或 prototype。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Firebase-Storage-是什麼？"><a href="#1-Firebase-Storage-是什麼？" class="headerlink" title="1. Firebase Storage 是什麼？"></a>1. Firebase Storage 是什麼？</h2><ul>
+<li>由 Google Firebase 提供的 <strong>雲端物件儲存</strong> 服務</li>
+<li>主要拿來存放 <strong>圖片、影片、音訊、PDF…</strong> 各種檔案</li>
+<li>優點：<ul>
+<li>直接綁 Firebase 專案（不用額外維護伺服器）</li>
+<li>提供安全規則（Security Rules）控制誰能讀寫</li>
+<li>有免費額度（適合 side project）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-建立-Firebase-專案-開啟-Storage"><a href="#2-建立-Firebase-專案-開啟-Storage" class="headerlink" title="2. 建立 Firebase 專案 &amp; 開啟 Storage"></a>2. 建立 Firebase 專案 &amp; 開啟 Storage</h2><h3 id="步驟一：建立-Firebase-專案"><a href="#步驟一：建立-Firebase-專案" class="headerlink" title="步驟一：建立 Firebase 專案"></a>步驟一：建立 Firebase 專案</h3><ol>
+<li><p>前往 <a href="https://console.firebase.google.com/">Firebase Console</a> (點擊右上角 Go to console)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/1-friebase.png?raw=true"></p>
+</li>
+<li><p>點擊<strong>建立新的 Firebase 專案</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/2-new-project.png?raw=true"></p>
+</li>
+<li><p>輸入專案名稱（例如：<code>iThome2025-storage-demo</code>）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/3-project-name.png?raw=true"></p>
+</li>
+<li><p>完成建立後，就能進到專案儀表板</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/4-proj-dashboard.png?raw=true"></p>
+</li>
+</ol>
+<h3 id="步驟二：啟用-Firebase-Storage"><a href="#步驟二：啟用-Firebase-Storage" class="headerlink" title="步驟二：啟用 Firebase Storage"></a>步驟二：啟用 Firebase Storage</h3><ol>
+<li><p>在左側選單選 <strong>Storage</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/5-menu-storage.png?raw=true"></p>
+</li>
+<li><p>點擊 <strong>升級專案 (這邊會需要連接信用卡帳戶)</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/6-upgrade-proj.png?raw=true"></p>
+</li>
+<li><p>點擊連結帳戶 (免費額度：<strong>1 GB 儲存空間)</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/7-link-account.png?raw=true"></p>
+</li>
+<li><p>選擇地區（免付費位置）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/8-choose-area.png?raw=true"></p>
+</li>
+<li><p>勾選以正式模式啟動</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/9-stander-start.png?raw=true"></p>
+</li>
+<li><p>完成後會自動建立一個 <strong>Bucket</strong>（其實就是一個儲存檔案的空間）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/10-finish-bucket.png?raw=true"></p>
+</li>
+</ol>
+<p>📌 之後我們的專案就會透過這個 bucket 來存取檔案。</p>
+<hr>
+<h2 id="3-專案設定與金鑰下載"><a href="#3-專案設定與金鑰下載" class="headerlink" title="3. 專案設定與金鑰下載"></a>3. 專案設定與金鑰下載</h2><ol>
+<li><p>點擊小齒輪選專案設定</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/11-proj-setting.png?raw=true"></p>
+</li>
+<li><p>選擇服務帳戶 → Firebase Admin SDK → 選 Node.js → 產生新的私密金鑰</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/12-firebase-sdk.png?raw=true"></p>
+</li>
+<li><p>點擊產生金鑰後把這份 JSON 檔案保存好，後面會使用到 (<strong>金鑰不要存在公開的地方</strong>)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/13-gen-key.png?raw=true"></p>
+</li>
+<li><p>JSON 檔案大致如下</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/14-json-file.png?raw=true"></p>
+</li>
+</ol>
+<hr>
+<h2 id="4-專案設定：-env-檔案"><a href="#4-專案設定：-env-檔案" class="headerlink" title="4. 專案設定：.env 檔案"></a>4. 專案設定：.env 檔案</h2><p>在 <code>.env</code> 檔案中設定環境變數：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;放入將 JSON 檔案壓縮成一行的資訊&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=ithome2025-storage-demo.firebasestorage.app</span><br></pre></td></tr></table></figure>
+
+<p>1.設定 <code>FIREBASE_SERVICE_ACCOUNT</code> → 小技巧 (將 JSON 檔案壓縮成一行)</p>
+<p>VSCode → cmd+shift+P → Join Lines</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/15-join-lines.png?raw=true"></p>
+<p>2.設定 <code>FIREBASE_STORAGE_BUCKET</code> → 點擊複製資料夾路徑 → 去除 (gs:&#x2F;&#x2F;)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day16-Firebase/16-bucket-name.png?raw=true"></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">ithome2025-storage-demo.firebasestorage.app</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-結語"><a href="#5-結語" class="headerlink" title="5.結語"></a>5.結語</h2><p>到這裡，我們已經把 Firebase Storage 的基礎環境準備好：</p>
+<ul>
+<li>建立 Firebase 專案</li>
+<li>啟用 Storage 並建立 Bucket</li>
+<li>下載服務金鑰 &amp; 設定 <code>.env</code></li>
+</ul>
+<p>換句話說，<strong>我們已經準備好讓專案具備「檔案上傳」的能力</strong>啦！ 🚀</p>
+<p>不過今天還沒寫程式碼，先到這裡收尾。</p>
+<p>明天 Day 17 ✨，我們會進入實戰，使用 <strong>Node.js + multer</strong> 串接 Firebase Storage，實際測試檔案上傳，並取得公開 URL。</p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
@@ -790,6 +968,67 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能</title>
+    <url>/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/</url>
+    <content><![CDATA[<p>在學習 <strong>Express + TypeScript + TypeORM</strong> 的過程中，<code>TodoList API</code> 是非常適合新手上手的練習案例。</p>
+<p>因為它的邏輯簡單（新增、讀取、更新、刪除），卻又涵蓋了 RESTful API 的核心概念：</p>
+<ul>
+<li><strong>CRUD</strong>（Create &#x2F; Read &#x2F; Update &#x2F; Delete）</li>
+<li><strong>Controller &#x2F; Route 分層</strong></li>
+<li><strong>與資料庫的互動（Repository）</strong></li>
+</ul>
+<p>這樣的練習不僅可以打好基礎，還能快速理解 <strong>後端架構設計</strong> 的常見模式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="建立-Controller"><a href="#建立-Controller" class="headerlink" title="建立 Controller"></a>建立 Controller</h2><p>Controller（控制器）是 <strong>專門負責處理業務邏輯</strong> 的地方：</p>
+<ul>
+<li>收到請求 (<code>req</code>) → 驗證&#x2F;處理 → 回傳回應 (<code>res</code>)</li>
+<li>不直接決定路由，而是提供「功能」讓 Route 使用</li>
+<li>好處是：<strong>程式碼結構清楚、可讀性佳、方便測試與維護</strong></li>
+</ul>
+<p>建立 <code>src/controllers/todoController.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodos</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todos = <span class="keyword">await</span> todoRepository.<span class="title function_">find</span>();</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: todos &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">if</span> (!title) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; title &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; title, completed &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = title !== <span class="literal">undefined</span> ? title : todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = completed !== <span class="literal">undefined</span> ? completed : todo.<span class="property">completed</span>;</span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deleteTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> todoRepository.<span class="title function_">delete</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">affected</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: result &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定路由"><a href="#設定路由" class="headerlink" title="設定路由"></a>設定路由</h2><p>Route（路由）的工作就是 <strong>決定請求要交給哪個 Controller 處理</strong>。</p>
+<p>它就像是 <strong>導航地圖</strong>：</p>
+<ul>
+<li><code>GET /todos</code> → 查詢所有代辦事項 → <code>getTodos</code></li>
+<li><code>POST /todos</code> → 建立新代辦 → <code>createTodo</code></li>
+<li><code>PUT /todos/:id</code> → 更新某筆代辦 → <code>updateTodo</code></li>
+<li><code>DELETE /todos/:id</code> → 刪除某筆代辦 → <code>deleteTodo</code></li>
+</ul>
+<p>這樣一來，Controller 和 Route 的責任就分得很清楚：</p>
+<ul>
+<li><strong>Route &#x3D; 請求分配器</strong></li>
+<li><strong>Controller &#x3D; 處理邏輯</strong></li>
+</ul>
+<p>建立 <code>src/routes/todoRoutes.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="整合到主程式"><a href="#整合到主程式" class="headerlink" title="整合到主程式"></a>整合到主程式</h2><p>最後一步就是在 <code>app.ts</code> 裡，把 <code>todoRoutes</code> 整合進主程式。</p>
+<p>這樣當使用者發送請求到 <code>/api/todos</code> 時，Express 就會把它交給我們剛剛寫好的 <code>todoRoutes</code>，再由對應的 Controller 去處理。</p>
+<p>修改 <code>src/app.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes); <span class="comment">// 加上 Todo 路由</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;❌ DB connection failed:&quot;</span>, err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>👉 到這裡，我們就完成了一個最基礎的 TodoList API。</p>
+<p>但是目前還沒有資料庫可以測試 (還不能用 Postman 打 API 😂)，下一篇我們就來介紹 Render 服務上的資料庫應用，把整段串接起來。</p>
+<hr>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d766050e40229dd97cd90a5c94c667d14cc90c2f">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit : Day 8 initialize todo‑list API</p>
+</blockquote>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
     <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
     <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
@@ -884,148 +1123,6 @@
 <blockquote>
 <p>commit message: Day 6 - set up Express + TS environment</p>
 </blockquote>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 7 - 如何建立一個 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</title>
-    <url>/2025/09/21/Day7%20-%20Node.js%20+%20TS%20(2)/</url>
-    <content><![CDATA[<p>嗨～昨天我們已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong>。接著，在正式開發 API 之前，先來點暖身 —— 建立一個清晰、可維護的專案架構，並完成環境變數與資料庫連線設定。這些基礎工具就是未來專案能否穩定推進的關鍵。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="專案架構整理"><a href="#專案架構整理" class="headerlink" title="專案架構整理"></a>專案架構整理</h2><h3 id="建立資料夾結構"><a href="#建立資料夾結構" class="headerlink" title="建立資料夾結構"></a>建立資料夾結構</h3><p>為了讓專案更有條理、方便後續維護，我們在 <code>src</code> 底下建立以下資料夾：</p>
-<ul>
-<li><code>config</code>：存放設定檔（例如資料庫連線設定）。</li>
-<li><code>controllers</code>：處理 API 業務邏輯。</li>
-<li><code>entities</code>：定義資料庫模型 (Entity)。</li>
-<li><code>middleware</code>：存放中間件。</li>
-<li><code>routes</code>：定義 API 路由。</li>
-<li><code>utils</code>：常用工具函數。</li>
-</ul>
-<p>建立指令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> src</span><br><span class="line"><span class="built_in">mkdir</span> config controllers entities middleware routes utils</span><br></pre></td></tr></table></figure>
-
-<p>最終結構如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">src/</span><br><span class="line">  ├── config/</span><br><span class="line">  ├── controllers/</span><br><span class="line">  ├── entities/</span><br><span class="line">  ├── middleware/</span><br><span class="line">  ├── routes/</span><br><span class="line">  ├── utils/</span><br><span class="line">  └── app.ts</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="環境變數設定"><a href="#環境變數設定" class="headerlink" title="環境變數設定"></a>環境變數設定</h2><p>為什麼要用環境變數？</p>
-<p>因為專案常常需要存放敏感資訊（像是資料庫密碼、API 金鑰），這些東西絕不能直接寫死在程式碼裡。</p>
-<h3 id="安裝與設定-dotenv"><a href="#安裝與設定-dotenv" class="headerlink" title="安裝與設定 dotenv"></a>安裝與設定 dotenv</h3><ol>
-<li><p>安裝套件與型別：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install dotenv</span><br><span class="line">npm install @types/dotenv --save-dev</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在專案根目錄建立 <code>.env</code> 檔案：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
-
-<p>在檔案內輸入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DB_HOST=localhost</span><br><span class="line">DB_NAME=db_name</span><br><span class="line">DB_USERNAME=你的資料庫使用者</span><br><span class="line">DB_PASSWORD=你的密碼</span><br><span class="line">DB_PORT=5432</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>確認 <code>.gitignore</code>有下方配置：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env</span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>⚠️ .env 內含敏感資訊，務必避免上傳到 GitHub！</p>
-</blockquote>
-<hr>
-<h2 id="資料庫連線設定"><a href="#資料庫連線設定" class="headerlink" title="資料庫連線設定"></a>資料庫連線設定</h2><p>這裡我們會使用 <strong>PostgreSQL</strong> 搭配 <strong>TypeORM</strong> 作為 ORM 工具。</p>
-<h3 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install typeorm pg</span><br></pre></td></tr></table></figure>
-
-<h3 id="設定-TypeORM-連線"><a href="#設定-TypeORM-連線" class="headerlink" title="設定 TypeORM 連線"></a>設定 TypeORM 連線</h3><p>在 <code>src/config</code> 建立 <code>db.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">DataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">AppDataSource</span> = <span class="keyword">new</span> <span class="title class_">DataSource</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&quot;postgres&quot;</span>,</span><br><span class="line">  <span class="attr">host</span>: process.<span class="property">env</span>.<span class="property">DB_HOST</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="title class_">Number</span>(process.<span class="property">env</span>.<span class="property">DB_PORT</span>),</span><br><span class="line">  <span class="attr">username</span>: process.<span class="property">env</span>.<span class="property">DB_USERNAME</span>,</span><br><span class="line">  <span class="attr">password</span>: process.<span class="property">env</span>.<span class="property">DB_PASSWORD</span>,</span><br><span class="line">  <span class="attr">database</span>: process.<span class="property">env</span>.<span class="property">DB_NAME</span>,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="title class_">Todo</span>],</span><br><span class="line">  <span class="attr">synchronize</span>: <span class="literal">true</span>, <span class="comment">// 開發階段建議 true，正式環境請改成 false</span></span><br><span class="line">  <span class="attr">logging</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>⚠️ synchronize: true 會自動產生 ORM 所對應的資料表，僅限開發階段使用；正式環境建議使用 migration！</p>
-</blockquote>
-<hr>
-<h2 id="定義資料模型"><a href="#定義資料模型" class="headerlink" title="定義資料模型"></a>定義資料模型</h2><p>在 TypeORM 裡，<strong>Entity 就是資料庫模型</strong>，負責定義表格結構。</p>
-<h3 id="建立-Todo-Entity"><a href="#建立-Todo-Entity" class="headerlink" title="建立 Todo Entity"></a>建立 Todo Entity</h3><ol>
-<li><p>新增檔案：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/entities/Todo.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>編輯內容：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Entity</span>, <span class="title class_">PrimaryGeneratedColumn</span>, <span class="title class_">Column</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>()</span><br><span class="line">  title!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">default</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  completed!: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>確認 <code>tsconfig.json</code>，確保支援裝飾器：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<blockquote>
-<p>💡 小技巧：</p>
-<ul>
-<li><code>!</code> 表示該屬性必填。</li>
-</ul>
-</blockquote>
-<hr>
-<p>👉 明天（Day 8）我們即將開始開發 API ，讓 <strong>TypeScript + Node.js 專案更豐富 🚀 !</strong></p>
-<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/ea9757e05ffe4d0a7dd48d65c1e4cc37f25361d8">Github 範例程式碼</a></p>
-<blockquote>
-<p>git commit : setup backend structure and typeORM setting</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能</title>
-    <url>/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/</url>
-    <content><![CDATA[<p>在學習 <strong>Express + TypeScript + TypeORM</strong> 的過程中，<code>TodoList API</code> 是非常適合新手上手的練習案例。</p>
-<p>因為它的邏輯簡單（新增、讀取、更新、刪除），卻又涵蓋了 RESTful API 的核心概念：</p>
-<ul>
-<li><strong>CRUD</strong>（Create &#x2F; Read &#x2F; Update &#x2F; Delete）</li>
-<li><strong>Controller &#x2F; Route 分層</strong></li>
-<li><strong>與資料庫的互動（Repository）</strong></li>
-</ul>
-<p>這樣的練習不僅可以打好基礎，還能快速理解 <strong>後端架構設計</strong> 的常見模式。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="建立-Controller"><a href="#建立-Controller" class="headerlink" title="建立 Controller"></a>建立 Controller</h2><p>Controller（控制器）是 <strong>專門負責處理業務邏輯</strong> 的地方：</p>
-<ul>
-<li>收到請求 (<code>req</code>) → 驗證&#x2F;處理 → 回傳回應 (<code>res</code>)</li>
-<li>不直接決定路由，而是提供「功能」讓 Route 使用</li>
-<li>好處是：<strong>程式碼結構清楚、可讀性佳、方便測試與維護</strong></li>
-</ul>
-<p>建立 <code>src/controllers/todoController.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodos</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todos = <span class="keyword">await</span> todoRepository.<span class="title function_">find</span>();</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: todos &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">if</span> (!title) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; title &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; title, completed &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = title !== <span class="literal">undefined</span> ? title : todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = completed !== <span class="literal">undefined</span> ? completed : todo.<span class="property">completed</span>;</span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deleteTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> todoRepository.<span class="title function_">delete</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">affected</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: result &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="設定路由"><a href="#設定路由" class="headerlink" title="設定路由"></a>設定路由</h2><p>Route（路由）的工作就是 <strong>決定請求要交給哪個 Controller 處理</strong>。</p>
-<p>它就像是 <strong>導航地圖</strong>：</p>
-<ul>
-<li><code>GET /todos</code> → 查詢所有代辦事項 → <code>getTodos</code></li>
-<li><code>POST /todos</code> → 建立新代辦 → <code>createTodo</code></li>
-<li><code>PUT /todos/:id</code> → 更新某筆代辦 → <code>updateTodo</code></li>
-<li><code>DELETE /todos/:id</code> → 刪除某筆代辦 → <code>deleteTodo</code></li>
-</ul>
-<p>這樣一來，Controller 和 Route 的責任就分得很清楚：</p>
-<ul>
-<li><strong>Route &#x3D; 請求分配器</strong></li>
-<li><strong>Controller &#x3D; 處理邏輯</strong></li>
-</ul>
-<p>建立 <code>src/routes/todoRoutes.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="整合到主程式"><a href="#整合到主程式" class="headerlink" title="整合到主程式"></a>整合到主程式</h2><p>最後一步就是在 <code>app.ts</code> 裡，把 <code>todoRoutes</code> 整合進主程式。</p>
-<p>這樣當使用者發送請求到 <code>/api/todos</code> 時，Express 就會把它交給我們剛剛寫好的 <code>todoRoutes</code>，再由對應的 Controller 去處理。</p>
-<p>修改 <code>src/app.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes); <span class="comment">// 加上 Todo 路由</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;❌ DB connection failed:&quot;</span>, err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>👉 到這裡，我們就完成了一個最基礎的 TodoList API。</p>
-<p>但是目前還沒有資料庫可以測試 (還不能用 Postman 打 API 😂)，下一篇我們就來介紹 Render 服務上的資料庫應用，把整段串接起來。</p>
-<hr>
-<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d766050e40229dd97cd90a5c94c667d14cc90c2f">Github 範例程式碼</a></p>
-<blockquote>
-<p>commit : Day 8 initialize todo‑list API</p>
-</blockquote>
-<hr>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
@@ -1254,6 +1351,87 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 7 - 如何建立一個 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</title>
+    <url>/2025/09/21/Day7%20-%20Node.js%20+%20TS%20(2)/</url>
+    <content><![CDATA[<p>嗨～昨天我們已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong>。接著，在正式開發 API 之前，先來點暖身 —— 建立一個清晰、可維護的專案架構，並完成環境變數與資料庫連線設定。這些基礎工具就是未來專案能否穩定推進的關鍵。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="專案架構整理"><a href="#專案架構整理" class="headerlink" title="專案架構整理"></a>專案架構整理</h2><h3 id="建立資料夾結構"><a href="#建立資料夾結構" class="headerlink" title="建立資料夾結構"></a>建立資料夾結構</h3><p>為了讓專案更有條理、方便後續維護，我們在 <code>src</code> 底下建立以下資料夾：</p>
+<ul>
+<li><code>config</code>：存放設定檔（例如資料庫連線設定）。</li>
+<li><code>controllers</code>：處理 API 業務邏輯。</li>
+<li><code>entities</code>：定義資料庫模型 (Entity)。</li>
+<li><code>middleware</code>：存放中間件。</li>
+<li><code>routes</code>：定義 API 路由。</li>
+<li><code>utils</code>：常用工具函數。</li>
+</ul>
+<p>建立指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> src</span><br><span class="line"><span class="built_in">mkdir</span> config controllers entities middleware routes utils</span><br></pre></td></tr></table></figure>
+
+<p>最終結構如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">src/</span><br><span class="line">  ├── config/</span><br><span class="line">  ├── controllers/</span><br><span class="line">  ├── entities/</span><br><span class="line">  ├── middleware/</span><br><span class="line">  ├── routes/</span><br><span class="line">  ├── utils/</span><br><span class="line">  └── app.ts</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="環境變數設定"><a href="#環境變數設定" class="headerlink" title="環境變數設定"></a>環境變數設定</h2><p>為什麼要用環境變數？</p>
+<p>因為專案常常需要存放敏感資訊（像是資料庫密碼、API 金鑰），這些東西絕不能直接寫死在程式碼裡。</p>
+<h3 id="安裝與設定-dotenv"><a href="#安裝與設定-dotenv" class="headerlink" title="安裝與設定 dotenv"></a>安裝與設定 dotenv</h3><ol>
+<li><p>安裝套件與型別：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install dotenv</span><br><span class="line">npm install @types/dotenv --save-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在專案根目錄建立 <code>.env</code> 檔案：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<p>在檔案內輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DB_HOST=localhost</span><br><span class="line">DB_NAME=db_name</span><br><span class="line">DB_USERNAME=你的資料庫使用者</span><br><span class="line">DB_PASSWORD=你的密碼</span><br><span class="line">DB_PORT=5432</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>確認 <code>.gitignore</code>有下方配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.env</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>⚠️ .env 內含敏感資訊，務必避免上傳到 GitHub！</p>
+</blockquote>
+<hr>
+<h2 id="資料庫連線設定"><a href="#資料庫連線設定" class="headerlink" title="資料庫連線設定"></a>資料庫連線設定</h2><p>這裡我們會使用 <strong>PostgreSQL</strong> 搭配 <strong>TypeORM</strong> 作為 ORM 工具。</p>
+<h3 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install typeorm pg</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-TypeORM-連線"><a href="#設定-TypeORM-連線" class="headerlink" title="設定 TypeORM 連線"></a>設定 TypeORM 連線</h3><p>在 <code>src/config</code> 建立 <code>db.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">DataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">AppDataSource</span> = <span class="keyword">new</span> <span class="title class_">DataSource</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&quot;postgres&quot;</span>,</span><br><span class="line">  <span class="attr">host</span>: process.<span class="property">env</span>.<span class="property">DB_HOST</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="title class_">Number</span>(process.<span class="property">env</span>.<span class="property">DB_PORT</span>),</span><br><span class="line">  <span class="attr">username</span>: process.<span class="property">env</span>.<span class="property">DB_USERNAME</span>,</span><br><span class="line">  <span class="attr">password</span>: process.<span class="property">env</span>.<span class="property">DB_PASSWORD</span>,</span><br><span class="line">  <span class="attr">database</span>: process.<span class="property">env</span>.<span class="property">DB_NAME</span>,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="title class_">Todo</span>],</span><br><span class="line">  <span class="attr">synchronize</span>: <span class="literal">true</span>, <span class="comment">// 開發階段建議 true，正式環境請改成 false</span></span><br><span class="line">  <span class="attr">logging</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ synchronize: true 會自動產生 ORM 所對應的資料表，僅限開發階段使用；正式環境建議使用 migration！</p>
+</blockquote>
+<hr>
+<h2 id="定義資料模型"><a href="#定義資料模型" class="headerlink" title="定義資料模型"></a>定義資料模型</h2><p>在 TypeORM 裡，<strong>Entity 就是資料庫模型</strong>，負責定義表格結構。</p>
+<h3 id="建立-Todo-Entity"><a href="#建立-Todo-Entity" class="headerlink" title="建立 Todo Entity"></a>建立 Todo Entity</h3><ol>
+<li><p>新增檔案：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/entities/Todo.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>編輯內容：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Entity</span>, <span class="title class_">PrimaryGeneratedColumn</span>, <span class="title class_">Column</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>()</span><br><span class="line">  title!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">default</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  completed!: <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>確認 <code>tsconfig.json</code>，確保支援裝飾器：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>💡 小技巧：</p>
+<ul>
+<li><code>!</code> 表示該屬性必填。</li>
+</ul>
+</blockquote>
+<hr>
+<p>👉 明天（Day 8）我們即將開始開發 API ，讓 <strong>TypeScript + Node.js 專案更豐富 🚀 !</strong></p>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/ea9757e05ffe4d0a7dd48d65c1e4cc37f25361d8">Github 範例程式碼</a></p>
+<blockquote>
+<p>git commit : setup backend structure and typeORM setting</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
     <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
     <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
@@ -1345,6 +1523,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>常用 Hexo 指令帶你無往不利</title>
     <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
     <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
@@ -1404,26 +1602,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>關於嚴格模式</title>
     <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
     <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
@@ -1436,85 +1614,6 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 13 - 一致的程式碼：ESLint 導入</title>
-    <url>/2025/09/27/Day13%20-%20ESLint/</url>
-    <content><![CDATA[<h2 id="ESLint-的歷史與簡介"><a href="#ESLint-的歷史與簡介" class="headerlink" title="ESLint 的歷史與簡介"></a>ESLint 的歷史與簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true"></p>
-<p>在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。</p>
-<ul>
-<li>2000 年代，出現了 <strong>JSLint</strong>（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。</li>
-<li>之後社群又發展出 <strong>JSHint</strong>，提供更彈性的規則與設定。</li>
-<li>到了 <strong>2013 年</strong>，Nicholas C. Zakas（前 Yahoo! JS 團隊成員）推出 <strong>ESLint</strong>，透過「規則驅動 + 插件機制」，讓開發者可以自由擴展並制定專案專屬規範。</li>
-</ul>
-<p>今天，ESLint 已經成為 JavaScript&#x2F;TypeScript 專案裡最常見的程式碼檢查工具。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="為什麼需要-ESLint？"><a href="#為什麼需要-ESLint？" class="headerlink" title="為什麼需要 ESLint？"></a>為什麼需要 ESLint？</h2><p>和昨天的 <strong>Prettier</strong> 不同，ESLint 專注於 <strong>程式邏輯與最佳實踐</strong>。</p>
-<h3 id="常見檢查範例"><a href="#常見檢查範例" class="headerlink" title="常見檢查範例"></a>常見檢查範例</h3><ul>
-<li><strong>程式錯誤</strong>：未定義變數、未使用的變數、錯誤的語法。</li>
-<li><strong>最佳實踐</strong>：禁止使用 <code>var</code>、避免 <code>any</code>、規定函式宣告風格。</li>
-</ul>
-<h3 id="為什麼重要？"><a href="#為什麼重要？" class="headerlink" title="為什麼重要？"></a>為什麼重要？</h3><ol>
-<li><strong>降低 Bug 風險</strong>：提早發現潛在錯誤，避免程式在 runtime 才爆炸。</li>
-<li><strong>提升可讀性</strong>：團隊都遵守相同規範，程式碼更一致。</li>
-<li><strong>改善協作體驗</strong>：Code Review 時，機器會先抓語法與規範問題，讓人類專注於商業邏輯。</li>
-</ol>
-<p>👉 簡單來說：</p>
-<ul>
-<li><strong>Prettier</strong>：讓程式碼「好看」</li>
-<li><strong>ESLint</strong>：讓程式碼「正確」</li>
-</ul>
-<hr>
-<h2 id="VSCode-安裝-ESLint"><a href="#VSCode-安裝-ESLint" class="headerlink" title="VSCode 安裝 ESLint"></a>VSCode 安裝 ESLint</h2><p>這邊也建議在 VSCode 裡安裝 ESLint 套件：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/2-vscode-eslint.png?raw=true"></p>
-<hr>
-<h2 id="專案安裝-ESLint"><a href="#專案安裝-ESLint" class="headerlink" title="專案安裝 ESLint"></a>專案安裝 ESLint</h2><p>在專案裡安裝 ESLint 以及相關套件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install eslint @eslint/js eslint-config-prettier eslint-plugin-prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="設定-ESLint"><a href="#設定-ESLint" class="headerlink" title="設定 ESLint"></a>設定 ESLint</h2><p>在專案根目錄新增 <code>eslint.config.js</code>：</p>
-<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> js = <span class="built_in">require</span>(<span class="string">&quot;@eslint/js&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> globals = <span class="built_in">require</span>(<span class="string">&quot;globals&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> prettier = <span class="built_in">require</span>(<span class="string">&quot;eslint-config-prettier&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsParser = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/parser&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> tsPlugin = <span class="built_in">require</span>(<span class="string">&quot;@typescript-eslint/eslint-plugin&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">files</span>: [<span class="string">&quot;**/*.ts&quot;</span>], <span class="comment">// 檢查 .ts 檔案</span></span><br><span class="line">    <span class="attr">languageOptions</span>: &#123;</span><br><span class="line">      <span class="attr">parser</span>: tsParser, <span class="comment">// 用 TypeScript 的解析器</span></span><br><span class="line">      <span class="attr">sourceType</span>: <span class="string">&quot;module&quot;</span>, <span class="comment">// 支援 ES 模組</span></span><br><span class="line">      <span class="attr">globals</span>: &#123;</span><br><span class="line">        ...globals.<span class="property">node</span>, <span class="comment">// Node.js 的全域變數（像 process）</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: &#123;</span><br><span class="line">      <span class="string">&quot;@typescript-eslint&quot;</span>: tsPlugin, <span class="comment">// TypeScript 專屬插件</span></span><br><span class="line">      <span class="attr">prettier</span>: <span class="built_in">require</span>(<span class="string">&quot;eslint-plugin-prettier&quot;</span>), <span class="comment">// Prettier 插件</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">rules</span>: &#123;</span><br><span class="line">      ...js.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// ESLint 基本規則</span></span><br><span class="line">      ...tsPlugin.<span class="property">configs</span>.<span class="property">recommended</span>.<span class="property">rules</span>, <span class="comment">// TypeScript 推薦規則</span></span><br><span class="line">      ...prettier.<span class="property">rules</span>, <span class="comment">// 正確使用 prettier 配置</span></span><br><span class="line">      <span class="string">&quot;prettier/prettier&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// Prettier 格式錯誤會顯示</span></span><br><span class="line">      <span class="attr">semi</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;always&quot;</span>], <span class="comment">// 行尾一定要有分號</span></span><br><span class="line">      <span class="attr">quotes</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;double&quot;</span>], <span class="comment">// 用雙引號</span></span><br><span class="line">      <span class="string">&quot;no-var&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 不准用 var</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-unused-vars&quot;</span>: [<span class="string">&quot;error&quot;</span>], <span class="comment">// 不准有沒用到的變數</span></span><br><span class="line">      <span class="string">&quot;@typescript-eslint/no-explicit-any&quot;</span>: <span class="string">&quot;error&quot;</span>, <span class="comment">// 禁止使用 any 類型</span></span><br><span class="line">      <span class="comment">// 改用 TypeScript 版本的 func-style</span></span><br><span class="line">      <span class="string">&quot;func-style&quot;</span>: [<span class="string">&quot;error&quot;</span>, <span class="string">&quot;declaration&quot;</span>, &#123; <span class="attr">allowArrowFunctions</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">      <span class="comment">// 禁止一般函式表達式</span></span><br><span class="line">      <span class="string">&quot;no-restricted-syntax&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;error&quot;</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">selector</span>: <span class="string">&quot;FunctionExpression&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;請使用函式宣告式或箭頭函式，避免使用一般函式表達式 😎&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
-
-<p>在 <code>package.json</code> 裡加上 script：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;lint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lint:fix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot; --fix&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>npm run lint</code>：檢查程式碼規則</li>
-<li><code>npm run lint:fix</code>：自動修復能修的錯誤</li>
-</ul>
-<hr>
-<h2 id="測試-ESLint"><a href="#測試-ESLint" class="headerlink" title="測試 ESLint"></a>測試 ESLint</h2><p>在 <code>/src</code> 下新增 <code>testLint.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 1: sayHello 宣告但未使用</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params">name: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">  <span class="comment">// 違反 2: 用 any 型別（TypeScript 規則）</span></span><br><span class="line">  <span class="keyword">var</span> greeting = <span class="string">&quot;Hello &quot;</span> + name; <span class="comment">// 違反 3: 用 var 宣告</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> unusedVar = <span class="number">42</span>; <span class="comment">// 違反 4: 未使用的變數</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(greeting);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 違反 5:請使用函式宣告式或箭頭函式，避免使用一般函式表達式</span></span><br><span class="line"><span class="keyword">const</span> a = <span class="keyword">function</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">a</span>(<span class="string">&quot;Peter&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/test&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Test route&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Server running on port 3000&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run lint</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/3-npm-run-lint.png?raw=true"></p>
-<p>你會看到 ESLint 把所有違規都列出來，幫助你更快找到問題。</p>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li>ESLint 誕生於 2013 年，是目前最常見的 JavaScript&#x2F;TypeScript 程式碼檢查工具。</li>
-<li>與 Prettier 搭配：<ul>
-<li><strong>Prettier</strong> → 排版風格一致</li>
-<li><strong>ESLint</strong> → 邏輯與規範正確</li>
-</ul>
-</li>
-<li>在專案中安裝、設定後，可以自動檢查、修復程式，避免錯誤。</li>
-</ul>
-<hr>
-<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><blockquote>
-<p>commit : setup ESLint</p>
-</blockquote>
-<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/2786c17e588e8598f42e8349a901f3d6717afe46">Github 連結</a></p>
-<p>👉 明天 (Day14) 我們則會來介紹 Zod 驗證 (API 驗證守護神)，期待期待 💪</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>Tools</tag>
       </tags>
   </entry>
 </search>
