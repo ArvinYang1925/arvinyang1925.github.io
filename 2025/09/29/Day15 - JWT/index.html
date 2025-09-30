@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="到目前為止，我們的 TodoList API 已經能跑起來，還能把資料存進資料庫。 但是，有沒有發現一個大漏洞？ 👉 任何人都可以操作 todos，不需要登入！ 但現在我們希望做到「一人一帳號，一人一份 TodoList」。 今天我們就來幫 API 加上 JWT 登入驗證，讓系統更有安全感 💪。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 15 - API 安全升級：JWT 登入驗證全流程實作">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/09/29/Day15%20-%20JWT/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="到目前為止，我們的 TodoList API 已經能跑起來，還能把資料存進資料庫。 但是，有沒有發現一個大漏洞？ 👉 任何人都可以操作 todos，不需要登入！ 但現在我們希望做到「一人一帳號，一人一份 TodoList」。 今天我們就來幫 API 加上 JWT 登入驗證，讓系統更有安全感 💪。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/1-register.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/2-login.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/3-token.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/4-add-todo.png?raw=true">
+<meta property="article:published_time" content="2025-09-29T06:43:17.000Z">
+<meta property="article:modified_time" content="2025-09-30T06:47:09.509Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/1-register.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/09/29/Day15%20-%20JWT/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/09/29/Day15%20-%20JWT/","path":"2025/09/29/Day15 - JWT/","title":"Day 15 - API 安全升級：JWT 登入驗證全流程實作"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 15 - API 安全升級：JWT 登入驗證全流程實作 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%85%88%E8%A3%9D%E4%B8%8A%E5%85%A9%E5%A4%A7%E7%A5%9E%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">1. 先裝上兩大神器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%96%B0%E5%A2%9E-User-%E5%AF%A6%E9%AB%94"><span class="nav-number">2.</span> <span class="nav-text">2. 新增 User 實體</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AF%86%E7%A2%BC%E5%8A%A0%E5%AF%86%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">3. 密碼加密工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-JWT-%E5%B7%A5%E5%85%B7"><span class="nav-number">4.</span> <span class="nav-text">4. JWT 工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%A8%BB%E5%86%8A%E8%88%87%E7%99%BB%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">5. 註冊與登入流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E8%AA%8D%E8%AD%89%E4%B8%AD%E9%96%93%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">6. 認證中間件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BF%9D%E8%AD%B7-Todo-API"><span class="nav-number">7.</span> <span class="nav-text">7. 保護 Todo API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%AF%A6%E4%BD%9C%E6%88%90%E6%9E%9C"><span class="nav-number">8.</span> <span class="nav-text">8.實作成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%91-%E6%9C%AC%E6%97%A5%E9%87%8D%E9%BB%9E%E8%A4%87%E7%BF%92"><span class="nav-number">9.</span> <span class="nav-text">🔑 本日重點複習</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%AB%E5%9C%A8%E6%9C%80%E5%BE%8C"><span class="nav-number">10.</span> <span class="nav-text">寫在最後</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%BA%90"><span class="nav-number">11.</span> <span class="nav-text">補充資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/29/Day15%20-%20JWT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 15 - API 安全升級：JWT 登入驗證全流程實作 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 15 - API 安全升級：JWT 登入驗證全流程實作
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-29 14:43:17" itemprop="dateCreated datePublished" datetime="2025-09-29T14:43:17+08:00">2025-09-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-09-30 14:47:09" itemprop="dateModified" datetime="2025-09-30T14:47:09+08:00">2025-09-30</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>到目前為止，我們的 TodoList API 已經能跑起來，還能把資料存進資料庫。</p>
+<p>但是，有沒有發現一個大漏洞？</p>
+<p>👉 <strong>任何人都可以操作 todos，不需要登入！</strong></p>
+<p>但現在我們希望做到「一人一帳號，一人一份 TodoList」。</p>
+<p>今天我們就來幫 API 加上 <strong>JWT 登入驗證</strong>，讓系統更有安全感 💪。</p>
+<span id="more"></span>
+
+<p>P.S 本次專案程式碼修改幅度較大，下面列出重點步驟，詳細可參考最下方<strong>補充資源</strong>的內容。</p>
+<hr>
+<h2 id="1-先裝上兩大神器"><a href="#1-先裝上兩大神器" class="headerlink" title="1. 先裝上兩大神器"></a>1. 先裝上兩大神器</h2><p>要實作登入驗證，通常會用到這兩個套件：</p>
+<ul>
+<li><strong>jsonwebtoken</strong>：產生與驗證 JWT（JSON Web Token），用來確認使用者身份。</li>
+<li><strong>bcryptjs</strong>：幫密碼做雜湊（Hash），確保不會把明碼存進資料庫。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install jsonwebtoken bcryptjs</span><br><span class="line">npm install -D @types/jsonwebtoken @types/bcryptjs</span><br></pre></td></tr></table></figure>
+
+<p>裝好之後，我們就能開始搞定 <strong>註冊 &#x2F; 登入 &#x2F; 驗證 middleware</strong> 了 🚀。</p>
+<hr>
+<h2 id="2-新增-User-實體"><a href="#2-新增-User-實體" class="headerlink" title="2. 新增 User 實體"></a>2. 新增 User 實體</h2><p>我們需要一個使用者資料表，才能綁定 Todo。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/entities/User.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Entity</span>,</span><br><span class="line">  <span class="title class_">PrimaryGeneratedColumn</span>,</span><br><span class="line">  <span class="title class_">Column</span>,</span><br><span class="line">  <span class="title class_">CreateDateColumn</span>,</span><br><span class="line">  <span class="title class_">UpdateDateColumn</span>,</span><br><span class="line">  <span class="title class_">OneToMany</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;varchar&quot;</span>, <span class="attr">length</span>: <span class="number">50</span>, <span class="attr">nullable</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  name!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;varchar&quot;</span>, <span class="attr">length</span>: <span class="number">320</span>, <span class="attr">unique</span>: <span class="literal">true</span>, <span class="attr">nullable</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  email!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;varchar&quot;</span>, <span class="attr">length</span>: <span class="number">72</span>, <span class="attr">nullable</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  password!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@CreateDateColumn</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;created_at&quot;</span> &#125;)</span><br><span class="line">  createdAt!: <span class="title class_">Date</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@UpdateDateColumn</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;updated_at&quot;</span> &#125;)</span><br><span class="line">  updatedAt!: <span class="title class_">Date</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 與 Todo 的一對多關係</span></span><br><span class="line">  <span class="meta">@OneToMany</span>(<span class="function">() =&gt;</span> <span class="title class_">Todo</span>, <span class="function">(<span class="params">todo</span>) =&gt;</span> todo.<span class="property">user</span>)</span><br><span class="line">  todos?: <span class="title class_">Todo</span>[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再來，把 Todo 也連上使用者：(可以覆蓋本來的 Todo.ts 程式碼)</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/entities/Todo.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  <span class="title class_">Entity</span>,</span><br><span class="line">  <span class="title class_">PrimaryGeneratedColumn</span>,</span><br><span class="line">  <span class="title class_">Column</span>,</span><br><span class="line">  <span class="title class_">CreateDateColumn</span>,</span><br><span class="line">  <span class="title class_">UpdateDateColumn</span>,</span><br><span class="line">  <span class="title class_">ManyToOne</span>,</span><br><span class="line">  <span class="title class_">JoinColumn</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Todo</span> &#123;</span><br><span class="line">  <span class="meta">@PrimaryGeneratedColumn</span>(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;varchar&quot;</span>, <span class="attr">length</span>: <span class="number">255</span>, <span class="attr">nullable</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  title!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">default</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">  completed!: <span class="built_in">boolean</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@CreateDateColumn</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;created_at&quot;</span> &#125;)</span><br><span class="line">  createdAt!: <span class="title class_">Date</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@UpdateDateColumn</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;updated_at&quot;</span> &#125;)</span><br><span class="line">  updatedAt!: <span class="title class_">Date</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 與 User 的多對一關係</span></span><br><span class="line">  <span class="meta">@Column</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;user_id&quot;</span> &#125;)</span><br><span class="line">  userId!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@ManyToOne</span>(<span class="function">() =&gt;</span> <span class="title class_">User</span>, <span class="function">(<span class="params">user</span>) =&gt;</span> user.<span class="property">todos</span>, &#123; <span class="attr">onDelete</span>: <span class="string">&quot;CASCADE&quot;</span> &#125;)</span><br><span class="line">  <span class="meta">@JoinColumn</span>(&#123; <span class="attr">name</span>: <span class="string">&quot;user_id&quot;</span> &#125;)</span><br><span class="line">  user!: <span class="title class_">User</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這樣一來，Todo 就會跟 User 綁定囉 。</p>
+<hr>
+<h2 id="3-密碼加密工具"><a href="#3-密碼加密工具" class="headerlink" title="3. 密碼加密工具"></a>3. 密碼加密工具</h2><p>不建議把使用者輸入的密碼直接存進 DB。</p>
+<p>所以我們先寫一個小工具來處理加密與比對：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils/passwordUtils.ts</span></span><br><span class="line"><span class="keyword">import</span> bcrypt <span class="keyword">from</span> <span class="string">&quot;bcryptjs&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">hashPassword</span>(<span class="params">plain: <span class="built_in">string</span></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> salt = <span class="keyword">await</span> bcrypt.<span class="title function_">genSalt</span>(<span class="number">10</span>);</span><br><span class="line">  <span class="keyword">return</span> bcrypt.<span class="title function_">hash</span>(plain, salt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">comparePassword</span>(<span class="params"></span></span><br><span class="line"><span class="params">  plain: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">  hashed: <span class="built_in">string</span></span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">boolean</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> bcrypt.<span class="title function_">compare</span>(plain, hashed);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-JWT-工具"><a href="#4-JWT-工具" class="headerlink" title="4. JWT 工具"></a>4. JWT 工具</h2><p>JWT 就像是使用者的「通行證」。</p>
+<p>我們需要能夠 <strong>簽發 token</strong> 以及 <strong>驗證 token</strong>。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/utils/jwtUtils.ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> jwt <span class="keyword">from</span> <span class="string">&quot;jsonwebtoken&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> <span class="title class_">JWTPayload</span> &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="built_in">string</span>;</span><br><span class="line">  <span class="attr">email</span>: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!process.<span class="property">env</span>.<span class="property">JWT_SECRET</span>) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;Missing JWT_SECRET in .env&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">SECRET</span> = process.<span class="property">env</span>.<span class="property">JWT_SECRET</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">EXPIRES_IN</span> = process.<span class="property">env</span>.<span class="property">JWT_EXPIRES_IN</span> || <span class="string">&quot;24h&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">generateToken</span>(<span class="params">payload: JWTPayload</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> jwt.<span class="title function_">sign</span>(payload, <span class="variable constant_">SECRET</span>, &#123;</span><br><span class="line">    <span class="attr">expiresIn</span>: <span class="variable constant_">EXPIRES_IN</span> <span class="keyword">as</span> jwt.<span class="property">SignOptions</span>[<span class="string">&quot;expiresIn&quot;</span>],</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">verifyToken</span>(<span class="params">token: <span class="built_in">string</span></span>): <span class="title class_">JWTPayload</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> jwt.<span class="title function_">verify</span>(token, <span class="variable constant_">SECRET</span>) <span class="keyword">as</span> <span class="title class_">JWTPayload</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-註冊與登入流程"><a href="#5-註冊與登入流程" class="headerlink" title="5. 註冊與登入流程"></a>5. 註冊與登入流程</h2><p>現在來寫 API：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/controllers/authController.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  registerSchema,</span><br><span class="line">  loginSchema,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../validator/authValidationSchemas&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; hashPassword, comparePassword &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/passwordUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; generateToken &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/jwtUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> jwt <span class="keyword">from</span> <span class="string">&quot;jsonwebtoken&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userRepo = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">register</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> parsed = registerSchema.<span class="title function_">safeParse</span>(req.<span class="property">body</span>);</span><br><span class="line">    <span class="keyword">if</span> (!parsed.<span class="property">success</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> issue = parsed.<span class="property">error</span>.<span class="property">issues</span>[<span class="number">0</span>];</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: issue.<span class="property">message</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> &#123; name, email, password &#125; = parsed.<span class="property">data</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 檢查是否已註冊</span></span><br><span class="line">    <span class="keyword">const</span> exists = <span class="keyword">await</span> userRepo.<span class="title function_">findOneBy</span>(&#123; email &#125;);</span><br><span class="line">    <span class="keyword">if</span> (exists) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">409</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Email 已被使用&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 建立 User（移除角色相關邏輯）</span></span><br><span class="line">    <span class="keyword">const</span> hashed = <span class="keyword">await</span> <span class="title function_">hashPassword</span>(password);</span><br><span class="line">    <span class="keyword">const</span> user = userRepo.<span class="title function_">create</span>(&#123;</span><br><span class="line">      name,</span><br><span class="line">      email,</span><br><span class="line">      <span class="attr">password</span>: hashed,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">const</span> saved = <span class="keyword">await</span> userRepo.<span class="title function_">save</span>(user);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成 token</span></span><br><span class="line">    <span class="keyword">const</span> token = <span class="title function_">generateToken</span>(&#123; <span class="attr">id</span>: saved.<span class="property">id</span>, <span class="attr">email</span>: saved.<span class="property">email</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> &#123; exp, iat &#125; = jwt.<span class="title function_">decode</span>(token) <span class="keyword">as</span> &#123; <span class="attr">exp</span>: <span class="built_in">number</span>; <span class="attr">iat</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line">    <span class="keyword">const</span> expiresIn = exp - iat;</span><br><span class="line"></span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;註冊成功&quot;</span>,</span><br><span class="line">      <span class="attr">data</span>: &#123;</span><br><span class="line">        token,</span><br><span class="line">        expiresIn,</span><br><span class="line">        <span class="attr">userInfo</span>: &#123;</span><br><span class="line">          <span class="attr">id</span>: saved.<span class="property">id</span>,</span><br><span class="line">          <span class="attr">name</span>: saved.<span class="property">name</span>,</span><br><span class="line">          <span class="attr">email</span>: saved.<span class="property">email</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">login</span>(<span class="params">req: Request, res: Response, next: NextFunction</span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> parsed = loginSchema.<span class="title function_">safeParse</span>(req.<span class="property">body</span>);</span><br><span class="line">    <span class="keyword">if</span> (!parsed.<span class="property">success</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;帳號或密碼錯誤&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> &#123; email, password &#125; = parsed.<span class="property">data</span>;</span><br><span class="line">    <span class="keyword">const</span> user = <span class="keyword">await</span> userRepo.<span class="title function_">findOneBy</span>(&#123; email &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user || !(<span class="keyword">await</span> <span class="title function_">comparePassword</span>(password, user.<span class="property">password</span>))) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;帳號或密碼錯誤&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> token = <span class="title function_">generateToken</span>(&#123; <span class="attr">id</span>: user.<span class="property">id</span>, <span class="attr">email</span>: user.<span class="property">email</span> &#125;);</span><br><span class="line">    <span class="keyword">const</span> &#123; exp, iat &#125; = jwt.<span class="title function_">decode</span>(token) <span class="keyword">as</span> &#123; <span class="attr">exp</span>: <span class="built_in">number</span>; <span class="attr">iat</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line">    <span class="keyword">const</span> expiresIn = exp - iat;</span><br><span class="line"></span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;登入成功&quot;</span>,</span><br><span class="line">      <span class="attr">data</span>: &#123;</span><br><span class="line">        token,</span><br><span class="line">        expiresIn,</span><br><span class="line">        <span class="attr">userInfo</span>: &#123;</span><br><span class="line">          <span class="attr">id</span>: user.<span class="property">id</span>,</span><br><span class="line">          <span class="attr">name</span>: user.<span class="property">name</span>,</span><br><span class="line">          <span class="attr">email</span>: user.<span class="property">email</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">logout</span>(<span class="params">req: Request, res: Response, next: NextFunction</span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;登出成功&quot;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>登入的流程則是比對密碼 → 發 token。</p>
+<p>然後 routes 新增 authRoutes.ts</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/routes/authRoutes.ts</span></span><br><span class="line">import <span class="punctuation">&#123;</span> Router <span class="punctuation">&#125;</span> from <span class="string">&quot;express&quot;</span>;</span><br><span class="line">import <span class="punctuation">&#123;</span> register<span class="punctuation">,</span> login<span class="punctuation">,</span> logout <span class="punctuation">&#125;</span> from <span class="string">&quot;../controllers/authController&quot;</span>;</span><br><span class="line">import <span class="punctuation">&#123;</span> isAuth <span class="punctuation">&#125;</span> from <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line">const router = Router();</span><br><span class="line"></span><br><span class="line">router.post(<span class="string">&quot;/register&quot;</span><span class="punctuation">,</span> register);</span><br><span class="line">router.post(<span class="string">&quot;/login&quot;</span><span class="punctuation">,</span> login);</span><br><span class="line">router.post(<span class="string">&quot;/logout&quot;</span><span class="punctuation">,</span> isAuth<span class="punctuation">,</span> logout);</span><br><span class="line"></span><br><span class="line">export default router;</span><br></pre></td></tr></table></figure>
+
+<p>.env 記得也要加上 <code>JWT_SECRET</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JWT_SECRET=jwt_secret</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-認證中間件"><a href="#6-認證中間件" class="headerlink" title="6. 認證中間件"></a>6. 認證中間件</h2><p>有了 token 之後，還要能檢查它是否合法。</p>
+<p>這時候就需要 middleware 出場啦：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/middleware/isAuth.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; verifyToken, <span class="title class_">JWTPayload</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/jwtUtils&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> <span class="title class_">AuthRequest</span> <span class="keyword">extends</span> <span class="title class_">Request</span> &#123;</span><br><span class="line">  user?: <span class="title class_">JWTPayload</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">isAuth</span>(<span class="params">req: AuthRequest, res: Response, next: NextFunction</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> auth = req.<span class="property">headers</span>.<span class="property">authorization</span>;</span><br><span class="line">  <span class="keyword">if</span> (!auth?.<span class="title function_">startsWith</span>(<span class="string">&quot;Bearer &quot;</span>)) &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span> &#125;);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> token = auth.<span class="title function_">split</span>(<span class="string">&quot; &quot;</span>)[<span class="number">1</span>];</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> payload = <span class="title function_">verifyToken</span>(token);</span><br><span class="line">    req.<span class="property">user</span> = payload;</span><br><span class="line">    <span class="title function_">next</span>();</span><br><span class="line">  &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Token 無效或已過期&quot;</span> &#125;);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="7-保護-Todo-API"><a href="#7-保護-Todo-API" class="headerlink" title="7. 保護 Todo API"></a>7. 保護 Todo API</h2><p>最後，讓所有 Todo 操作都必須帶上 token 才能執行：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/routes/todoRoutes.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, isAuth, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, isAuth, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, isAuth, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, isAuth, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="8-實作成果"><a href="#8-實作成果" class="headerlink" title="8.實作成果"></a>8.實作成果</h2><p>用 postman 測試註冊 API :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/1-register.png?raw=true"></p>
+<p>測試登入 API :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/2-login.png?raw=true"></p>
+<p>在 postman 傳送請求時帶上 token</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/3-token.png?raw=true"></p>
+<p>嘗試新增待辦事項</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day15-JWT/4-add-todo.png?raw=true"></p>
+<p>可發現待辦事項綁定了 userId</p>
+<p>現在，每個人都只能操作自己的 Todo！🎉</p>
+<hr>
+<h2 id="🔑-本日重點複習"><a href="#🔑-本日重點複習" class="headerlink" title="🔑 本日重點複習"></a>🔑 本日重點複習</h2><ol>
+<li><strong>bcryptjs</strong>：加密密碼，保護使用者資料。</li>
+<li><strong>jsonwebtoken</strong>：簽發 &#x2F; 驗證 Token，實現登入驗證。</li>
+<li><strong>middleware</strong>：保護 API，只允許合法使用者操作。</li>
+<li><strong>User 與 Todo 關聯</strong>：實現一人一份 TodoList。</li>
+</ol>
+<hr>
+<h2 id="寫在最後"><a href="#寫在最後" class="headerlink" title="寫在最後"></a>寫在最後</h2><p>做到這裡，我們的 TodoList API 已經升級到「多人系統」。</p>
+<p>每個人都必須註冊 &#x2F; 登入，才能建立屬於自己的 Todo。</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
+<p>commit : install jwt plugin and implement auth feature</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/cbaf0b87023e4232ee25ca63cfe873dde4613b4a">Github 連結</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/28/Day14%20-%20Zod/" rel="prev" title="Day 14 - API 驗證救星：用 Zod 驗證來檢查">
+                  <i class="fa fa-angle-left"></i> Day 14 - API 驗證救星：用 Zod 驗證來檢查
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
