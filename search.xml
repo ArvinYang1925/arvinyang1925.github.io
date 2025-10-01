@@ -686,6 +686,103 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端</title>
+    <url>/2025/10/01/Day17%20-%20Firebase-Multer/</url>
+    <content><![CDATA[<p>昨天我們完成了 <strong>Firebase Storage 的環境設定</strong>：</p>
+<ul>
+<li>建立專案 &amp; Bucket</li>
+<li>下載服務金鑰</li>
+<li>設定 <code>.env</code></li>
+</ul>
+<p>今天就要正式進入<strong>實戰篇</strong>！</p>
+<p>想像一下：現在我們的服務需要讓使用者可以上傳<strong>大頭貼</strong>。</p>
+<p>那我們該怎麼做？</p>
+<p>👉 就是用 <strong>Node.js + multer</strong> 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。</p>
+<span id="more"></span>
+
+<h3 id="步驟-1：安裝必要套件"><a href="#步驟-1：安裝必要套件" class="headerlink" title="步驟 1：安裝必要套件"></a><strong>步驟 1：安裝必要套件</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 核心套件</span></span><br><span class="line">npm install multer firebase-admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># TypeScript 開發依賴（如果使用 TypeScript）</span></span><br><span class="line">npm install -D @types/multer</span><br></pre></td></tr></table></figure>
+
+<p><strong>套件說明：</strong></p>
+<ul>
+<li><code>multer</code>: 處理 <code>multipart/form-data</code> 的文件上傳中間件</li>
+<li><code>firebase-admin</code>: Firebase Admin SDK，用於操作 Firebase Storage</li>
+</ul>
+<hr>
+<h3 id="步驟-2：設定環境變數-env"><a href="#步驟-2：設定環境變數-env" class="headerlink" title="步驟 2：設定環境變數 (.env)"></a><strong>步驟 2：設定環境變數 (.env)</strong></h3><p>在 <code>.env</code> 檔案中加入 Firebase 設定（詳細可參考 Day16 文章)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Firebase 設定</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要提醒：</strong></p>
+<ul>
+<li><code>FIREBASE_SERVICE_ACCOUNT</code> 必須是<strong>完整的 JSON 字串</strong>（單行）</li>
+<li>記得把 <code>.env</code> 加入 <code>.gitignore</code>，避免洩漏金鑰</li>
+</ul>
+<hr>
+<h3 id="步驟-3：新增-User-Entity-欄位"><a href="#步驟-3：新增-User-Entity-欄位" class="headerlink" title="步驟 3：新增 User Entity 欄位"></a><strong>步驟 3：新增 User Entity 欄位</strong></h3><p>在 <code>User.ts</code> 增加 <code>profileUrl</code>，用來存放大頭貼位址：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">@Entity()</span><br><span class="line">export class User <span class="punctuation">&#123;</span></span><br><span class="line">  @PrimaryGeneratedColumn(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">50</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  name!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">320</span><span class="punctuation">,</span> unique<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  email!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> name<span class="punctuation">:</span> <span class="string">&quot;profile_url&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">2048</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  profileUrl?<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts"><a href="#步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts" class="headerlink" title="步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)"></a><strong>步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> admin <span class="keyword">from</span> <span class="string">&quot;firebase-admin&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析環境變數中的 JSON 字串</span></span><br><span class="line"><span class="keyword">const</span> serviceAccount = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(process.<span class="property">env</span>.<span class="property">FIREBASE_SERVICE_ACCOUNT</span>!);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 Firebase Admin</span></span><br><span class="line">admin.<span class="title function_">initializeApp</span>(&#123;</span><br><span class="line">  <span class="attr">credential</span>: admin.<span class="property">credential</span>.<span class="title function_">cert</span>(serviceAccount),</span><br><span class="line">  <span class="attr">storageBucket</span>: process.<span class="property">env</span>.<span class="property">FIREBASE_STORAGE_BUCKET</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取得 Storage Bucket</span></span><br><span class="line"><span class="keyword">const</span> bucket = admin.<span class="title function_">storage</span>().<span class="title function_">bucket</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; admin, bucket &#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts"><a href="#步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts" class="headerlink" title="步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)"></a><strong>步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multer <span class="keyword">from</span> <span class="string">&quot;multer&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Express</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用記憶體儲存（不寫入硬碟）</span></span><br><span class="line"><span class="keyword">const</span> storage = multer.<span class="title function_">memoryStorage</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 檔案過濾器：只接受 JPG 和 PNG</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">imageFileFilter</span> = (<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  file: Express.Multer.File,</span></span><br><span class="line"><span class="params">  cb: multer.FileFilterCallback</span></span><br><span class="line"><span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(file.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">  <span class="keyword">if</span> (![<span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.png&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>].<span class="title function_">includes</span>(ext)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">cb</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;只接受 JPG/PNG 格式的圖片檔案&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cb</span>(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 限制：2 MB、JPG/PNG 格式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> imageUpload = <span class="title function_">multer</span>(&#123;</span><br><span class="line">  storage,</span><br><span class="line">  <span class="attr">limits</span>: &#123; <span class="attr">fileSize</span>: <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span> &#125;, <span class="comment">// 2 MB</span></span><br><span class="line">  <span class="attr">fileFilter</span>: imageFileFilter,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>設計重點：</strong></p>
+<ul>
+<li><code>memoryStorage()</code>: 檔案存在記憶體中（<code>req.file.buffer</code>），適合直接上傳到雲端</li>
+<li><code>fileFilter</code>: 限制只接受圖片格式</li>
+<li><code>limits</code>: 限制檔案大小為 2 MB</li>
+</ul>
+<hr>
+<h3 id="步驟-6：建立上傳-Controller-controllers-uploadController-ts"><a href="#步驟-6：建立上傳-Controller-controllers-uploadController-ts" class="headerlink" title="步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)"></a><strong>步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; bucket &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/firebaseUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 Firebase Storage</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatar</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生遠端檔案路徑</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> remotePath = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 取得 Firebase Storage 檔案參考</span></span><br><span class="line">    <span class="keyword">const</span> file = bucket.<span class="title function_">file</span>(remotePath);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 建立寫入串流</span></span><br><span class="line">    <span class="keyword">const</span> stream = file.<span class="title function_">createWriteStream</span>(&#123;</span><br><span class="line">      <span class="attr">metadata</span>: &#123;</span><br><span class="line">        <span class="attr">contentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 錯誤處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;error&quot;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> <span class="title function_">next</span>(err));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 上傳完成後的處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;finish&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 設定檔案為公開存取</span></span><br><span class="line">        <span class="keyword">await</span> file.<span class="title function_">makePublic</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 產生公開 URL</span></span><br><span class="line">        <span class="keyword">const</span> publicUrl = <span class="string">`https://storage.googleapis.com/<span class="subst">$&#123;bucket.name&#125;</span>/<span class="subst">$&#123;remotePath&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 更新資料庫（根據你的 ORM/資料庫架構調整）</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">          &#123; <span class="attr">id</span>: req.<span class="property">user</span>?.<span class="property">id</span> &#125;,</span><br><span class="line">          &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. 回傳成功訊息</span></span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">          <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="title function_">next</span>(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 10. 將檔案緩衝區寫入串流</span></span><br><span class="line">    stream.<span class="title function_">end</span>(req.<span class="property">file</span>.<span class="property">buffer</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-7：設定路由-routes-uploadRoutes-ts"><a href="#步驟-7：設定路由-routes-uploadRoutes-ts" class="headerlink" title="步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)"></a><strong>步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; uploadAvatar &#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(</span><br><span class="line">  <span class="string">&quot;/avatar&quot;</span>,</span><br><span class="line">  isAuth, <span class="comment">// 1. 驗證 JWT token</span></span><br><span class="line">  imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), <span class="comment">// 2. 處理單一檔案上傳，欄位名稱為 &quot;file&quot;</span></span><br><span class="line">  uploadAvatar <span class="comment">// 3. 執行上傳邏輯</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<p><strong>中間件順序很重要：</strong></p>
+<ol>
+<li>先驗證使用者身份 (<code>isAuth</code>)</li>
+<li>再處理檔案上傳 (<code>imageUpload.single(&quot;file&quot;)</code>)</li>
+<li>最後執行業務邏輯 (<code>uploadAvatar</code>)</li>
+</ol>
+<hr>
+<h3 id="步驟-8：註冊路由到主應用程式-app-ts"><a href="#步驟-8：註冊路由到主應用程式-app-ts" class="headerlink" title="步驟 8：註冊路由到主應用程式 (app.ts)"></a><strong>步驟 8：註冊路由到主應用程式 (app.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 其他中間件設定</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 註冊上傳路由</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes); <span class="comment">// 上傳路由</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> app;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-9：上傳範例"><a href="#步驟-9：上傳範例" class="headerlink" title="步驟 9：上傳範例"></a><strong>步驟 9：上傳範例</strong></h3><p>使用 <strong>Postman</strong> 測試：</p>
+<ol>
+<li>選擇 <code>POST</code> 方法</li>
+<li>URL: <code>http://localhost:3000/api/upload/avatar</code></li>
+<li>Headers: <code>Authorization: Bearer YOUR_JWT_TOKEN</code></li>
+<li>Body → form-data → Key: <code>file</code> (選擇 File 類型) → 選擇圖片</li>
+</ol>
+<p>經由 Postman 回傳結果可得知成功上傳！成功後就能拿到一個 Firebase Storage 的公開 URL 🎉</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true"></p>
+<p>接著，查看一下資料庫 <code>profileUrl</code> 欄位 → 發現已經有正確的 URL 存入</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/2-database.png?raw=true"></p>
+<p>最後，再到我們的 Firebase Storage 查看檔案 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/3-firebase.png?raw=true"></p>
+<p>太棒了！我們用 Node.js + multer 成功串接了 Firebase Storage 服務 🍻</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了：</p>
+<ul>
+<li>使用 <code>multer</code> 處理圖片上傳</li>
+<li>串接 Firebase Storage</li>
+<li>把檔案存雲端並取得公開連結</li>
+<li>更新資料庫，讓使用者能擁有自己的大頭貼</li>
+</ul>
+<p>到這裡，我們的服務具備了「圖片上傳」的能力！ 🚀</p>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
+<p>commit : use multer and firebase storage to upload file</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/e46e7f49aa707b49da1f733534fd2747898974d1">Github 連結</a></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
     <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
     <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
@@ -968,67 +1065,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能</title>
-    <url>/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/</url>
-    <content><![CDATA[<p>在學習 <strong>Express + TypeScript + TypeORM</strong> 的過程中，<code>TodoList API</code> 是非常適合新手上手的練習案例。</p>
-<p>因為它的邏輯簡單（新增、讀取、更新、刪除），卻又涵蓋了 RESTful API 的核心概念：</p>
-<ul>
-<li><strong>CRUD</strong>（Create &#x2F; Read &#x2F; Update &#x2F; Delete）</li>
-<li><strong>Controller &#x2F; Route 分層</strong></li>
-<li><strong>與資料庫的互動（Repository）</strong></li>
-</ul>
-<p>這樣的練習不僅可以打好基礎，還能快速理解 <strong>後端架構設計</strong> 的常見模式。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="建立-Controller"><a href="#建立-Controller" class="headerlink" title="建立 Controller"></a>建立 Controller</h2><p>Controller（控制器）是 <strong>專門負責處理業務邏輯</strong> 的地方：</p>
-<ul>
-<li>收到請求 (<code>req</code>) → 驗證&#x2F;處理 → 回傳回應 (<code>res</code>)</li>
-<li>不直接決定路由，而是提供「功能」讓 Route 使用</li>
-<li>好處是：<strong>程式碼結構清楚、可讀性佳、方便測試與維護</strong></li>
-</ul>
-<p>建立 <code>src/controllers/todoController.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodos</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todos = <span class="keyword">await</span> todoRepository.<span class="title function_">find</span>();</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: todos &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">if</span> (!title) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; title &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; title, completed &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = title !== <span class="literal">undefined</span> ? title : todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = completed !== <span class="literal">undefined</span> ? completed : todo.<span class="property">completed</span>;</span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deleteTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> todoRepository.<span class="title function_">delete</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">affected</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: result &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="設定路由"><a href="#設定路由" class="headerlink" title="設定路由"></a>設定路由</h2><p>Route（路由）的工作就是 <strong>決定請求要交給哪個 Controller 處理</strong>。</p>
-<p>它就像是 <strong>導航地圖</strong>：</p>
-<ul>
-<li><code>GET /todos</code> → 查詢所有代辦事項 → <code>getTodos</code></li>
-<li><code>POST /todos</code> → 建立新代辦 → <code>createTodo</code></li>
-<li><code>PUT /todos/:id</code> → 更新某筆代辦 → <code>updateTodo</code></li>
-<li><code>DELETE /todos/:id</code> → 刪除某筆代辦 → <code>deleteTodo</code></li>
-</ul>
-<p>這樣一來，Controller 和 Route 的責任就分得很清楚：</p>
-<ul>
-<li><strong>Route &#x3D; 請求分配器</strong></li>
-<li><strong>Controller &#x3D; 處理邏輯</strong></li>
-</ul>
-<p>建立 <code>src/routes/todoRoutes.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="整合到主程式"><a href="#整合到主程式" class="headerlink" title="整合到主程式"></a>整合到主程式</h2><p>最後一步就是在 <code>app.ts</code> 裡，把 <code>todoRoutes</code> 整合進主程式。</p>
-<p>這樣當使用者發送請求到 <code>/api/todos</code> 時，Express 就會把它交給我們剛剛寫好的 <code>todoRoutes</code>，再由對應的 Controller 去處理。</p>
-<p>修改 <code>src/app.ts</code>：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes); <span class="comment">// 加上 Todo 路由</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;❌ DB connection failed:&quot;</span>, err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>👉 到這裡，我們就完成了一個最基礎的 TodoList API。</p>
-<p>但是目前還沒有資料庫可以測試 (還不能用 Postman 打 API 😂)，下一篇我們就來介紹 Render 服務上的資料庫應用，把整段串接起來。</p>
-<hr>
-<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d766050e40229dd97cd90a5c94c667d14cc90c2f">Github 範例程式碼</a></p>
-<blockquote>
-<p>commit : Day 8 initialize todo‑list API</p>
-</blockquote>
-<hr>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
     <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
     <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
@@ -1123,6 +1159,67 @@
 <blockquote>
 <p>commit message: Day 6 - set up Express + TS environment</p>
 </blockquote>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 8 - 打造你的第一個 TodoList API：一步步實現 CRUD 功能</title>
+    <url>/2025/09/22/Day8%20-%20TS-Node-TodoList%20API/</url>
+    <content><![CDATA[<p>在學習 <strong>Express + TypeScript + TypeORM</strong> 的過程中，<code>TodoList API</code> 是非常適合新手上手的練習案例。</p>
+<p>因為它的邏輯簡單（新增、讀取、更新、刪除），卻又涵蓋了 RESTful API 的核心概念：</p>
+<ul>
+<li><strong>CRUD</strong>（Create &#x2F; Read &#x2F; Update &#x2F; Delete）</li>
+<li><strong>Controller &#x2F; Route 分層</strong></li>
+<li><strong>與資料庫的互動（Repository）</strong></li>
+</ul>
+<p>這樣的練習不僅可以打好基礎，還能快速理解 <strong>後端架構設計</strong> 的常見模式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="建立-Controller"><a href="#建立-Controller" class="headerlink" title="建立 Controller"></a>建立 Controller</h2><p>Controller（控制器）是 <strong>專門負責處理業務邏輯</strong> 的地方：</p>
+<ul>
+<li>收到請求 (<code>req</code>) → 驗證&#x2F;處理 → 回傳回應 (<code>res</code>)</li>
+<li>不直接決定路由，而是提供「功能」讓 Route 使用</li>
+<li>好處是：<strong>程式碼結構清楚、可讀性佳、方便測試與維護</strong></li>
+</ul>
+<p>建立 <code>src/controllers/todoController.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span>, <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> todoRepository = <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">Todo</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getTodos</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> todos = <span class="keyword">await</span> todoRepository.<span class="title function_">find</span>();</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: todos &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">createTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; title &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">if</span> (!title) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Title is required&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> newTodo = todoRepository.<span class="title function_">create</span>(&#123; title &#125;);</span><br><span class="line">    <span class="keyword">const</span> savedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(newTodo);</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: savedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">updateTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> &#123; title, completed &#125; = req.<span class="property">body</span>;</span><br><span class="line">    <span class="keyword">const</span> todo = <span class="keyword">await</span> todoRepository.<span class="title function_">findOneBy</span>(&#123; id &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!todo) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    todo.<span class="property">title</span> = title !== <span class="literal">undefined</span> ? title : todo.<span class="property">title</span>;</span><br><span class="line">    todo.<span class="property">completed</span> = completed !== <span class="literal">undefined</span> ? completed : todo.<span class="property">completed</span>;</span><br><span class="line">    <span class="keyword">const</span> updatedTodo = <span class="keyword">await</span> todoRepository.<span class="title function_">save</span>(todo);</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: updatedTodo &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deleteTodo</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id &#125; = req.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">await</span> todoRepository.<span class="title function_">delete</span>(&#123; id &#125;);</span><br><span class="line">    <span class="keyword">if</span> (result.<span class="property">affected</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">404</span>).<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;error&quot;</span>, <span class="attr">message</span>: <span class="string">&quot;Todo not found&quot;</span> &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123; <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>, <span class="attr">data</span>: result &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="title function_">next</span>(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定路由"><a href="#設定路由" class="headerlink" title="設定路由"></a>設定路由</h2><p>Route（路由）的工作就是 <strong>決定請求要交給哪個 Controller 處理</strong>。</p>
+<p>它就像是 <strong>導航地圖</strong>：</p>
+<ul>
+<li><code>GET /todos</code> → 查詢所有代辦事項 → <code>getTodos</code></li>
+<li><code>POST /todos</code> → 建立新代辦 → <code>createTodo</code></li>
+<li><code>PUT /todos/:id</code> → 更新某筆代辦 → <code>updateTodo</code></li>
+<li><code>DELETE /todos/:id</code> → 刪除某筆代辦 → <code>deleteTodo</code></li>
+</ul>
+<p>這樣一來，Controller 和 Route 的責任就分得很清楚：</p>
+<ul>
+<li><strong>Route &#x3D; 請求分配器</strong></li>
+<li><strong>Controller &#x3D; 處理邏輯</strong></li>
+</ul>
+<p>建立 <code>src/routes/todoRoutes.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  getTodos,</span><br><span class="line">  createTodo,</span><br><span class="line">  updateTodo,</span><br><span class="line">  deleteTodo,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/todoController&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, getTodos);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/&quot;</span>, createTodo);</span><br><span class="line">router.<span class="title function_">put</span>(<span class="string">&quot;/:id&quot;</span>, updateTodo);</span><br><span class="line">router.<span class="title function_">delete</span>(<span class="string">&quot;/:id&quot;</span>, deleteTodo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="整合到主程式"><a href="#整合到主程式" class="headerlink" title="整合到主程式"></a>整合到主程式</h2><p>最後一步就是在 <code>app.ts</code> 裡，把 <code>todoRoutes</code> 整合進主程式。</p>
+<p>這樣當使用者發送請求到 <code>/api/todos</code> 時，Express 就會把它交給我們剛剛寫好的 <code>todoRoutes</code>，再由對應的 Controller 去處理。</p>
+<p>修改 <code>src/app.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes); <span class="comment">// 加上 Todo 路由</span></span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;❌ DB connection failed:&quot;</span>, err);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>👉 到這裡，我們就完成了一個最基礎的 TodoList API。</p>
+<p>但是目前還沒有資料庫可以測試 (還不能用 Postman 打 API 😂)，下一篇我們就來介紹 Render 服務上的資料庫應用，把整段串接起來。</p>
+<hr>
+<h2 id="補充資料"><a href="#補充資料" class="headerlink" title="補充資料"></a>補充資料</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d766050e40229dd97cd90a5c94c667d14cc90c2f">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit : Day 8 initialize todo‑list API</p>
+</blockquote>
+<hr>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
@@ -1351,6 +1448,85 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>常用 Hexo 指令帶你無往不利</title>
+    <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
+    <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new 文章名稱</span><br><span class="line">hexo generate 產生 public 資料夾內容</span><br><span class="line">hexo server</span><br><span class="line">hexo clean 清理緩存</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<ol>
+<li><p><strong>安装 Hexo</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>初始化 Hexo 项目</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成静态文件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启动本地服务器</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>新建文章</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new &lt;title&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>发布文章</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>清理缓存和生成的静态文件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>列出所有 Hexo 命令</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看 Hexo 帮助信息</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装插件</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install &lt;plugin-name&gt; --save</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>以下是一些额外的有用命令和操作：</p>
+<ul>
+<li><p><strong>新建页面</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new page &lt;page-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>草稿转发布</strong><br>如果你使用 <code>hexo new draft &lt;title&gt;</code> 创建了草稿，可以通过以下命令将草稿发布为正式文章：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo publish &lt;title&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成并部署</strong><br>这会在生成静态文件后立即部署它们：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>查看当前配置</strong><br>你可以直接编辑 <code>_config.yml</code> 文件来配置 Hexo，但也可以用以下命令查看当前配置：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo config</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>这些命令涵盖了 Hexo 的大部分基本功能，可以帮助你快速上手并管理你的博客。</p>
+]]></content>
+      <tags>
+        <tag>Hexo 指令</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 7 - 如何建立一個 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</title>
     <url>/2025/09/21/Day7%20-%20Node.js%20+%20TS%20(2)/</url>
     <content><![CDATA[<p>嗨～昨天我們已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong>。接著，在正式開發 API 之前，先來點暖身 —— 建立一個清晰、可維護的專案架構，並完成環境變數與資料庫連線設定。這些基礎工具就是未來專案能否穩定推進的關鍵。</p>
@@ -1520,85 +1696,6 @@
         <tag>JavaScript</tag>
         <tag>前端開發</tag>
         <tag>程式語言</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>常用 Hexo 指令帶你無往不利</title>
-    <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
-    <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new 文章名稱</span><br><span class="line">hexo generate 產生 public 資料夾內容</span><br><span class="line">hexo server</span><br><span class="line">hexo clean 清理緩存</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<ol>
-<li><p><strong>安装 Hexo</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>初始化 Hexo 项目</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo init &lt;folder&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;folder&gt;</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>生成静态文件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>启动本地服务器</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>新建文章</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new &lt;title&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>发布文章</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>清理缓存和生成的静态文件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>列出所有 Hexo 命令</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo list</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>查看 Hexo 帮助信息</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>安装插件</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install &lt;plugin-name&gt; --save</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>以下是一些额外的有用命令和操作：</p>
-<ul>
-<li><p><strong>新建页面</strong></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo new page &lt;page-name&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>草稿转发布</strong><br>如果你使用 <code>hexo new draft &lt;title&gt;</code> 创建了草稿，可以通过以下命令将草稿发布为正式文章：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo publish &lt;title&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>生成并部署</strong><br>这会在生成静态文件后立即部署它们：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo generate --deploy</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>查看当前配置</strong><br>你可以直接编辑 <code>_config.yml</code> 文件来配置 Hexo，但也可以用以下命令查看当前配置：</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">hexo config</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>这些命令涵盖了 Hexo 的大部分基本功能，可以帮助你快速上手并管理你的博客。</p>
-]]></content>
-      <tags>
-        <tag>Hexo 指令</tag>
       </tags>
   </entry>
   <entry>

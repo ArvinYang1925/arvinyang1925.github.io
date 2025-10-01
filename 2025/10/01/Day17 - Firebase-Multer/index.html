@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="昨天我們完成了 Firebase Storage 的環境設定：  建立專案 &amp; Bucket 下載服務金鑰 設定 .env  今天就要正式進入實戰篇！ 想像一下：現在我們的服務需要讓使用者可以上傳大頭貼。 那我們該怎麼做？ 👉 就是用 Node.js + multer 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/01/Day17%20-%20Firebase-Multer/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="昨天我們完成了 Firebase Storage 的環境設定：  建立專案 &amp; Bucket 下載服務金鑰 設定 .env  今天就要正式進入實戰篇！ 想像一下：現在我們的服務需要讓使用者可以上傳大頭貼。 那我們該怎麼做？ 👉 就是用 Node.js + multer 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/2-database.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/3-firebase.png?raw=true">
+<meta property="article:published_time" content="2025-10-01T10:09:24.000Z">
+<meta property="article:modified_time" content="2025-10-01T10:10:59.330Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/01/Day17%20-%20Firebase-Multer/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/01/Day17%20-%20Firebase-Multer/","path":"2025/10/01/Day17 - Firebase-Multer/","title":"Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E5%AE%89%E8%A3%9D%E5%BF%85%E8%A6%81%E5%A5%97%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">步驟 1：安裝必要套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8-env"><span class="nav-number">2.</span> <span class="nav-text">步驟 2：設定環境變數 (.env)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E6%96%B0%E5%A2%9E-User-Entity-%E6%AC%84%E4%BD%8D"><span class="nav-number">3.</span> <span class="nav-text">步驟 3：新增 User Entity 欄位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E5%BB%BA%E7%AB%8B-Firebase-%E5%B7%A5%E5%85%B7%E6%AA%94-utils-firebaseUtils-ts"><span class="nav-number">4.</span> <span class="nav-text">步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-5%EF%BC%9A%E5%BB%BA%E7%AB%8B%E5%9C%96%E7%89%87%E4%B8%8A%E5%82%B3%E4%B8%AD%E9%96%93%E4%BB%B6-middleware-imageUpload-ts"><span class="nav-number">5.</span> <span class="nav-text">步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-6%EF%BC%9A%E5%BB%BA%E7%AB%8B%E4%B8%8A%E5%82%B3-Controller-controllers-uploadController-ts"><span class="nav-number">6.</span> <span class="nav-text">步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-7%EF%BC%9A%E8%A8%AD%E5%AE%9A%E8%B7%AF%E7%94%B1-routes-uploadRoutes-ts"><span class="nav-number">7.</span> <span class="nav-text">步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-8%EF%BC%9A%E8%A8%BB%E5%86%8A%E8%B7%AF%E7%94%B1%E5%88%B0%E4%B8%BB%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F-app-ts"><span class="nav-number">8.</span> <span class="nav-text">步驟 8：註冊路由到主應用程式 (app.ts)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-9%EF%BC%9A%E4%B8%8A%E5%82%B3%E7%AF%84%E4%BE%8B"><span class="nav-number">9.</span> <span class="nav-text">步驟 9：上傳範例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number"></span> <span class="nav-text">小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%BA%90"><span class="nav-number"></span> <span class="nav-text">補充資源</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/01/Day17%20-%20Firebase-Multer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-01 18:09:24 / 修改時間：18:10:59" itemprop="dateCreated datePublished" datetime="2025-10-01T18:09:24+08:00">2025-10-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>昨天我們完成了 <strong>Firebase Storage 的環境設定</strong>：</p>
+<ul>
+<li>建立專案 &amp; Bucket</li>
+<li>下載服務金鑰</li>
+<li>設定 <code>.env</code></li>
+</ul>
+<p>今天就要正式進入<strong>實戰篇</strong>！</p>
+<p>想像一下：現在我們的服務需要讓使用者可以上傳<strong>大頭貼</strong>。</p>
+<p>那我們該怎麼做？</p>
+<p>👉 就是用 <strong>Node.js + multer</strong> 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。</p>
+<span id="more"></span>
+
+<h3 id="步驟-1：安裝必要套件"><a href="#步驟-1：安裝必要套件" class="headerlink" title="步驟 1：安裝必要套件"></a><strong>步驟 1：安裝必要套件</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 核心套件</span></span><br><span class="line">npm install multer firebase-admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># TypeScript 開發依賴（如果使用 TypeScript）</span></span><br><span class="line">npm install -D @types/multer</span><br></pre></td></tr></table></figure>
+
+<p><strong>套件說明：</strong></p>
+<ul>
+<li><code>multer</code>: 處理 <code>multipart/form-data</code> 的文件上傳中間件</li>
+<li><code>firebase-admin</code>: Firebase Admin SDK，用於操作 Firebase Storage</li>
+</ul>
+<hr>
+<h3 id="步驟-2：設定環境變數-env"><a href="#步驟-2：設定環境變數-env" class="headerlink" title="步驟 2：設定環境變數 (.env)"></a><strong>步驟 2：設定環境變數 (.env)</strong></h3><p>在 <code>.env</code> 檔案中加入 Firebase 設定（詳細可參考 Day16 文章)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Firebase 設定</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要提醒：</strong></p>
+<ul>
+<li><code>FIREBASE_SERVICE_ACCOUNT</code> 必須是<strong>完整的 JSON 字串</strong>（單行）</li>
+<li>記得把 <code>.env</code> 加入 <code>.gitignore</code>，避免洩漏金鑰</li>
+</ul>
+<hr>
+<h3 id="步驟-3：新增-User-Entity-欄位"><a href="#步驟-3：新增-User-Entity-欄位" class="headerlink" title="步驟 3：新增 User Entity 欄位"></a><strong>步驟 3：新增 User Entity 欄位</strong></h3><p>在 <code>User.ts</code> 增加 <code>profileUrl</code>，用來存放大頭貼位址：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Entity()</span><br><span class="line">export class User <span class="punctuation">&#123;</span></span><br><span class="line">  @PrimaryGeneratedColumn(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">50</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  name!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">320</span><span class="punctuation">,</span> unique<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  email!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> name<span class="punctuation">:</span> <span class="string">&quot;profile_url&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">2048</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  profileUrl?<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts"><a href="#步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts" class="headerlink" title="步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)"></a><strong>步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> admin <span class="keyword">from</span> <span class="string">&quot;firebase-admin&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析環境變數中的 JSON 字串</span></span><br><span class="line"><span class="keyword">const</span> serviceAccount = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(process.<span class="property">env</span>.<span class="property">FIREBASE_SERVICE_ACCOUNT</span>!);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 Firebase Admin</span></span><br><span class="line">admin.<span class="title function_">initializeApp</span>(&#123;</span><br><span class="line">  <span class="attr">credential</span>: admin.<span class="property">credential</span>.<span class="title function_">cert</span>(serviceAccount),</span><br><span class="line">  <span class="attr">storageBucket</span>: process.<span class="property">env</span>.<span class="property">FIREBASE_STORAGE_BUCKET</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取得 Storage Bucket</span></span><br><span class="line"><span class="keyword">const</span> bucket = admin.<span class="title function_">storage</span>().<span class="title function_">bucket</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; admin, bucket &#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts"><a href="#步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts" class="headerlink" title="步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)"></a><strong>步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multer <span class="keyword">from</span> <span class="string">&quot;multer&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Express</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用記憶體儲存（不寫入硬碟）</span></span><br><span class="line"><span class="keyword">const</span> storage = multer.<span class="title function_">memoryStorage</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 檔案過濾器：只接受 JPG 和 PNG</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">imageFileFilter</span> = (<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  file: Express.Multer.File,</span></span><br><span class="line"><span class="params">  cb: multer.FileFilterCallback</span></span><br><span class="line"><span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(file.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">  <span class="keyword">if</span> (![<span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.png&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>].<span class="title function_">includes</span>(ext)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">cb</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;只接受 JPG/PNG 格式的圖片檔案&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cb</span>(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 限制：2 MB、JPG/PNG 格式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> imageUpload = <span class="title function_">multer</span>(&#123;</span><br><span class="line">  storage,</span><br><span class="line">  <span class="attr">limits</span>: &#123; <span class="attr">fileSize</span>: <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span> &#125;, <span class="comment">// 2 MB</span></span><br><span class="line">  <span class="attr">fileFilter</span>: imageFileFilter,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>設計重點：</strong></p>
+<ul>
+<li><code>memoryStorage()</code>: 檔案存在記憶體中（<code>req.file.buffer</code>），適合直接上傳到雲端</li>
+<li><code>fileFilter</code>: 限制只接受圖片格式</li>
+<li><code>limits</code>: 限制檔案大小為 2 MB</li>
+</ul>
+<hr>
+<h3 id="步驟-6：建立上傳-Controller-controllers-uploadController-ts"><a href="#步驟-6：建立上傳-Controller-controllers-uploadController-ts" class="headerlink" title="步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)"></a><strong>步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; bucket &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/firebaseUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 Firebase Storage</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatar</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生遠端檔案路徑</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> remotePath = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 取得 Firebase Storage 檔案參考</span></span><br><span class="line">    <span class="keyword">const</span> file = bucket.<span class="title function_">file</span>(remotePath);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 建立寫入串流</span></span><br><span class="line">    <span class="keyword">const</span> stream = file.<span class="title function_">createWriteStream</span>(&#123;</span><br><span class="line">      <span class="attr">metadata</span>: &#123;</span><br><span class="line">        <span class="attr">contentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 錯誤處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;error&quot;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> <span class="title function_">next</span>(err));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 上傳完成後的處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;finish&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 設定檔案為公開存取</span></span><br><span class="line">        <span class="keyword">await</span> file.<span class="title function_">makePublic</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 產生公開 URL</span></span><br><span class="line">        <span class="keyword">const</span> publicUrl = <span class="string">`https://storage.googleapis.com/<span class="subst">$&#123;bucket.name&#125;</span>/<span class="subst">$&#123;remotePath&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 更新資料庫（根據你的 ORM/資料庫架構調整）</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">          &#123; <span class="attr">id</span>: req.<span class="property">user</span>?.<span class="property">id</span> &#125;,</span><br><span class="line">          &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. 回傳成功訊息</span></span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">          <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="title function_">next</span>(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 10. 將檔案緩衝區寫入串流</span></span><br><span class="line">    stream.<span class="title function_">end</span>(req.<span class="property">file</span>.<span class="property">buffer</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-7：設定路由-routes-uploadRoutes-ts"><a href="#步驟-7：設定路由-routes-uploadRoutes-ts" class="headerlink" title="步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)"></a><strong>步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; uploadAvatar &#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(</span><br><span class="line">  <span class="string">&quot;/avatar&quot;</span>,</span><br><span class="line">  isAuth, <span class="comment">// 1. 驗證 JWT token</span></span><br><span class="line">  imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), <span class="comment">// 2. 處理單一檔案上傳，欄位名稱為 &quot;file&quot;</span></span><br><span class="line">  uploadAvatar <span class="comment">// 3. 執行上傳邏輯</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<p><strong>中間件順序很重要：</strong></p>
+<ol>
+<li>先驗證使用者身份 (<code>isAuth</code>)</li>
+<li>再處理檔案上傳 (<code>imageUpload.single(&quot;file&quot;)</code>)</li>
+<li>最後執行業務邏輯 (<code>uploadAvatar</code>)</li>
+</ol>
+<hr>
+<h3 id="步驟-8：註冊路由到主應用程式-app-ts"><a href="#步驟-8：註冊路由到主應用程式-app-ts" class="headerlink" title="步驟 8：註冊路由到主應用程式 (app.ts)"></a><strong>步驟 8：註冊路由到主應用程式 (app.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 其他中間件設定</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 註冊上傳路由</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes); <span class="comment">// 上傳路由</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> app;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-9：上傳範例"><a href="#步驟-9：上傳範例" class="headerlink" title="步驟 9：上傳範例"></a><strong>步驟 9：上傳範例</strong></h3><p>使用 <strong>Postman</strong> 測試：</p>
+<ol>
+<li>選擇 <code>POST</code> 方法</li>
+<li>URL: <code>http://localhost:3000/api/upload/avatar</code></li>
+<li>Headers: <code>Authorization: Bearer YOUR_JWT_TOKEN</code></li>
+<li>Body → form-data → Key: <code>file</code> (選擇 File 類型) → 選擇圖片</li>
+</ol>
+<p>經由 Postman 回傳結果可得知成功上傳！成功後就能拿到一個 Firebase Storage 的公開 URL 🎉</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true"></p>
+<p>接著，查看一下資料庫 <code>profileUrl</code> 欄位 → 發現已經有正確的 URL 存入</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/2-database.png?raw=true"></p>
+<p>最後，再到我們的 Firebase Storage 查看檔案 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/3-firebase.png?raw=true"></p>
+<p>太棒了！我們用 Node.js + multer 成功串接了 Firebase Storage 服務 🍻</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了：</p>
+<ul>
+<li>使用 <code>multer</code> 處理圖片上傳</li>
+<li>串接 Firebase Storage</li>
+<li>把檔案存雲端並取得公開連結</li>
+<li>更新資料庫，讓使用者能擁有自己的大頭貼</li>
+</ul>
+<p>到這裡，我們的服務具備了「圖片上傳」的能力！ 🚀</p>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
+<p>commit : use multer and firebase storage to upload file</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/e46e7f49aa707b49da1f733534fd2747898974d1">Github 連結</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/30/Day16%20-%20Firebase-Intro/" rel="prev" title="Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業">
+                  <i class="fa fa-angle-left"></i> Day 16 - Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
