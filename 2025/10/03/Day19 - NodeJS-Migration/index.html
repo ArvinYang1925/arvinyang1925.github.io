@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言在專案開發時，我們常常會遇到「資料庫 Schema 需要修改」的情況。 例如新增欄位、刪除欄位、或是調整欄位型別。 最直覺的方式是 —— 直接改 Entity，然後靠 TypeORM 的 synchronize: true 來自動同步。 但是，這樣做真的安全嗎？ 🤔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 19 - 專案升級必備：資料庫 Migration 實戰">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/03/Day19%20-%20NodeJS-Migration/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言在專案開發時，我們常常會遇到「資料庫 Schema 需要修改」的情況。 例如新增欄位、刪除欄位、或是調整欄位型別。 最直覺的方式是 —— 直接改 Entity，然後靠 TypeORM 的 synchronize: true 來自動同步。 但是，這樣做真的安全嗎？ 🤔">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/1-db-delete-table.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/2-init-migration.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/3-migration-show.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/4-migration-run.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/5-db-after-migration.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/6-migration-table.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/7-migration-add-phone-col.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/8-db-result.png?raw=true">
+<meta property="article:published_time" content="2025-10-03T13:31:48.000Z">
+<meta property="article:modified_time" content="2025-10-03T13:33:13.298Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/1-db-delete-table.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/03/Day19%20-%20NodeJS-Migration/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/03/Day19%20-%20NodeJS-Migration/","path":"2025/10/03/Day19 - NodeJS-Migration/","title":"Day 19 - 專案升級必備：資料庫 Migration 實戰"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 19 - 專案升級必備：資料庫 Migration 實戰 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9A%A0%EF%B8%8F-synchronize-true-%E7%9A%84%E9%9A%B1%E8%97%8F%E9%A2%A8%E9%9A%AA"><span class="nav-number">2.</span> <span class="nav-text">⚠️ synchronize: true 的隱藏風險</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%94%A8-Migration%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">為什麼要用 Migration？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Migration-%E5%AF%A6%E6%88%B0%EF%BC%9A%E5%B0%8E%E5%85%A5-Migration-%E7%9A%84%E6%AD%A5%E9%A9%9F"><span class="nav-number">4.</span> <span class="nav-text">Migration 實戰：導入 Migration 的步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-1-%E6%AD%A5%EF%BC%9A%E5%9C%A8-package-json-%E6%B7%BB%E5%8A%A0-Migration-%E6%8C%87%E4%BB%A4"><span class="nav-number">4.1.</span> <span class="nav-text">第 1 步：在 package.json 添加 Migration 指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-2-%E6%AD%A5%EF%BC%9A%E5%BB%BA%E7%AB%8B-migrations-%E8%B3%87%E6%96%99%E5%A4%BE"><span class="nav-number">4.2.</span> <span class="nav-text">第 2 步：建立 migrations 資料夾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-3-%E6%AD%A5%EF%BC%9A%E4%BF%AE%E6%94%B9-src-config-db-ts"><span class="nav-number">4.3.</span> <span class="nav-text">第 3 步：修改 src&#x2F;config&#x2F;db.ts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-4-%E6%AD%A5%EF%BC%9A%E7%94%9F%E6%88%90%E5%88%9D%E5%A7%8B-Migration"><span class="nav-number">4.4.</span> <span class="nav-text">第 4 步：生成初始 Migration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-5-%E6%AD%A5%EF%BC%9A%E5%9F%B7%E8%A1%8C-Migration"><span class="nav-number">4.5.</span> <span class="nav-text">第 5 步：執行 Migration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC-6-%E6%AD%A5%EF%BC%9A%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">4.6.</span> <span class="nav-text">第 6 步：其他常用指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E7%AF%84%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">完整工作流程範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Migration-%E9%96%8B%E7%99%BC%E6%B5%81%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">Migration 開發流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%94%91-%E5%B0%8F%E6%8F%90%E9%86%92-Best-Practice"><span class="nav-number">7.</span> <span class="nav-text">🔑 小提醒 &amp; Best Practice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">8.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">9.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/03/Day19%20-%20NodeJS-Migration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 19 - 專案升級必備：資料庫 Migration 實戰 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 19 - 專案升級必備：資料庫 Migration 實戰
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-03 21:31:48 / 修改時間：21:33:13" itemprop="dateCreated datePublished" datetime="2025-10-03T21:31:48+08:00">2025-10-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在專案開發時，我們常常會遇到「資料庫 Schema 需要修改」的情況。</p>
+<p>例如新增欄位、刪除欄位、或是調整欄位型別。</p>
+<p>最直覺的方式是 —— 直接改 Entity，然後靠 TypeORM 的 <code>synchronize: true</code> 來自動同步。</p>
+<p>但是，這樣做真的安全嗎？ 🤔</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="⚠️-synchronize-true-的隱藏風險"><a href="#⚠️-synchronize-true-的隱藏風險" class="headerlink" title="⚠️ synchronize: true 的隱藏風險"></a>⚠️ <code>synchronize: true</code> 的隱藏風險</h2><p>在 <code>DataSource</code> 設定中，大家應該都看過這段：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">synchronize</span>: <span class="literal">true</span>, <span class="comment">// 開發階段方便，正式環境建議 false</span></span><br></pre></td></tr></table></figure>
+
+<p>這個參數會讓 TypeORM 在每次啟動專案時，自動比對 Entity 與資料庫結構，並「直接修改資料庫」。</p>
+<p><strong>好處：</strong></p>
+<ul>
+<li>開發初期很快：改 <code>User.ts</code> 或 <code>Todo.ts</code>，資料庫自動更新。</li>
+<li>不需要寫 SQL，完全自動化。</li>
+</ul>
+<p><strong>壞處：</strong></p>
+<ol>
+<li><strong>資料可能直接被刪掉</strong>：欄位名稱改了，TypeORM 可能直接 drop + recreate table。</li>
+<li><strong>多人協作很危險</strong>：大家本地 Entity 不一致 → DB schema 會亂掉。</li>
+<li><strong>Production 大忌</strong>：上線環境如果還開 <code>synchronize: true</code>，一個小改動就可能讓線上資料消失。</li>
+</ol>
+<p>👉 這就是我們需要 Migration 的理由。</p>
+<hr>
+<h2 id="為什麼要用-Migration？"><a href="#為什麼要用-Migration？" class="headerlink" title="為什麼要用 Migration？"></a>為什麼要用 Migration？</h2><p>Migration 就像「資料庫的 Git」，能幫助我們做到：</p>
+<ul>
+<li><strong>版本控制</strong>：每次改動都被記錄下來。</li>
+<li><strong>可回滾</strong>：跑錯了可以 revert。</li>
+<li><strong>多人協作</strong>：大家跑同一份 Migration，確保一致性。</li>
+<li><strong>安全上線</strong>：Production 可以放心執行，避免不可預期的自動修改。</li>
+</ul>
+<hr>
+<h2 id="Migration-實戰：導入-Migration-的步驟"><a href="#Migration-實戰：導入-Migration-的步驟" class="headerlink" title="Migration 實戰：導入 Migration 的步驟"></a>Migration 實戰：導入 Migration 的步驟</h2><h3 id="第-1-步：在-package-json-添加-Migration-指令"><a href="#第-1-步：在-package-json-添加-Migration-指令" class="headerlink" title="第 1 步：在 package.json 添加 Migration 指令"></a>第 1 步：在 <code>package.json</code> 添加 Migration 指令</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;test&quot;</span><span class="punctuation">:</span> <span class="string">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;format&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prettier --write \&quot;src/**/*.&#123;js,ts&#125;\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;format:check&quot;</span><span class="punctuation">:</span> <span class="string">&quot;prettier --check \&quot;src/**/*.&#123;js,ts&#125;\&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;lint&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot; --format=stylish&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;lint:fix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eslint \&quot;src/**/*.ts\&quot; --fix&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;migration:generate&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typeorm-ts-node-commonjs migration:generate -d src/config/db.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;migration:run&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typeorm-ts-node-commonjs migration:run -d src/config/db.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;migration:revert&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typeorm-ts-node-commonjs migration:revert -d src/config/db.ts&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;migration:show&quot;</span><span class="punctuation">:</span> <span class="string">&quot;typeorm-ts-node-commonjs migration:show -d src/config/db.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第-2-步：建立-migrations-資料夾"><a href="#第-2-步：建立-migrations-資料夾" class="headerlink" title="第 2 步：建立 migrations 資料夾"></a>第 2 步：建立 <code>migrations</code> 資料夾</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p src/migrations</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第-3-步：修改-src-config-db-ts"><a href="#第-3-步：修改-src-config-db-ts" class="headerlink" title="第 3 步：修改 src/config/db.ts"></a>第 3 步：修改 <code>src/config/db.ts</code></h3><p>將 <code>synchronize</code> 改為 <code>false</code>，並加入 migration 設定：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">DataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Todo</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/Todo&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">AppDataSource</span> = <span class="keyword">new</span> <span class="title class_">DataSource</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&quot;postgres&quot;</span>,</span><br><span class="line">  <span class="attr">host</span>: process.<span class="property">env</span>.<span class="property">DB_HOST</span>,</span><br><span class="line">  <span class="attr">port</span>: <span class="title class_">Number</span>(process.<span class="property">env</span>.<span class="property">DB_PORT</span>),</span><br><span class="line">  <span class="attr">username</span>: process.<span class="property">env</span>.<span class="property">DB_USERNAME</span>,</span><br><span class="line">  <span class="attr">password</span>: process.<span class="property">env</span>.<span class="property">DB_PASSWORD</span>,</span><br><span class="line">  <span class="attr">database</span>: process.<span class="property">env</span>.<span class="property">DB_NAME</span>,</span><br><span class="line">  <span class="attr">ssl</span>: &#123; <span class="attr">rejectUnauthorized</span>: <span class="literal">false</span> &#125;,</span><br><span class="line">  <span class="attr">entities</span>: [<span class="title class_">Todo</span>, <span class="title class_">User</span>],</span><br><span class="line">  <span class="attr">synchronize</span>: <span class="literal">false</span>, <span class="comment">// ⚠️ 改為 false，改用 migration 管理</span></span><br><span class="line">  <span class="attr">logging</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">migrations</span>: [<span class="string">&quot;src/migrations/**/*.ts&quot;</span>], <span class="comment">// 📁 migration 檔案路徑</span></span><br><span class="line">  <span class="attr">migrationsTableName</span>: <span class="string">&quot;migrations_history&quot;</span>, <span class="comment">// 📊 migration 歷史記錄表名稱</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第-4-步：生成初始-Migration"><a href="#第-4-步：生成初始-Migration" class="headerlink" title="第 4 步：生成初始 Migration"></a>第 4 步：生成初始 Migration</h3><p>如果之前用 <code>synchronize: true</code> 已經有資料表，建議先清空，再重新用 migration 建立。</p>
+<p>清空方式如下: (Dbeaver 選取 Table 右鍵點擊 Delete)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/1-db-delete-table.png?raw=true"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:generate src/migrations/InitialMigration</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/2-init-migration.png?raw=true"></p>
+<p>這會生成一個 migration 檔案，內容類似這樣：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">MigrationInterface</span>, <span class="title class_">QueryRunner</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">InitialMigration1759480233749</span> <span class="keyword">implements</span> <span class="title class_">MigrationInterface</span> &#123;</span><br><span class="line">  name = <span class="string">&quot;InitialMigration1759480233749&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">up</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`CREATE TABLE &quot;user&quot; (...)`</span>);</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`CREATE TABLE &quot;todo&quot; (...)`</span>);</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`ALTER TABLE &quot;todo&quot; ADD CONSTRAINT ...`</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="title function_">down</span>(<span class="attr">queryRunner</span>: <span class="title class_">QueryRunner</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">void</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`ALTER TABLE &quot;todo&quot; DROP CONSTRAINT ...`</span>);</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`DROP TABLE &quot;todo&quot;`</span>);</span><br><span class="line">    <span class="keyword">await</span> queryRunner.<span class="title function_">query</span>(<span class="string">`DROP TABLE &quot;user&quot;`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第-5-步：執行-Migration"><a href="#第-5-步：執行-Migration" class="headerlink" title="第 5 步：執行 Migration"></a>第 5 步：執行 Migration</h3><p>執行前可以先查看一下狀態</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:show   <span class="comment"># 查看狀態</span></span><br></pre></td></tr></table></figure>
+
+<p>可以發現有偵測到一個 migration 檔案尚未執行</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/3-migration-show.png?raw=true"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:run    <span class="comment"># 執行 migration</span></span><br></pre></td></tr></table></figure>
+
+<p>下圖為 migration 檔案執行結果 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/4-migration-run.png?raw=true"></p>
+<p>然後可以到資料庫查看目前狀況 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/5-db-after-migration.png?raw=true"></p>
+<p>可發現多了一張 migrations_history 表，這是用來記錄 migration 的資訊</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/6-migration-table.png?raw=true"></p>
+<hr>
+<h3 id="第-6-步：其他常用指令"><a href="#第-6-步：其他常用指令" class="headerlink" title="第 6 步：其他常用指令"></a>第 6 步：其他常用指令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 回退最後一次 migration</span></span><br><span class="line">npm run migration:revert</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 Entity 後，重新生成 migration</span></span><br><span class="line">npm run migration:generate src/migrations/你的Migration名稱</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="完整工作流程範例"><a href="#完整工作流程範例" class="headerlink" title="完整工作流程範例"></a>完整工作流程範例</h2><ol>
+<li><p><strong>首次設定</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p src/migrations</span><br><span class="line">npm run migration:generate src/migrations/InitialMigration</span><br><span class="line">npm run migration:run</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>未來修改 Entity 後 (這邊舉例在 User.ts Entity 加上一個 phone 欄位)</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Entity()</span><br><span class="line"><span class="built_in">export</span> class User &#123;</span><br><span class="line">  @PrimaryGeneratedColumn(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  <span class="built_in">id</span>!: string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">  @Column(&#123; <span class="built_in">type</span>: <span class="string">&quot;varchar&quot;</span>, length: 10, nullable: <span class="literal">true</span> &#125;)</span><br><span class="line">  phone?: string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行下方指令生成 migration 檔案</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:generate src/migrations/AddPhoneToUser</span><br></pre></td></tr></table></figure>
+
+<p>生成結果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import &#123; MigrationInterface, QueryRunner &#125; from <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> class AddPhoneToUser1759482580830 implements MigrationInterface &#123;</span><br><span class="line">    name = <span class="string">&#x27;AddPhoneToUser1759482580830&#x27;</span></span><br><span class="line"></span><br><span class="line">    public async up(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;</span><br><span class="line">        await queryRunner.query(`ALTER TABLE <span class="string">&quot;user&quot;</span> ADD <span class="string">&quot;phone&quot;</span> character varying(10)`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public async down(queryRunner: QueryRunner): Promise&lt;void&gt; &#123;</span><br><span class="line">        await queryRunner.query(`ALTER TABLE <span class="string">&quot;user&quot;</span> DROP COLUMN <span class="string">&quot;phone&quot;</span>`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行下方指令執行 migration 檔案</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:run</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/7-migration-add-phone-col.png?raw=true"></p>
+<p>可查看資料庫新增了 phone 欄位在最尾端</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day19-Migration/8-db-result.png?raw=true"></p>
+<p>成功執行 migration 啦 🎉</p>
+</li>
+<li><p><strong>如果需要回退</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run migration:revert</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="Migration-開發流程"><a href="#Migration-開發流程" class="headerlink" title="Migration 開發流程"></a>Migration 開發流程</h2><ol>
+<li>修改&#x2F;新增 Entity</li>
+<li>建立對應的 Migration</li>
+<li>在本地測試 <code>migration:run</code></li>
+<li>Commit Migration 檔案 → 其他人同步</li>
+<li>部署時，CI&#x2F;CD 自動跑 Migration</li>
+</ol>
+<hr>
+<h2 id="🔑-小提醒-Best-Practice"><a href="#🔑-小提醒-Best-Practice" class="headerlink" title="🔑 小提醒 &amp; Best Practice"></a>🔑 小提醒 &amp; Best Practice</h2><ul>
+<li><strong>開發可以先用 <code>synchronize: true</code>，但正式專案要關掉。</strong></li>
+<li>每個 Migration 檔案盡量只做「一件事」（新增欄位、刪表、調型別）。</li>
+<li>Migration 檔案要 <strong>一起 Commit</strong>，不然別人會少版本。</li>
+<li>別忘了 <code>migration:revert</code> 可以救命 🙌。</li>
+</ul>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p><code>synchronize: true</code> 很方便，但就像「測試環境的捷徑」，不能拿到 Production。</p>
+<p>真正穩定的專案，必須靠 <strong>Migration</strong> 來管理資料庫版本。 🚀</p>
+<hr>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><blockquote>
+<p>commit : disable synchronize and setup migration scripts</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/d0f8a0c22be61f2b2487a0db5dbaa23df09c1d94">Github 連結</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/Tools/" rel="tag"># Tools</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/02/Day18%20-%20NodeJS-Pino/" rel="prev" title="Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log">
+                  <i class="fa fa-angle-left"></i> Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
