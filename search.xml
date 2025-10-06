@@ -1293,65 +1293,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
-    <url>/2025/10/05/Day21/</url>
-    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
-<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
-<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
-<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
-<ul>
-<li>購買實體伺服器</li>
-<li>放在機房，接上網路</li>
-<li>聘請 MIS 工程師維護</li>
-</ul>
-<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
-<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
-<hr>
-<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
-<ul>
-<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
-<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
-<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
-</ul>
-<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
-<hr>
-<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
-<ul>
-<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
-<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
-<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
-<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
-</ul>
-<hr>
-<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
-<ul>
-<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
-<li><strong>備份（Backup）</strong>：自動保存資料</li>
-<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
-<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
-</ul>
-<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
-<hr>
-<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
-<ul>
-<li>想要伺服器？拿 EC2。</li>
-<li>想要資料庫？拿 RDS。</li>
-<li>想要檔案空間？拿 S3。</li>
-</ul>
-<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>AWS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
     <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
     <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
@@ -2147,6 +2088,137 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
+    <url>/2025/10/05/Day21%20-%20AWS-Intro/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
+<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
+<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
+<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
+<ul>
+<li>購買實體伺服器</li>
+<li>放在機房，接上網路</li>
+<li>聘請 MIS 工程師維護</li>
+</ul>
+<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
+<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
+<hr>
+<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
+<ul>
+<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
+<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
+<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
+</ul>
+<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
+<hr>
+<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
+<ul>
+<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
+<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
+<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
+<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
+</ul>
+<hr>
+<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
+<ul>
+<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
+<li><strong>備份（Backup）</strong>：自動保存資料</li>
+<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
+<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
+</ul>
+<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
+<hr>
+<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
+<ul>
+<li>想要伺服器？拿 EC2。</li>
+<li>想要資料庫？拿 RDS。</li>
+<li>想要檔案空間？拿 S3。</li>
+</ul>
+<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 22 - AWS 初探 (2) - 破關拿獎金・預算防護</title>
+    <url>/2025/10/06/Day22%20-%20AWS-Budget/</url>
+    <content><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>目前申辦 AWS 帳號會提供一組「探索 AWS」活動，只要完成幾個指定任務，就能獲得最多 <strong>US$100 的抵用金</strong>。</p>
+<p>這些任務包含：</p>
+<ul>
+<li>使用 Amazon Bedrock</li>
+<li>在 Budgets 中設定成本預算</li>
+<li>建立一個 Lambda 應用程式</li>
+<li>建立一個 RDS 資料庫</li>
+<li>啟動一台 EC2 虛擬主機</li>
+</ul>
+<span id="more"></span>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/1-aws-tasks.png?raw=true"></p>
+<p>筆者目前已完成兩項任務，共獲得 <strong>US$40</strong> 的抵用金。</p>
+<p>接下來要挑戰的就是——<strong>建立 AWS Budgets 預算防護</strong>，避免帳單炸裂 。</p>
+<hr>
+<h2 id="🧾-為什麼要設定預算防護？"><a href="#🧾-為什麼要設定預算防護？" class="headerlink" title="🧾 為什麼要設定預算防護？"></a>🧾 為什麼要設定預算防護？</h2><p>筆者去年使用 GCP Cloud SQL 時，</p>
+<p>因為忘記關閉服務，結果帳單爆出 <strong>七千多元台幣 QQ</strong>。</p>
+<p>這次吸取教訓，覺得在 AWS 設定「預算警報」非常重要。</p>
+<p>這樣當使用量或金額超過設定值時，系統會自動寄信提醒，避免再度出事。</p>
+<hr>
+<h2 id="實作：設定-AWS-Budgets-預算防護"><a href="#實作：設定-AWS-Budgets-預算防護" class="headerlink" title="實作：設定 AWS Budgets 預算防護"></a>實作：設定 AWS Budgets 預算防護</h2><p>以下步驟超簡單，大約 5 分鐘即可完成！</p>
+<hr>
+<h3 id="Step-1-參與-AWS-探索活動"><a href="#Step-1-參與-AWS-探索活動" class="headerlink" title="Step 1. 參與 AWS 探索活動"></a>Step 1. 參與 AWS 探索活動</h3><ol>
+<li><p>註冊新帳號 → 登入 AWS Console</p>
+</li>
+<li><p>尋找探索 AWS 區塊</p>
+</li>
+<li><p>點擊<strong>使用 AWS Budgets 設定成本預算</strong></p>
+</li>
+<li><p>按下開始活動</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/2-start-event.png?raw=true"></p>
+</li>
+</ol>
+<hr>
+<h3 id="Step-2-選擇預算類型"><a href="#Step-2-選擇預算類型" class="headerlink" title="Step 2. 選擇預算類型"></a>Step 2. 選擇預算類型</h3><p>這裡我們選擇使用教學範本 → 每月成本預算</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/3-budget-type.png?raw=true"></p>
+<hr>
+<h3 id="Step-3-設定預算名稱與金額"><a href="#Step-3-設定預算名稱與金額" class="headerlink" title="Step 3. 設定預算名稱與金額"></a>Step 3. 設定預算名稱與金額</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/4-set-budget.png?raw=true"></p>
+<p>在「<strong>每月成本預算 – 範本</strong>」區域：</p>
+<ul>
+<li><strong>預算名稱</strong>：輸入 <code>MyBudget</code></li>
+<li>**輸入預算金額 (US$)**：設定每月預算，例如 <code>5 USD</code></li>
+<li><strong>電子郵件收件人</strong>：填入要收到通知的電子郵件</li>
+</ul>
+<blockquote>
+<p>小技巧：</p>
+<p>如果你只是測試用途，設定 5 或 10 美元即可。</p>
+<p>一旦超過這個金額，AWS 就會發信通知。</p>
+</blockquote>
+<hr>
+<h3 id="Step-4-確認與建立"><a href="#Step-4-確認與建立" class="headerlink" title="Step 4. 確認與建立"></a>Step 4. 確認與建立</h3><p>檢查設定沒問題後，按下 建立預算。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/5-create-budget.png?raw=true"></p>
+<p>接著回到 Budgets 列表，你就能看到剛建立的預算監控項目。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/6-budget-dashboard.png?raw=true"></p>
+<hr>
+<h2 id="✅-領取獎金"><a href="#✅-領取獎金" class="headerlink" title="✅ 領取獎金"></a>✅ 領取獎金</h2><p>上述步驟都完成後就可以回到主控台 → 探索 AWS 區塊查看是否有成功領取抵用金額啦！</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/7-get-aws-money.png?raw=true"></p>
+<hr>
+<h2 id="小結：用預算防護安心玩雲端"><a href="#小結：用預算防護安心玩雲端" class="headerlink" title="小結：用預算防護安心玩雲端"></a>小結：用預算防護安心玩雲端</h2><p>這一步看似簡單，卻非常關鍵。</p>
+<p>它就像你在玩雲端服務時荷包的「安全保障」，</p>
+<p>讓你可以放心探索，而不用擔心月底帳單爆炸。</p>
+<p>今天解鎖了「探索 AWS」任務、多拿到 20 美元抵用金 💰  太棒啦！</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
       </tags>
   </entry>
 </search>
