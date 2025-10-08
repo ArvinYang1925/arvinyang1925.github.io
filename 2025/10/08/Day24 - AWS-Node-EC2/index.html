@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言昨天我們已經成功開啟第一台 AWS EC2 主機，體驗了雲端主機。 今天，我們要更進一步 —— 把 Node.js 專案實際部署到雲端主機上！ 這篇文章將帶你完成從 0 到上線的所有流程：  建立 Ubuntu EC2 實例 SSH 連線 安裝 Node.js &#x2F; npm &#x2F; Git 部署並執行專案 使用 PM2 常駐應用程式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/08/Day24%20-%20AWS-Node-EC2/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言昨天我們已經成功開啟第一台 AWS EC2 主機，體驗了雲端主機。 今天，我們要更進一步 —— 把 Node.js 專案實際部署到雲端主機上！ 這篇文章將帶你完成從 0 到上線的所有流程：  建立 Ubuntu EC2 實例 SSH 連線 安裝 Node.js &#x2F; npm &#x2F; Git 部署並執行專案 使用 PM2 常駐應用程式">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/1-name-os.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/2-tcp-3000.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/3-welcome-ubuntu.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/4-node-ver.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/5-git-commit.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/6-hello-tihome.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/7-pm2.png?raw=true">
+<meta property="article:published_time" content="2025-10-08T11:54:23.000Z">
+<meta property="article:modified_time" content="2025-10-08T11:55:28.019Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/1-name-os.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/08/Day24%20-%20AWS-Node-EC2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/08/Day24%20-%20AWS-Node-EC2/","path":"2025/10/08/Day24 - AWS-Node-EC2/","title":"Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！ | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AWS-EC2-%E9%83%A8%E7%BD%B2%E5%AE%8C%E6%95%B4%E6%AD%A5%E9%A9%9F"><span class="nav-number">2.</span> <span class="nav-text">AWS EC2 部署完整步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E5%9C%A8-AWS-EC2-%E5%95%9F%E5%8B%95-Ubuntu-%E5%AF%A6%E4%BE%8B"><span class="nav-number">2.1.</span> <span class="nav-text">步驟 1：在 AWS EC2 啟動 Ubuntu 實例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9ASSH-%E9%80%A3%E6%8E%A5%E5%88%B0%E6%82%A8%E7%9A%84-EC2-%E5%AF%A6%E4%BE%8B-%E8%A9%B3%E7%B4%B0%E5%8F%AF%E5%8F%83%E8%80%83%E4%B8%8A%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0"><span class="nav-number">2.2.</span> <span class="nav-text">步驟 2：SSH 連接到您的 EC2 實例 (詳細可參考上一篇文章)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E5%9C%A8-EC2-%E4%B8%8A%E5%AE%89%E8%A3%9D-Node-js-%E5%92%8C-npm"><span class="nav-number">2.3.</span> <span class="nav-text">步驟 3：在 EC2 上安裝 Node.js 和 npm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E5%B0%87%E5%B0%88%E6%A1%88%E9%83%A8%E7%BD%B2%E5%88%B0-EC2"><span class="nav-number">2.4.</span> <span class="nav-text">步驟 4：將專案部署到 EC2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-5%EF%BC%9A%E5%AE%89%E8%A3%9D%E4%BE%9D%E8%B3%B4%E4%B8%A6%E7%B7%A8%E8%AD%AF%E5%B0%88%E6%A1%88"><span class="nav-number">2.5.</span> <span class="nav-text">步驟 5：安裝依賴並編譯專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-6%EF%BC%9A%E6%B8%AC%E8%A9%A6%E9%81%8B%E8%A1%8C%E6%87%89%E7%94%A8"><span class="nav-number">2.6.</span> <span class="nav-text">步驟 6：測試運行應用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-7%EF%BC%9A%E4%BD%BF%E7%94%A8-PM2-%E8%AE%93%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F%E6%8C%81%E7%BA%8C%E9%81%8B%E8%A1%8C"><span class="nav-number">2.7.</span> <span class="nav-text">步驟 7：使用 PM2 讓應用程式持續運行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">3.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85%E8%B3%87%E6%BA%90"><span class="nav-number">4.</span> <span class="nav-text">補充資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/08/Day24%20-%20AWS-Node-EC2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！ | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-08 19:54:23 / 修改時間：19:55:28" itemprop="dateCreated datePublished" datetime="2025-10-08T19:54:23+08:00">2025-10-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天我們已經成功開啟第一台 AWS EC2 主機，體驗了雲端主機。</p>
+<p>今天，我們要更進一步 —— <strong>把 Node.js 專案實際部署到雲端主機上！</strong></p>
+<p>這篇文章將帶你完成從 0 到上線的所有流程：</p>
+<ol>
+<li>建立 Ubuntu EC2 實例</li>
+<li>SSH 連線</li>
+<li>安裝 Node.js &#x2F; npm &#x2F; Git</li>
+<li>部署並執行專案</li>
+<li>使用 PM2 常駐應用程式</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="AWS-EC2-部署完整步驟"><a href="#AWS-EC2-部署完整步驟" class="headerlink" title="AWS EC2 部署完整步驟"></a>AWS EC2 部署完整步驟</h2><h3 id="步驟-1：在-AWS-EC2-啟動-Ubuntu-實例"><a href="#步驟-1：在-AWS-EC2-啟動-Ubuntu-實例" class="headerlink" title="步驟 1：在 AWS EC2 啟動 Ubuntu 實例"></a><strong>步驟 1：在 AWS EC2 啟動 Ubuntu 實例</strong></h3><ol>
+<li><p><strong>名稱</strong> : <code>ithome2025-ec2</code></p>
+</li>
+<li><p><strong>選擇 AMI</strong>：選擇 Ubuntu（這邊使用筆者較熟悉的 Ubuntu 22.04 LTS）</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/1-name-os.png?raw=true"></p>
+</li>
+<li><p><strong>選擇實例類型</strong>：<code>t3.micro</code></p>
+</li>
+<li><p><strong>金鑰對（重要）</strong>：</p>
+<ul>
+<li>建立新的金鑰對或選擇現有的</li>
+<li>下載 <code>.pem</code> 檔案並妥善保存（例如：<code>my-key.pem</code>）</li>
+</ul>
+</li>
+<li><p><strong>網路設定</strong>：</p>
+<ul>
+<li>✅ 允許 SSH 流量（來自 0.0.0.0&#x2F;0 或您的 IP）</li>
+<li>✅ 允許 HTTP 流量（port 80）</li>
+<li>✅ 允許來自網際網路的 HTTPS 流量（可選）</li>
+<li>🔧 <strong>額外新增自訂 TCP 規則</strong>：port 3000（Node.js 應用預設埠）<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/2-tcp-3000.png?raw=true"></li>
+</ul>
+</li>
+<li><p><strong>儲存空間</strong>：預設 8GB 足夠</p>
+</li>
+</ol>
+<p>點擊「啟動實例」</p>
+<hr>
+<h3 id="步驟-2：SSH-連接到您的-EC2-實例-詳細可參考上一篇文章"><a href="#步驟-2：SSH-連接到您的-EC2-實例-詳細可參考上一篇文章" class="headerlink" title="步驟 2：SSH 連接到您的 EC2 實例 (詳細可參考上一篇文章)"></a><strong>步驟 2：SSH 連接到您的 EC2 實例 (詳細可參考上一篇文章)</strong></h3><p>等待執行個體狀態變為 “執行中” 後：</p>
+<ol>
+<li>點擊 EC2 主控台右上角連線按鈕 → 選擇 SSH 用戶端</li>
+<li>開啟終端機 → 尋找 aws-key.pem 的存放位址 → 修改檔案權限 → 利用 AWS 所提供的指令連線</li>
+</ol>
+<p>成功連接後會看到 Ubuntu 的歡迎訊息。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/3-welcome-ubuntu.png?raw=true"></p>
+<hr>
+<h3 id="步驟-3：在-EC2-上安裝-Node-js-和-npm"><a href="#步驟-3：在-EC2-上安裝-Node-js-和-npm" class="headerlink" title="步驟 3：在 EC2 上安裝 Node.js 和 npm"></a><strong>步驟 3：在 EC2 上安裝 Node.js 和 npm</strong></h3><p>在 EC2 實例中執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新系統套件</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade -y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝 Node.js 20.x（LTS 版本）</span></span><br><span class="line">curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -</span><br><span class="line">sudo apt install -y nodejs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證安裝</span></span><br><span class="line">node --version  <span class="comment"># 應顯示 v20.x.x</span></span><br><span class="line">npm --version   <span class="comment"># 應顯示 10.x.x</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝 Git（用於複製專案）</span></span><br><span class="line">sudo apt install -y git</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/4-node-ver.png?raw=true"></p>
+<hr>
+<h3 id="步驟-4：將專案部署到-EC2"><a href="#步驟-4：將專案部署到-EC2" class="headerlink" title="步驟 4：將專案部署到 EC2"></a><strong>步驟 4：將專案部署到 EC2</strong></h3><p>接下來，我們要把專案實際部署到 <strong>AWS EC2</strong> 上。</p>
+<p>不過目前我們還沒有啟用 RDS 或其他雲端服務，因此這次的部署目標很單純：</p>
+<blockquote>
+<p>先讓 Node.js + Express 伺服器能在雲端成功啟動運作，</p>
+<p>暫時不涉及資料庫連線設定。</p>
+</blockquote>
+<p>為了確保環境一致，我們會回到專案中尚未整合資料庫的版本，也就是以下這個 commit：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/5-git-commit.png?raw=true"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 複製專案</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/ArvinYang1925/iThome2025-node-ts.git</span><br><span class="line"><span class="built_in">cd</span> iThome2025-node-ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切換到特定 commit</span></span><br><span class="line">git checkout 342fd7f5ee9ece202ef2ec2a00c10b05d1c76a4a</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-5：安裝依賴並編譯專案"><a href="#步驟-5：安裝依賴並編譯專案" class="headerlink" title="步驟 5：安裝依賴並編譯專案"></a><strong>步驟 5：安裝依賴並編譯專案</strong></h3><p>在 EC2 實例中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 進入專案目錄</span></span><br><span class="line"><span class="built_in">cd</span> ~/iThome2025-node-ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安裝依賴</span></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 編譯 TypeScript 到 JavaScript</span></span><br><span class="line">npx tsc</span><br></pre></td></tr></table></figure>
+
+<p>編譯後會在 <code>dist/</code> 目錄產生 JavaScript 檔案。</p>
+<hr>
+<h3 id="步驟-6：測試運行應用"><a href="#步驟-6：測試運行應用" class="headerlink" title="步驟 6：測試運行應用"></a><strong>步驟 6：測試運行應用</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接運行編譯後的 JS</span></span><br><span class="line">node dist/app.js</span><br></pre></td></tr></table></figure>
+
+<p>您應該會看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br></pre></td></tr></table></figure>
+
+<p>測試方式：</p>
+<ul>
+<li>或在瀏覽器訪問 <code>http://您的EC2公有IP:3000</code><br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/6-hello-tihome.png?raw=true"></li>
+</ul>
+<p>如果看到 “Hello, iThome2025 !”，恭喜成功！🎉</p>
+<hr>
+<h3 id="步驟-7：使用-PM2-讓應用程式持續運行"><a href="#步驟-7：使用-PM2-讓應用程式持續運行" class="headerlink" title="步驟 7：使用 PM2 讓應用程式持續運行"></a><strong>步驟 7：使用 PM2 讓應用程式持續運行</strong></h3><p>PM2 是 Node.js 的程序管理工具，可以讓應用程式在背景持續運行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝 PM2</span></span><br><span class="line">sudo npm install -g pm2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 PM2 啟動應用</span></span><br><span class="line">pm2 start dist/app.js --name <span class="string">&quot;ithome-app&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看應用狀態</span></span><br><span class="line">pm2 status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日誌</span></span><br><span class="line">pm2 logs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定開機自動啟動</span></span><br><span class="line">pm2 startup</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day24-EC2-NodeJS/7-pm2.png?raw=true"></p>
+<p>PM2 常用指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm2 restart ithome-app  <span class="comment"># 重啟</span></span><br><span class="line">pm2 stop ithome-app     <span class="comment"># 停止</span></span><br><span class="line">pm2 delete ithome-app   <span class="comment"># 刪除</span></span><br><span class="line">pm2 logs ithome-app     <span class="comment"># 查看日誌</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>至此，我們已經完成了從本地開發環境到 <strong>AWS</strong> <strong>雲端部署的流程</strong> 🎉</p>
+<p>這一步的意義不只是讓網站能被全世界訪問，更代表著你掌握了開發者的三大核心能力：</p>
+<ul>
+<li>開發（Node.js + TypeScript）</li>
+<li>部署（AWS EC2）</li>
+<li>維運（PM2）</li>
+</ul>
+<p>接下來，我們會逐步探索 AWS RDS 等雲端服務</p>
+<p>慢慢讓這個 Node.js 專案成為一個完整的雲端應用 🚀</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit message: Day 6 - set up Express + TS environment</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/AWS/" rel="tag"># AWS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/07/Day23%20-%20AWS-EC2/" rel="prev" title="Day 23 - 從零啟動雲端主機：帶你開出第一台 AWS EC2！">
+                  <i class="fa fa-angle-left"></i> Day 23 - 從零啟動雲端主機：帶你開出第一台 AWS EC2！
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

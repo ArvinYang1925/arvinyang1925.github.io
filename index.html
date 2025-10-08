@@ -132,7 +132,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -158,6 +158,185 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/08/Day24%20-%20AWS-Node-EC2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/10/08/Day24%20-%20AWS-Node-EC2/" class="post-title-link" itemprop="url">Day 24 - 從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-08 19:54:23 / 修改時間：19:55:28" itemprop="dateCreated datePublished" datetime="2025-10-08T19:54:23+08:00">2025-10-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>昨天我們已經成功開啟第一台 AWS EC2 主機，體驗了雲端主機。</p>
+<p>今天，我們要更進一步 —— <strong>把 Node.js 專案實際部署到雲端主機上！</strong></p>
+<p>這篇文章將帶你完成從 0 到上線的所有流程：</p>
+<ol>
+<li>建立 Ubuntu EC2 實例</li>
+<li>SSH 連線</li>
+<li>安裝 Node.js &#x2F; npm &#x2F; Git</li>
+<li>部署並執行專案</li>
+<li>使用 PM2 常駐應用程式</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/10/08/Day24%20-%20AWS-Node-EC2/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/07/Day23%20-%20AWS-EC2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/10/07/Day23%20-%20AWS-EC2/" class="post-title-link" itemprop="url">Day 23 - 從零啟動雲端主機：帶你開出第一台 AWS EC2！</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-07 22:50:32 / 修改時間：22:53:48" itemprop="dateCreated datePublished" datetime="2025-10-07T22:50:32+08:00">2025-10-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>跟著 AWS 官方引導，從零啟動第一台雲端主機！</p>
+</blockquote>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>承接前篇：「我們已經完成了 AWS 預算防護，確保不會爆花費。」</p>
+</li>
+<li><p>今天要實際體驗「在雲端開一台主機」，也就是 <strong>EC2（Elastic Compute Cloud）</strong>。</p>
+</li>
+<li><p>EC2 就像你的「雲端電腦」，能安裝系統、架網站、部署 API。</p>
+</li>
+<li><p>本篇會帶你一步步完成：</p>
+<ol>
+<li>認識 EC2</li>
+<li>建立 EC2</li>
+<li>SSH 連線進入 EC2</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/10/07/Day23%20-%20AWS-EC2/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -803,180 +982,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/09/29/Day15%20-%20JWT/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/28/Day14%20-%20Zod/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Arvin Yang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Arvin's Blog">
-      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Arvin's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/09/28/Day14%20-%20Zod/" class="post-title-link" itemprop="url">Day 14 - API 驗證救星：用 Zod 驗證來檢查</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2025-09-28 19:36:53" itemprop="dateCreated datePublished" datetime="2025-09-28T19:36:53+08:00">2025-09-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-09-29 19:40:16" itemprop="dateModified" datetime="2025-09-29T19:40:16+08:00">2025-09-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在開發後端 API 的時候，你一定遇過這些狀況：</p>
-<ul>
-<li>前端傳來的資料少了一個欄位。</li>
-<li>輸入的字串太長，直接讓資料庫報錯。</li>
-<li>原本應該是 <code>boolean</code>，結果卻收到 <code>&quot;true&quot;</code> 或 <code>1</code>。</li>
-</ul>
-<p>如果每次都要手動檢查 <code>req.body</code>，程式碼會變得又長又難維護。</p>
-<p>👉 這時候，<strong>Zod 就是我們的防呆神器</strong>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/28/Day14%20-%20Zod/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/09/27/Day13%20-%20ESLint/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Arvin Yang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Arvin's Blog">
-      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Arvin's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/09/27/Day13%20-%20ESLint/" class="post-title-link" itemprop="url">Day 13 - 一致的程式碼：ESLint 導入</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-09-27 00:13:49 / 修改時間：00:15:49" itemprop="dateCreated datePublished" datetime="2025-09-27T00:13:49+08:00">2025-09-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="ESLint-的歷史與簡介"><a href="#ESLint-的歷史與簡介" class="headerlink" title="ESLint 的歷史與簡介"></a>ESLint 的歷史與簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day13-ESLint/1-eslint.png?raw=true"></p>
-<p>在 JavaScript 的早期，開發者缺乏統一的規範，程式碼容易因個人習慣而變得混亂。</p>
-<ul>
-<li>2000 年代，出現了 <strong>JSLint</strong>（由 Douglas Crockford 開發，JavaScript 語言守護者之一），用來檢查常見錯誤。</li>
-<li>之後社群又發展出 <strong>JSHint</strong>，提供更彈性的規則與設定。</li>
-<li>到了 <strong>2013 年</strong>，Nicholas C. Zakas（前 Yahoo! JS 團隊成員）推出 <strong>ESLint</strong>，透過「規則驅動 + 插件機制」，讓開發者可以自由擴展並制定專案專屬規範。</li>
-</ul>
-<p>今天，ESLint 已經成為 JavaScript&#x2F;TypeScript 專案裡最常見的程式碼檢查工具。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/09/27/Day13%20-%20ESLint/#more" rel="contents">
                 閱讀全文 &raquo;
               </a>
             </div>
