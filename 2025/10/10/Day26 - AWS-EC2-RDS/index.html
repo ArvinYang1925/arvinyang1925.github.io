@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前情提要Day 24，我們已經成功開啟 EC2，並在上面部署了第一版的 Node.js Express App。 Day 25，我們建立了 RDS 資料庫並成功測試連線。 今天，我們要來完成最關鍵的一步 —— 讓 EC2 上的應用程式正式連上 RDS，打造完整的雲端架構！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/10/Day26%20-%20AWS-EC2-RDS/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前情提要Day 24，我們已經成功開啟 EC2，並在上面部署了第一版的 Node.js Express App。 Day 25，我們建立了 RDS 資料庫並成功測試連線。 今天，我們要來完成最關鍵的一步 —— 讓 EC2 上的應用程式正式連上 RDS，打造完整的雲端架構！">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/1-rds-access.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/2-ssh-conn.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/3-pgsql-conn.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/4-migration.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/5-db-conn-failed.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/6-git-pull.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/7-git-log.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/8-db-conn-ok.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/9-browser-test.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/10-postman-test-reg.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/11-postman-test-login.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/12-add-todo.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/13-check-pgsql-todo.png?raw=true">
+<meta property="article:published_time" content="2025-10-10T15:10:26.000Z">
+<meta property="article:modified_time" content="2025-10-10T15:14:25.297Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/1-rds-access.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/10/Day26%20-%20AWS-EC2-RDS/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/10/Day26%20-%20AWS-EC2-RDS/","path":"2025/10/10/Day26 - AWS-EC2-RDS/","title":"Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！ | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%83%85%E6%8F%90%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">前情提要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E4%BD%9C%E6%A5%AD%EF%BC%9A%E9%97%9C%E9%96%89-RDS-%E5%85%AC%E9%96%8B%E5%AD%98%E5%8F%96%E6%AC%8A%E9%99%90%EF%BC%8C%E6%8F%90%E9%AB%98%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">前置作業：關閉 RDS 公開存取權限，提高安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%97%9C%E9%96%89%E3%80%8C%E5%85%AC%E9%96%8B%E5%AD%98%E5%8F%96%E3%80%8D%E8%83%BD%E6%8F%90%E5%8D%87%E5%AE%89%E5%85%A8%E6%80%A7%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">為什麼關閉「公開存取」能提升安全性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%98%BB%E6%93%8B%E6%89%80%E6%9C%89%E3%80%8C%E5%A4%96%E9%83%A8%E7%B6%B2%E9%9A%9B%E7%B6%B2%E8%B7%AF%E3%80%8D%E7%9A%84%E6%B5%81%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">1. 阻擋所有「外部網際網路」的流量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%80%E6%9C%89%E8%B3%87%E6%96%99%E5%BA%AB%E5%AD%98%E5%8F%96%E9%83%BD%E9%9C%80%E8%B5%B0%E3%80%8C%E5%85%A7%E9%83%A8%E7%B6%B2%E8%B7%AF%E3%80%8D"><span class="nav-number">2.3.</span> <span class="nav-text">2. 所有資料庫存取都需走「內部網路」</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E6%9B%B4%E6%96%B0-EC2-%E4%B8%8A%E7%9A%84%E5%B0%88%E6%A1%88%E7%89%88%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">步驟 1：更新 EC2 上的專案版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">4.</span> <span class="nav-text">步驟 2：設定環境變數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E6%B8%AC%E8%A9%A6-RDS-%E9%80%A3%E7%B7%9A"><span class="nav-number">5.</span> <span class="nav-text">步驟 3：測試 RDS 連線</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E5%9F%B7%E8%A1%8C%E8%B3%87%E6%96%99%E5%BA%AB-Migration"><span class="nav-number">6.</span> <span class="nav-text">步驟 4：執行資料庫 Migration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9A%A0%EF%B8%8F-%E8%B8%A9%E5%9D%91%E7%B4%80%E9%8C%84%EF%BC%9AMigration-%E6%88%90%E5%8A%9F%EF%BC%8C%E4%BD%86-App-%E5%95%9F%E5%8B%95%E5%A4%B1%E6%95%97%EF%BC%81"><span class="nav-number">7.</span> <span class="nav-text">⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%8F%E9%A1%8C%E5%88%86%E6%9E%90"><span class="nav-number">7.1.</span> <span class="nav-text">問題分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88"><span class="nav-number">7.2.</span> <span class="nav-text">✅ 解決方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-5%EF%BC%9A%E9%87%8D%E6%96%B0%E9%83%A8%E7%BD%B2%E8%88%87%E9%A9%97%E8%AD%89"><span class="nav-number">8.</span> <span class="nav-text">步驟 5：重新部署與驗證</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-6%EF%BC%9A%E7%94%A8-PM2-%E6%AD%A3%E5%BC%8F%E5%95%9F%E5%8B%95"><span class="nav-number">9.</span> <span class="nav-text">步驟 6：用 PM2 正式啟動</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-7%EF%BC%9A%E5%85%A8%E9%9D%A2%E9%A9%97%E8%AD%89"><span class="nav-number">10.</span> <span class="nav-text">步驟 7：全面驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-%E5%BE%9E%E7%80%8F%E8%A6%BD%E5%99%A8%E6%B8%AC%E8%A9%A6"><span class="nav-number">10.1.</span> <span class="nav-text">7.1 從瀏覽器測試</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-Postman-%E6%B8%AC%E8%A9%A6%E4%B8%BB%E8%A6%81-API"><span class="nav-number">10.2.</span> <span class="nav-text">7.2 Postman 測試主要 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-%E6%AA%A2%E6%9F%A5%E8%B3%87%E6%96%99%E5%BA%AB%E5%85%A7%E5%AE%B9"><span class="nav-number">10.3.</span> <span class="nav-text">7.3 檢查資料庫內容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">11.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90"><span class="nav-number">12.</span> <span class="nav-text">參考資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/10/Day26%20-%20AWS-EC2-RDS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！ | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-10 23:10:26 / 修改時間：23:14:25" itemprop="dateCreated datePublished" datetime="2025-10-10T23:10:26+08:00">2025-10-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>Day 24，我們已經成功開啟 EC2，並在上面部署了第一版的 Node.js Express App。</p>
+<p>Day 25，我們建立了 RDS 資料庫並成功測試連線。</p>
+<p>今天，我們要來完成最關鍵的一步 ——</p>
+<p><strong>讓 EC2 上的應用程式正式連上 RDS，打造完整的雲端架構！</strong></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="前置作業：關閉-RDS-公開存取權限，提高安全性"><a href="#前置作業：關閉-RDS-公開存取權限，提高安全性" class="headerlink" title="前置作業：關閉 RDS 公開存取權限，提高安全性"></a>前置作業：關閉 RDS 公開存取權限，提高安全性</h2><p>進入 <strong>RDS 儀表板</strong> → 點擊右上角「修改」 →</p>
+<p>下滑到「連線」區塊 → 將「可公開存取」改為 <strong>No</strong> → 儲存修改。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/1-rds-access.png?raw=true"></p>
+<blockquote>
+<p>💡 昨天為了用 DBeaver 測試，我們暫時開啟了公開存取。</p>
+<p>不過長期而言，這樣的設定會帶來極大的安全風險！</p>
+</blockquote>
+<hr>
+<h3 id="為什麼關閉「公開存取」能提升安全性？"><a href="#為什麼關閉「公開存取」能提升安全性？" class="headerlink" title="為什麼關閉「公開存取」能提升安全性？"></a>為什麼關閉「公開存取」能提升安全性？</h3><h3 id="1-阻擋所有「外部網際網路」的流量"><a href="#1-阻擋所有「外部網際網路」的流量" class="headerlink" title="1. 阻擋所有「外部網際網路」的流量"></a>1. 阻擋所有「外部網際網路」的流量</h3><p>當你設定 <code>Public access = No</code> 時，RDS 僅會分配 <strong>私有 IP</strong>，</p>
+<p>外部網路無法直接抵達它。</p>
+<p>即使你的 Security Group 開得再寬（像 <code>0.0.0.0/0</code>），</p>
+<p>外部世界也<strong>完全 ping 不到</strong>。</p>
+<p>這能有效防止：</p>
+<ul>
+<li>自動化掃描（masscan、nmap）</li>
+<li>惡意登入爆破（如 PostgreSQL 密碼暴力破解）</li>
+<li>被搜尋引擎（例如 Shodan）暴露</li>
+</ul>
+<blockquote>
+<p>換句話說，它在「網路層」上就被隔離了！</p>
+</blockquote>
+<hr>
+<h3 id="2-所有資料庫存取都需走「內部網路」"><a href="#2-所有資料庫存取都需走「內部網路」" class="headerlink" title="2. 所有資料庫存取都需走「內部網路」"></a>2. 所有資料庫存取都需走「內部網路」</h3><p>當 RDS 僅有私有 IP，能連線的主機僅限於：</p>
+<ul>
+<li>同一個 <strong>VPC</strong> 內的 EC2</li>
+<li>或透過 <strong>VPN</strong> 進來的內部節點</li>
+</ul>
+<p>這樣，你能明確控制「誰」能夠存取資料庫，</p>
+<p>將環境從「開放世界」轉變為「封閉社區」。</p>
+<hr>
+<h2 id="步驟-1：更新-EC2-上的專案版本"><a href="#步驟-1：更新-EC2-上的專案版本" class="headerlink" title="步驟 1：更新 EC2 上的專案版本"></a>步驟 1：更新 EC2 上的專案版本</h2><p>SSH 登入 EC2：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/2-ssh-conn.png?raw=true"></p>
+<p>在 EC2 執行以下指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 進入專案資料夾</span></span><br><span class="line"><span class="built_in">cd</span> ~/iThome2025-node-ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 停止目前的應用 (如果之前有開啟)</span></span><br><span class="line">pm2 stop ithome-app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 切換並拉取最新分支</span></span><br><span class="line">git checkout feature/init-ts-express</span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 安裝套件</span></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 重新編譯</span></span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-2：設定環境變數"><a href="#步驟-2：設定環境變數" class="headerlink" title="步驟 2：設定環境變數"></a>步驟 2：設定環境變數</h2><p>建立 <code>.env</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<p>輸入內容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># RDS 資料庫設定</span></span><br><span class="line">DB_HOST=node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com</span><br><span class="line">DB_NAME=postgres</span><br><span class="line">DB_USERNAME=postgres</span><br><span class="line">DB_PASSWORD=password</span><br><span class="line">DB_PORT=5432</span><br><span class="line"></span><br><span class="line"><span class="comment"># JWT</span></span><br><span class="line">JWT_SECRET=jwt_secret</span><br><span class="line"></span><br><span class="line"><span class="comment"># Firebase</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br><span class="line"></span><br><span class="line">LOG_LEVEL=debug</span><br><span class="line">NODE_ENV=production</span><br></pre></td></tr></table></figure>
+
+<p>儲存離開：<code>Ctrl + X → Y → Enter</code></p>
+<hr>
+<h2 id="步驟-3：測試-RDS-連線"><a href="#步驟-3：測試-RDS-連線" class="headerlink" title="步驟 3：測試 RDS 連線"></a>步驟 3：測試 RDS 連線</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install postgresql-client -y</span><br><span class="line"></span><br><span class="line">psql -h node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com \</span><br><span class="line">     -p 5432 \</span><br><span class="line">     -U postgres \</span><br><span class="line">     -d postgres</span><br></pre></td></tr></table></figure>
+
+<p>輸入密碼後若成功進入 <code>psql</code> 介面，代表連線順利 🎉</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/3-pgsql-conn.png?raw=true"></p>
+<p>輸入 <code>\q</code> 可退出。</p>
+<hr>
+<h2 id="步驟-4：執行資料庫-Migration"><a href="#步驟-4：執行資料庫-Migration" class="headerlink" title="步驟 4：執行資料庫 Migration"></a>步驟 4：執行資料庫 Migration</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 migration 檔案</span></span><br><span class="line"><span class="built_in">ls</span> -la src/migrations/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行 migration 建立資料表</span></span><br><span class="line">npm run migration:run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 migration 狀態</span></span><br><span class="line">npm run migration:show</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/4-migration.png?raw=true"></p>
+<hr>
+<h2 id="⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！"><a href="#⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！" class="headerlink" title="⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！"></a>⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！</h2><p>我原本滿心期待啟動應用程式，</p>
+<p>結果一跑 <code>node dist/app.js</code>，瞬間炸裂：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/5-db-conn-failed.png?raw=true"></p>
+<p>心想：「為何？Migration 都成功了，怎麼跑不動？」</p>
+<hr>
+<h3 id="問題分析"><a href="#問題分析" class="headerlink" title="問題分析"></a>問題分析</h3><p>這是 TypeORM 常見陷阱之一：</p>
+<ul>
+<li><code>migration:run</code> 是由 <code>typeorm-ts-node-commonjs</code> 執行，可直接讀 <code>.ts</code></li>
+<li>但 <code>node dist/app.js</code> 僅能執行 <code>.js</code><br>—— TypeORM 嘗試載入 <code>.ts</code> migration，自然報錯。</li>
+</ul>
+<p>也就是說：</p>
+<blockquote>
+<p>開發環境能吃 TS，但佈署環境只能吃 JS。</p>
+</blockquote>
+<hr>
+<h3 id="✅-解決方案"><a href="#✅-解決方案" class="headerlink" title="✅ 解決方案"></a>✅ 解決方案</h3><p>在 <code>db.ts</code> 調整 migrations 路徑設定：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">migrations</span>: process.<span class="property">env</span>.<span class="property">NODE_ENV</span> === <span class="string">&quot;production&quot;</span></span><br><span class="line">  ? [__dirname + <span class="string">&quot;/../migrations/*.js&quot;</span>]</span><br><span class="line">  : [<span class="string">&quot;src/migrations/**/*.ts&quot;</span>];</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-5：重新部署與驗證"><a href="#步驟-5：重新部署與驗證" class="headerlink" title="步驟 5：重新部署與驗證"></a>步驟 5：重新部署與驗證</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取修改後程式碼</span></span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/6-git-pull.png?raw=true"></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/7-git-log.png?raw=true"></p>
+<p>接著重新啟動：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node dist/app.js</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/8-db-conn-ok.png?raw=true"></p>
+<p>成功連線 🎉</p>
+<hr>
+<h2 id="步驟-6：用-PM2-正式啟動"><a href="#步驟-6：用-PM2-正式啟動" class="headerlink" title="步驟 6：用 PM2 正式啟動"></a>步驟 6：用 PM2 正式啟動</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pm2 start ithome-app</span><br><span class="line">pm2 logs ithome-app</span><br></pre></td></tr></table></figure>
+
+<p>應看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">📦 DB Connected!</span><br><span class="line">🚀 Server running on http://localhost:3000</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-7：全面驗證"><a href="#步驟-7：全面驗證" class="headerlink" title="步驟 7：全面驗證"></a>步驟 7：全面驗證</h2><h3 id="7-1-從瀏覽器測試"><a href="#7-1-從瀏覽器測試" class="headerlink" title="7.1 從瀏覽器測試"></a>7.1 從瀏覽器測試</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/9-browser-test.png?raw=true"></p>
+<h3 id="7-2-Postman-測試主要-API"><a href="#7-2-Postman-測試主要-API" class="headerlink" title="7.2 Postman 測試主要 API"></a>7.2 Postman 測試主要 API</h3><p>註冊：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/10-postman-test-reg.png?raw=true"></p>
+<p>登入：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/11-postman-test-login.png?raw=true"></p>
+<p>新增 Todo：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/12-add-todo.png?raw=true"></p>
+<h3 id="7-3-檢查資料庫內容"><a href="#7-3-檢查資料庫內容" class="headerlink" title="7.3 檢查資料庫內容"></a>7.3 檢查資料庫內容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 EC2 上連接到 RDS</span></span><br><span class="line">psql -h your-rds-endpoint -p 5432 -U postgres -d postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看資料表</span></span><br><span class="line">\dt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 todo 資料</span></span><br><span class="line">SELECT * FROM <span class="string">&quot;todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/13-check-pgsql-todo.png?raw=true"></p>
+<p>測試成功 🎉</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這一天，我們正式打通了 <strong>Node.js 應用 + AWS RDS 資料庫</strong> 的雲端實戰串接！</p>
+<p>這次的流程看似繁瑣，</p>
+<p>但我們一步步實作並理解了：</p>
+<ul>
+<li>為何要關閉 Public Access</li>
+<li>如何讓 EC2 連上 RDS</li>
+<li>TypeORM 在生產環境常見的 <code>.ts/.js</code> 落差問題</li>
+</ul>
+<p>在雲端部署世界裡，<strong>每一次錯誤都是最珍貴的學習歷程。</strong></p>
+<p>下一篇，我們將進一步探索 AWS 的另一個明星服務 — <strong>S3（Simple Storage Service）</strong>。</p>
+<p>它是許多應用的「檔案中樞」，可以安全地存放圖片、影片、PDF、甚至備份資料。</p>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
+<p>commit :<br>fix: 🐛 update migrations config to support .js in production an<br>修正 TypeORM migration 設定，讓 production 使用 .js、開發使用 .ts</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/659efb96fa58de0a07452d039a8f6997184842c4">Github 連結</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/AWS/" rel="tag"># AWS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/09/Day25%20-%20AWS-RDS/" rel="prev" title="Day25 - AWS RDS 入門：在雲端打造你的第一個資料庫服務">
+                  <i class="fa fa-angle-left"></i> Day25 - AWS RDS 入門：在雲端打造你的第一個資料庫服務
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
