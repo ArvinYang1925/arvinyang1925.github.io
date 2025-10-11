@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言在前幾天，我們已經完成了 EC2 主機部署 以及 RDS 資料庫串接， 一個完整的後端雲端架構也漸漸成形。 但如果今天你的應用要讓使用者能上傳圖片、影片、報表、PDF… 這些「檔案」要放哪裡呢？ 這時候，主角就登場了 —— **AWS S3 (Simple Storage Service)**。  💡 S3 是 AWS 三大基礎服務之一（EC2、RDS、S3）， 它就像你在雲端的「硬碟」，負">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/11/Day27%20-%20AWS-S3/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言在前幾天，我們已經完成了 EC2 主機部署 以及 RDS 資料庫串接， 一個完整的後端雲端架構也漸漸成形。 但如果今天你的應用要讓使用者能上傳圖片、影片、報表、PDF… 這些「檔案」要放哪裡呢？ 這時候，主角就登場了 —— **AWS S3 (Simple Storage Service)**。  💡 S3 是 AWS 三大基礎服務之一（EC2、RDS、S3）， 它就像你在雲端的「硬碟」，負">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/1-aws-s3.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/2-bucket-name.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/3-ACL-dis.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/4-public-access.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/5-bucket-policy.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/6-create-user.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/7-user-name.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/8-set-policy.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/9-create-access-key.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/10-key-range.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/11-postman-test.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/12-check-db.png?raw=true">
+<meta property="og:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/13-check-s3.png?raw=true">
+<meta property="article:published_time" content="2025-10-11T15:20:46.000Z">
+<meta property="article:modified_time" content="2025-10-11T15:22:28.667Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/1-aws-s3.png?raw=true">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/11/Day27%20-%20AWS-S3/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/11/Day27%20-%20AWS-S3/","path":"2025/10/11/Day27 - AWS-S3/","title":"Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E4%BD%BF%E7%94%A8-AWS-S3%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">為什麼要使用 AWS S3？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B6%85%E7%A9%A9%E5%AE%9A%E7%9A%84%E9%9B%B2%E7%AB%AF%E5%84%B2%E5%AD%98%E7%A9%BA%E9%96%93"><span class="nav-number">2.1.</span> <span class="nav-text">1.超穩定的雲端儲存空間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%83%B9%E6%A0%BC%E4%BE%BF%E5%AE%9C%E5%8F%88%E6%8C%89%E9%87%8F%E8%A8%88%E8%B2%BB"><span class="nav-number">2.2.</span> <span class="nav-text">2.價格便宜又按量計費</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%A8%E7%90%83%E5%8F%AF%E5%AD%98%E5%8F%96"><span class="nav-number">2.3.</span> <span class="nav-text">3.全球可存取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%8C%E7%BE%8E%E6%95%B4%E5%90%88-AWS-%E7%94%9F%E6%85%8B%E7%B3%BB"><span class="nav-number">2.4.</span> <span class="nav-text">4.完美整合 AWS 生態系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9AAWS-S3-%E8%A8%AD%E5%AE%9A%E6%AD%A5%E9%A9%9F"><span class="nav-number">3.</span> <span class="nav-text">第一部分：AWS S3 設定步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E5%BB%BA%E7%AB%8B-S3-Bucket"><span class="nav-number">3.1.</span> <span class="nav-text">步驟 1：建立 S3 Bucket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E8%A8%AD%E5%AE%9A-Bucket-Policy%EF%BC%88%E8%AE%93%E6%AA%94%E6%A1%88%E5%8F%AF%E5%85%AC%E9%96%8B%E8%AE%80%E5%8F%96%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">步驟 2：設定 Bucket Policy（讓檔案可公開讀取）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E5%BB%BA%E7%AB%8B-IAM-%E4%BD%BF%E7%94%A8%E8%80%85%E8%88%87%E5%8F%96%E5%BE%97-Access-Key"><span class="nav-number">3.3.</span> <span class="nav-text">步驟 3：建立 IAM 使用者與取得 Access Key</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%95%B4%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">第二部分：程式碼整合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%9D-AWS-SDK"><span class="nav-number">4.1.</span> <span class="nav-text">1. 安裝 AWS SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%A8%AD%E5%AE%9A%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">4.2.</span> <span class="nav-text">2. 設定環境變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BB%BA%E7%AB%8B-S3-%E5%B7%A5%E5%85%B7%E6%AA%94%E6%A1%88"><span class="nav-number">4.3.</span> <span class="nav-text">3. 建立 S3 工具檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BF%AE%E6%94%B9%E4%B8%8A%E5%82%B3-Controller"><span class="nav-number">4.4.</span> <span class="nav-text">4. 修改上傳 Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%9B%B4%E6%96%B0%E8%B7%AF%E7%94%B1"><span class="nav-number">4.5.</span> <span class="nav-text">5. 更新路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6%E4%B8%8A%E5%82%B3%E6%AA%94%E6%A1%88"><span class="nav-number">5.</span> <span class="nav-text">測試上傳檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E9%BB%9E%E6%8F%90%E9%86%92"><span class="nav-number">6.</span> <span class="nav-text">重點提醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">7.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90"><span class="nav-number">8.</span> <span class="nav-text">參考資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/11/Day27%20-%20AWS-S3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-11 23:20:46 / 修改時間：23:22:28" itemprop="dateCreated datePublished" datetime="2025-10-11T23:20:46+08:00">2025-10-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天，我們已經完成了 <strong>EC2 主機部署</strong> 以及 <strong>RDS 資料庫串接</strong>，</p>
+<p>一個完整的後端雲端架構也漸漸成形。</p>
+<p>但如果今天你的應用要讓使用者能上傳圖片、影片、報表、PDF…</p>
+<p>這些「檔案」要放哪裡呢？</p>
+<p>這時候，主角就登場了 —— **AWS S3 (Simple Storage Service)**。</p>
+<blockquote>
+<p>💡 S3 是 AWS 三大基礎服務之一（EC2、RDS、S3），</p>
+<p>它就像你在雲端的「硬碟」，負責安全地儲存、管理檔案。</p>
+</blockquote>
+<p>今天我們就要實際操作：</p>
+<p>從建立 S3 Bucket → 設定權限 → 實作 Node.js 上傳功能，</p>
+<p>一步步完成「檔案雲端化」的實戰練習！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="為什麼要使用-AWS-S3？"><a href="#為什麼要使用-AWS-S3？" class="headerlink" title="為什麼要使用 AWS S3？"></a>為什麼要使用 AWS S3？</h2><h3 id="1-超穩定的雲端儲存空間"><a href="#1-超穩定的雲端儲存空間" class="headerlink" title="1.超穩定的雲端儲存空間"></a>1.超穩定的雲端儲存空間</h3><p>S3 的資料儲存設計達到「<strong>99.999999999%（11 個 9）</strong>」的耐久性，</p>
+<p>意思是：你的圖片幾乎不可能遺失。</p>
+<h3 id="2-價格便宜又按量計費"><a href="#2-價格便宜又按量計費" class="headerlink" title="2.價格便宜又按量計費"></a>2.價格便宜又按量計費</h3><p>你只需為實際用到的空間與流量付費，</p>
+<p>不用像傳統伺服器那樣一直維護硬碟或備份。</p>
+<h3 id="3-全球可存取"><a href="#3-全球可存取" class="headerlink" title="3.全球可存取"></a>3.全球可存取</h3><p>S3 的檔案可以透過 URL 在全世界直接被讀取，</p>
+<p>搭配 CDN（如 CloudFront）後，速度更是飛快。</p>
+<h3 id="4-完美整合-AWS-生態系"><a href="#4-完美整合-AWS-生態系" class="headerlink" title="4.完美整合 AWS 生態系"></a>4.完美整合 AWS 生態系</h3><p>與 EC2、Lambda、CloudFront、IAM、Route53 等無縫結合</p>
+<p>不論是後端 API、影片平台、或電商後台都能輕鬆擴充。</p>
+<hr>
+<h2 id="第一部分：AWS-S3-設定步驟"><a href="#第一部分：AWS-S3-設定步驟" class="headerlink" title="第一部分：AWS S3 設定步驟"></a>第一部分：AWS S3 設定步驟</h2><h3 id="步驟-1：建立-S3-Bucket"><a href="#步驟-1：建立-S3-Bucket" class="headerlink" title="步驟 1：建立 S3 Bucket"></a>步驟 1：建立 S3 Bucket</h3><ol>
+<li><strong>登入 AWS Console</strong><ul>
+<li>前往 <a target="_blank" rel="noopener" href="https://aws.amazon.com/console/">https://aws.amazon.com/console/</a></li>
+<li>使用您的 AWS 帳號登入</li>
+</ul>
+</li>
+<li><strong>進入 S3 服務</strong><ul>
+<li>在上方搜尋欄輸入「S3」</li>
+<li>點選「S3」服務</li>
+</ul>
+</li>
+<li><strong>建立新的 Bucket</strong><ul>
+<li>點擊「 <strong>建立儲存貯體</strong> 」按鈕<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/1-aws-s3.png?raw=true"></li>
+<li><strong>AWS Region</strong>: 選擇離您最近的區域（例如：<code>ap-northeast-1</code> 東京）</li>
+<li><strong>Bucket name</strong>: 輸入唯一名稱（例如：<code>my-ithome-2025-bucket</code>）<ul>
+<li>注意：Bucket 名稱必須是全球唯一的<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/2-bucket-name.png?raw=true"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>設定 Object Ownership</strong><ul>
+<li>選擇「ACLs disabled (recommended)」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/3-ACL-dis.png?raw=true"></li>
+</ul>
+</li>
+<li><strong>Block Public Access settings</strong><ul>
+<li><strong>取消勾選</strong>「Block all public access」</li>
+<li>勾選確認框（我了解這會讓檔案變成公開存取）</li>
+<li>⚠️ 注意：如果您想讓上傳的圖片可以公開存取，需要取消封鎖<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/4-public-access.png?raw=true"></li>
+</ul>
+</li>
+<li><strong>Bucket Versioning</strong><ul>
+<li>選擇「Disable」</li>
+</ul>
+</li>
+<li><strong>其他設定保持預設</strong>，點擊「 <strong>建立儲存貯體</strong> 」</li>
+</ol>
+<h3 id="步驟-2：設定-Bucket-Policy（讓檔案可公開讀取）"><a href="#步驟-2：設定-Bucket-Policy（讓檔案可公開讀取）" class="headerlink" title="步驟 2：設定 Bucket Policy（讓檔案可公開讀取）"></a>步驟 2：設定 Bucket Policy（讓檔案可公開讀取）</h3><ol>
+<li><p>點進剛建立的 Bucket</p>
+</li>
+<li><p>前往「Permissions」標籤</p>
+</li>
+<li><p>找到「Bucket policy」區塊，點擊「Edit」</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/5-bucket-policy.png?raw=true"></p>
+</li>
+<li><p>貼上以下 Policy（記得替換 <code>YOUR-BUCKET-NAME</code>）：</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2012-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Sid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PublicReadGetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Principal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;s3:GetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:s3:::YOUR-BUCKET-NAME/*&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>點擊「Save changes」</li>
+</ol>
+<h3 id="步驟-3：建立-IAM-使用者與取得-Access-Key"><a href="#步驟-3：建立-IAM-使用者與取得-Access-Key" class="headerlink" title="步驟 3：建立 IAM 使用者與取得 Access Key"></a>步驟 3：建立 IAM 使用者與取得 Access Key</h3><ol>
+<li><strong>進入 IAM 服務</strong><ul>
+<li>搜尋並點選「IAM」服務</li>
+</ul>
+</li>
+<li><strong>建立新使用者</strong><ul>
+<li>左側選單點選「Users」</li>
+<li>點擊「Create user」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/6-create-user.png?raw=true"></li>
+<li><strong>User name</strong>: 輸入 <code>s3-upload-user</code><br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/7-user-name.png?raw=true"></li>
+<li>點擊「Next」</li>
+</ul>
+</li>
+<li><strong>設定權限</strong><ul>
+<li>選擇「Attach policies directly」</li>
+<li>搜尋並勾選「AmazonS3FullAccess」（簡單起見；生產環境建議使用更細緻的權限）<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/8-set-policy.png?raw=true"></li>
+<li>點擊「Next」，然後「Create user」</li>
+</ul>
+</li>
+<li><strong>建立 Access Key</strong><ul>
+<li>點進剛建立的使用者</li>
+<li>選擇「Security credentials」標籤</li>
+<li>找到「Access keys」區塊，點擊「Create access key」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/9-create-access-key.png?raw=true"></li>
+<li>選擇「Application running outside AWS」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/10-key-range.png?raw=true"></li>
+<li>點擊「Next」</li>
+<li>描述標籤：輸入「Node.js Upload App」</li>
+<li>點擊「Create access key」</li>
+<li><strong>重要！</strong> 複製並儲存：(等等需在 <code>.env</code> 設定)<ul>
+<li><strong>Access key ID</strong> (類似：<code>AKIAIOSFODNN7EXAMPLE</code>)</li>
+<li><strong>Secret access key</strong> (類似：<code>wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</code>)</li>
+<li>⚠️ Secret key 只會顯示一次，請妥善保存！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="第二部分：程式碼整合"><a href="#第二部分：程式碼整合" class="headerlink" title="第二部分：程式碼整合"></a>第二部分：程式碼整合</h2><h3 id="1-安裝-AWS-SDK"><a href="#1-安裝-AWS-SDK" class="headerlink" title="1. 安裝 AWS SDK"></a>1. 安裝 AWS SDK</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install @aws-sdk/client-s3</span><br><span class="line">npm install --save-dev @types/node</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-設定環境變數"><a href="#2-設定環境變數" class="headerlink" title="2. 設定環境變數"></a>2. 設定環境變數</h3><p>在您的 <code>.env</code> 檔案加入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># AWS S3 設定</span><br><span class="line">AWS_REGION=ap-northeast-1</span><br><span class="line">AWS_ACCESS_KEY_ID=your-access-key-id</span><br><span class="line">AWS_SECRET_ACCESS_KEY=your-secret-access-key</span><br><span class="line">AWS_S3_BUCKET_NAME=my-ithome-2025-bucket</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-建立-S3-工具檔案"><a href="#3-建立-S3-工具檔案" class="headerlink" title="3. 建立 S3 工具檔案"></a>3. 建立 S3 工具檔案</h3><p>建立新檔案：<code>src/utils/s3Utils.ts</code></p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; S3Client &#125; <span class="keyword">from</span> <span class="string">&quot;@aws-sdk/client-s3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 S3 Client</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> s3Client = <span class="keyword">new</span> <span class="title function_">S3Client</span>(&#123;</span><br><span class="line">  <span class="attr">region</span>: process.<span class="property">env</span>.<span class="property">AWS_REGION</span> || <span class="string">&quot;ap-northeast-1&quot;</span>,</span><br><span class="line">  <span class="attr">credentials</span>: &#123;</span><br><span class="line">    <span class="attr">accessKeyId</span>: process.<span class="property">env</span>.<span class="property">AWS_ACCESS_KEY_ID</span> || <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="attr">secretAccessKey</span>: process.<span class="property">env</span>.<span class="property">AWS_SECRET_ACCESS_KEY</span> || <span class="string">&quot;&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bucketName = process.<span class="property">env</span>.<span class="property">AWS_S3_BUCKET_NAME</span> || <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-修改上傳-Controller"><a href="#4-修改上傳-Controller" class="headerlink" title="4. 修改上傳 Controller"></a>4. 修改上傳 Controller</h3><p>修改 <code>src/controllers/uploadController.ts</code>，新增一個使用 S3 的函式：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PutObjectCommand</span> &#125; <span class="keyword">from</span> <span class="string">&quot;@aws-sdk/client-s3&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; s3Client, bucketName &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/s3Utils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 AWS S3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatarToS3</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生檔案路徑與名稱</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> key = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 上傳到 S3</span></span><br><span class="line">    <span class="keyword">const</span> command = <span class="keyword">new</span> <span class="title class_">PutObjectCommand</span>(&#123;</span><br><span class="line">      <span class="title class_">Bucket</span>: bucketName,</span><br><span class="line">      <span class="title class_">Key</span>: key,</span><br><span class="line">      <span class="title class_">Body</span>: req.<span class="property">file</span>.<span class="property">buffer</span>,</span><br><span class="line">      <span class="title class_">ContentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> s3Client.<span class="title function_">send</span>(command);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 產生公開 URL</span></span><br><span class="line">    <span class="keyword">const</span> region = process.<span class="property">env</span>.<span class="property">AWS_REGION</span> || <span class="string">&quot;ap-northeast-1&quot;</span>;</span><br><span class="line">    <span class="keyword">const</span> publicUrl = <span class="string">`https://<span class="subst">$&#123;bucketName&#125;</span>.s3.<span class="subst">$&#123;region&#125;</span>.amazonaws.com/<span class="subst">$&#123;key&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 更新資料庫</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">      &#123; <span class="attr">id</span>: req.<span class="property">user</span>.<span class="property">id</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 回傳成功訊息</span></span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">      <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-更新路由"><a href="#5-更新路由" class="headerlink" title="5. 更新路由"></a>5. 更新路由</h3><p>修改 <code>src/routes/uploadRoutes.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  uploadAvatar,</span><br><span class="line">  uploadAvatarToS3,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Firebase 版本（保留原有功能）</span></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/avatar&quot;</span>, isAuth, imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), uploadAvatar);</span><br><span class="line"></span><br><span class="line"><span class="comment">// AWS S3 版本（新增）</span></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/avatar-s3&quot;</span>, isAuth, imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), uploadAvatarToS3);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="測試上傳檔案"><a href="#測試上傳檔案" class="headerlink" title="測試上傳檔案"></a>測試上傳檔案</h2><p>使用 Postman 測試：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/11-postman-test.png?raw=true"></p>
+<p>查看資料庫 <code>profile_url</code> 欄位 : (成功填入檔案位址)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/12-check-db.png?raw=true"></p>
+<p>到 S3 查看檔案是否已經上傳 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/13-check-s3.png?raw=true"></p>
+<p>成功驗證檔案上傳！</p>
+<hr>
+<h2 id="重點提醒"><a href="#重點提醒" class="headerlink" title="重點提醒"></a>重點提醒</h2><ol>
+<li><strong>不要將 AWS credentials 提交到 Git</strong><ul>
+<li>確保 <code>.env</code> 在 <code>.gitignore</code> 中</li>
+</ul>
+</li>
+<li><strong>成本考量</strong><ul>
+<li>S3 儲存與流量都會收費，但非常便宜</li>
+<li>可設定 Lifecycle policy 自動刪除舊檔案</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這次的實作，我們練習了：</p>
+<ul>
+<li>建立並設定 S3 Bucket</li>
+<li>讓檔案可公開讀取</li>
+<li>透過 Node.js 上傳檔案到雲端</li>
+<li>並將結果寫回資料庫</li>
+</ul>
+<p>雖然看起來步驟很多，但這正是「真實世界後端」會遇到的流程。</p>
+<p>加油！</p>
+<hr>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
+<p>commit :</p>
+<p>feat: 🎸 integrate AWS S3 upload feature<br>新增 AWS S3 檔案上傳功能（s3Utils + uploadController + route）</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/89e8d3de7355d24c174923dc0a4606874a4920fa">Github 連結</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/AWS/" rel="tag"># AWS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/10/Day26%20-%20AWS-EC2-RDS/" rel="prev" title="Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！">
+                  <i class="fa fa-angle-left"></i> Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

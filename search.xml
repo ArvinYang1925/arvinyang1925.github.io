@@ -152,6 +152,92 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 11 - 一鍵上線！完整部署到 Render 的實戰流程</title>
+    <url>/2025/09/25/Day11%20-%20Render-NodeJS/</url>
+    <content><![CDATA[<p>昨天我們完成了部署的前置作業，今天當然要來實戰部署啦！這篇文章會帶你一步步把 Node.js + TypeScript 專案部署到 <strong>Render</strong>，並驗證 API 是否能正常運作。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="Render-部署設定步驟"><a href="#Render-部署設定步驟" class="headerlink" title="Render 部署設定步驟"></a>Render 部署設定步驟</h2><h3 id="1-建立-Web-Service"><a href="#1-建立-Web-Service" class="headerlink" title="1. 建立 Web Service"></a>1. 建立 Web Service</h3><p>到 Render Dashboard 右上角點擊 <strong>New → Web Service</strong>，建立一個新的服務。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/1-new-web-service.png?raw=true"></p>
+<p>接著選擇 <strong>連結 GitHub 專案</strong>，點擊 <strong>Connect</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/2-link-github-repo.png?raw=true"></p>
+<hr>
+<h3 id="2-選擇專案與分支"><a href="#2-選擇專案與分支" class="headerlink" title="2. 選擇專案與分支"></a>2. 選擇專案與分支</h3><ul>
+<li><strong>Language</strong> 選擇 <code>Node</code></li>
+<li><strong>Branch</strong> 選擇 GitHub 專案的 <code>develop</code> 分支</li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/3-new-service-info.png?raw=true"></p>
+<hr>
+<h3 id="3-設定建置與啟動指令"><a href="#3-設定建置與啟動指令" class="headerlink" title="3. 設定建置與啟動指令"></a>3. 設定建置與啟動指令</h3><p>Render 需要知道如何建置與啟動專案。</p>
+<p><strong>建置指令 (Build Command)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/4-build-command.png?raw=true"></p>
+<p><strong>啟動指令 (Start Command)</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/5-start-command.png?raw=true"></p>
+<hr>
+<h3 id="4-選擇-Instance-Type"><a href="#4-選擇-Instance-Type" class="headerlink" title="4. 選擇 Instance Type"></a>4. 選擇 Instance Type</h3><p>如果是學習或 Side Project，可以先選擇 <strong>Free 方案</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/6-instance-type.png?raw=true"></p>
+<hr>
+<h3 id="5-配置環境變數"><a href="#5-配置環境變數" class="headerlink" title="5. 配置環境變數"></a>5. 配置環境變數</h3><p>接著到 Environment Variables 區塊，新增專案需要的環境變數。</p>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DB_HOST=&lt;你的資料庫主機&gt;</span><br><span class="line">DB_PORT=5432</span><br><span class="line">DB_USERNAME=&lt;你的使用者名稱&gt;</span><br><span class="line">DB_PASSWORD=&lt;你的密碼&gt;</span><br><span class="line">DB_NAME=&lt;你的資料庫名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/7-env.png?raw=true"></p>
+<p>點擊 <strong>Add from .env</strong>。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/8-add-env.png?raw=true"></p>
+<p>點擊 <strong>Add variables</strong>，就能看到變數成功新增。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/9-env-result.png?raw=true"></p>
+<hr>
+<h3 id="6-開始部署"><a href="#6-開始部署" class="headerlink" title="6. 開始部署"></a>6. 開始部署</h3><p>設定完成後，點擊 <strong>Deploy Web Service</strong>，Render 就會開始自動建置與部署。</p>
+<p><strong>部署中畫面</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/10-deploying.png?raw=true"></p>
+<p><strong>部署成功畫面</strong></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/11-deployed.png?raw=true"></p>
+<hr>
+<h2 id="驗證部署結果"><a href="#驗證部署結果" class="headerlink" title="驗證部署結果"></a>驗證部署結果</h2><p>部署完成後，Render 會提供一個公開網址。</p>
+<p>透過該網址即可呼叫 API：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/12-req-link.png?raw=true"></p>
+<p>使用 Postman 測試新增 Todo 資料，API 回應正常 ✅</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/13-postman-test.png?raw=true"></p>
+<hr>
+<p>🎉 恭喜你完成了一個完整的 Express + TypeScript + TypeORM 後端專案，並成功部署到 Render！</p>
+<p>從這一步開始，你的專案已經能讓全世界存取了 。</p>
+<p>⚠️ <strong>小提醒：Render Free Plan 限制</strong></p>
+<p>如果你使用的是 Render 免費方案，會有以下幾點需要注意：</p>
+<ul>
+<li>服務若 <strong>15 分鐘沒有流量</strong>，會自動進入休眠狀態。</li>
+<li>當再次有人存取時，服務會重新啟動，通常需要等待 <strong>30 秒左右</strong>。</li>
+<li>免費方案的硬體資源有限，若專案流量大或需要長時間穩定服務，建議升級到付費方案。</li>
+</ul>
+<hr>
+<h2 id="結語：從準備到上線-🚀"><a href="#結語：從準備到上線-🚀" class="headerlink" title="結語：從準備到上線 🚀"></a>結語：從準備到上線 🚀</h2><p>在 <strong>Day 10</strong>，我們完成了部署的所有前置作業：</p>
+<ul>
+<li>認識 Render 與雲端平台的定位</li>
+<li>修改 <code>package.json</code>，指定 Node.js 版本</li>
+<li>調整程式碼以支援環境變數的 <code>PORT</code></li>
+<li>學會透過 GitHub PR 把 <code>feature</code> 分支合併到 <code>develop</code></li>
+</ul>
+<p>接著在 <strong>Day 11</strong>，我們則把 <code>develop</code> 分支部署到 Render，並完成：</p>
+<ul>
+<li>建立 Web Service</li>
+<li>設定 Build 與 Start 指令</li>
+<li>配置資料庫環境變數</li>
+<li>驗證部署成功，API 可以正常使用</li>
+</ul>
+<p>至此，我們已經把專案從「本地端」正式推上「雲端」，讓全世界都能透過網址存取 。</p>
+<p>接下來的篇章，我們將來點輕鬆的主題，介紹 Prettier 、ESLint 小工具，並逐步探索更多進階主題（檔案上傳、驗證系統等），讓專案更接近真實商業應用。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Render</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 12 - 程式碼自動排版神器：Prettier 實戰導入</title>
     <url>/2025/09/26/Day12%20-%20Prettier/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在團隊開發時，大家常常會因為一些小細節爭得不可開交：</p>
@@ -247,92 +333,6 @@
         <tag>TypeScript</tag>
         <tag>Node.js</tag>
         <tag>Tools</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 11 - 一鍵上線！完整部署到 Render 的實戰流程</title>
-    <url>/2025/09/25/Day11%20-%20Render-NodeJS/</url>
-    <content><![CDATA[<p>昨天我們完成了部署的前置作業，今天當然要來實戰部署啦！這篇文章會帶你一步步把 Node.js + TypeScript 專案部署到 <strong>Render</strong>，並驗證 API 是否能正常運作。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="Render-部署設定步驟"><a href="#Render-部署設定步驟" class="headerlink" title="Render 部署設定步驟"></a>Render 部署設定步驟</h2><h3 id="1-建立-Web-Service"><a href="#1-建立-Web-Service" class="headerlink" title="1. 建立 Web Service"></a>1. 建立 Web Service</h3><p>到 Render Dashboard 右上角點擊 <strong>New → Web Service</strong>，建立一個新的服務。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/1-new-web-service.png?raw=true"></p>
-<p>接著選擇 <strong>連結 GitHub 專案</strong>，點擊 <strong>Connect</strong>。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/2-link-github-repo.png?raw=true"></p>
-<hr>
-<h3 id="2-選擇專案與分支"><a href="#2-選擇專案與分支" class="headerlink" title="2. 選擇專案與分支"></a>2. 選擇專案與分支</h3><ul>
-<li><strong>Language</strong> 選擇 <code>Node</code></li>
-<li><strong>Branch</strong> 選擇 GitHub 專案的 <code>develop</code> 分支</li>
-</ul>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/3-new-service-info.png?raw=true"></p>
-<hr>
-<h3 id="3-設定建置與啟動指令"><a href="#3-設定建置與啟動指令" class="headerlink" title="3. 設定建置與啟動指令"></a>3. 設定建置與啟動指令</h3><p>Render 需要知道如何建置與啟動專案。</p>
-<p><strong>建置指令 (Build Command)</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install &amp;&amp; npm run build</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/4-build-command.png?raw=true"></p>
-<p><strong>啟動指令 (Start Command)</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/5-start-command.png?raw=true"></p>
-<hr>
-<h3 id="4-選擇-Instance-Type"><a href="#4-選擇-Instance-Type" class="headerlink" title="4. 選擇 Instance Type"></a>4. 選擇 Instance Type</h3><p>如果是學習或 Side Project，可以先選擇 <strong>Free 方案</strong>。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/6-instance-type.png?raw=true"></p>
-<hr>
-<h3 id="5-配置環境變數"><a href="#5-配置環境變數" class="headerlink" title="5. 配置環境變數"></a>5. 配置環境變數</h3><p>接著到 Environment Variables 區塊，新增專案需要的環境變數。</p>
-<p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DB_HOST=&lt;你的資料庫主機&gt;</span><br><span class="line">DB_PORT=5432</span><br><span class="line">DB_USERNAME=&lt;你的使用者名稱&gt;</span><br><span class="line">DB_PASSWORD=&lt;你的密碼&gt;</span><br><span class="line">DB_NAME=&lt;你的資料庫名稱&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/7-env.png?raw=true"></p>
-<p>點擊 <strong>Add from .env</strong>。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/8-add-env.png?raw=true"></p>
-<p>點擊 <strong>Add variables</strong>，就能看到變數成功新增。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/9-env-result.png?raw=true"></p>
-<hr>
-<h3 id="6-開始部署"><a href="#6-開始部署" class="headerlink" title="6. 開始部署"></a>6. 開始部署</h3><p>設定完成後，點擊 <strong>Deploy Web Service</strong>，Render 就會開始自動建置與部署。</p>
-<p><strong>部署中畫面</strong></p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/10-deploying.png?raw=true"></p>
-<p><strong>部署成功畫面</strong></p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/11-deployed.png?raw=true"></p>
-<hr>
-<h2 id="驗證部署結果"><a href="#驗證部署結果" class="headerlink" title="驗證部署結果"></a>驗證部署結果</h2><p>部署完成後，Render 會提供一個公開網址。</p>
-<p>透過該網址即可呼叫 API：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/12-req-link.png?raw=true"></p>
-<p>使用 Postman 測試新增 Todo 資料，API 回應正常 ✅</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day11-Render/13-postman-test.png?raw=true"></p>
-<hr>
-<p>🎉 恭喜你完成了一個完整的 Express + TypeScript + TypeORM 後端專案，並成功部署到 Render！</p>
-<p>從這一步開始，你的專案已經能讓全世界存取了 。</p>
-<p>⚠️ <strong>小提醒：Render Free Plan 限制</strong></p>
-<p>如果你使用的是 Render 免費方案，會有以下幾點需要注意：</p>
-<ul>
-<li>服務若 <strong>15 分鐘沒有流量</strong>，會自動進入休眠狀態。</li>
-<li>當再次有人存取時，服務會重新啟動，通常需要等待 <strong>30 秒左右</strong>。</li>
-<li>免費方案的硬體資源有限，若專案流量大或需要長時間穩定服務，建議升級到付費方案。</li>
-</ul>
-<hr>
-<h2 id="結語：從準備到上線-🚀"><a href="#結語：從準備到上線-🚀" class="headerlink" title="結語：從準備到上線 🚀"></a>結語：從準備到上線 🚀</h2><p>在 <strong>Day 10</strong>，我們完成了部署的所有前置作業：</p>
-<ul>
-<li>認識 Render 與雲端平台的定位</li>
-<li>修改 <code>package.json</code>，指定 Node.js 版本</li>
-<li>調整程式碼以支援環境變數的 <code>PORT</code></li>
-<li>學會透過 GitHub PR 把 <code>feature</code> 分支合併到 <code>develop</code></li>
-</ul>
-<p>接著在 <strong>Day 11</strong>，我們則把 <code>develop</code> 分支部署到 Render，並完成：</p>
-<ul>
-<li>建立 Web Service</li>
-<li>設定 Build 與 Start 指令</li>
-<li>配置資料庫環境變數</li>
-<li>驗證部署成功，API 可以正常使用</li>
-</ul>
-<p>至此，我們已經把專案從「本地端」正式推上「雲端」，讓全世界都能透過網址存取 。</p>
-<p>接下來的篇章，我們將來點輕鬆的主題，介紹 Prettier 、ESLint 小工具，並逐步探索更多進階主題（檔案上傳、驗證系統等），讓專案更接近真實商業應用。</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>Render</tag>
       </tags>
   </entry>
   <entry>
@@ -686,6 +686,103 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端</title>
+    <url>/2025/10/01/Day17%20-%20Firebase-Multer/</url>
+    <content><![CDATA[<p>昨天我們完成了 <strong>Firebase Storage 的環境設定</strong>：</p>
+<ul>
+<li>建立專案 &amp; Bucket</li>
+<li>下載服務金鑰</li>
+<li>設定 <code>.env</code></li>
+</ul>
+<p>今天就要正式進入<strong>實戰篇</strong>！</p>
+<p>想像一下：現在我們的服務需要讓使用者可以上傳<strong>大頭貼</strong>。</p>
+<p>那我們該怎麼做？</p>
+<p>👉 就是用 <strong>Node.js + multer</strong> 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。</p>
+<span id="more"></span>
+
+<h3 id="步驟-1：安裝必要套件"><a href="#步驟-1：安裝必要套件" class="headerlink" title="步驟 1：安裝必要套件"></a><strong>步驟 1：安裝必要套件</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 核心套件</span></span><br><span class="line">npm install multer firebase-admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># TypeScript 開發依賴（如果使用 TypeScript）</span></span><br><span class="line">npm install -D @types/multer</span><br></pre></td></tr></table></figure>
+
+<p><strong>套件說明：</strong></p>
+<ul>
+<li><code>multer</code>: 處理 <code>multipart/form-data</code> 的文件上傳中間件</li>
+<li><code>firebase-admin</code>: Firebase Admin SDK，用於操作 Firebase Storage</li>
+</ul>
+<hr>
+<h3 id="步驟-2：設定環境變數-env"><a href="#步驟-2：設定環境變數-env" class="headerlink" title="步驟 2：設定環境變數 (.env)"></a><strong>步驟 2：設定環境變數 (.env)</strong></h3><p>在 <code>.env</code> 檔案中加入 Firebase 設定（詳細可參考 Day16 文章)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Firebase 設定</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要提醒：</strong></p>
+<ul>
+<li><code>FIREBASE_SERVICE_ACCOUNT</code> 必須是<strong>完整的 JSON 字串</strong>（單行）</li>
+<li>記得把 <code>.env</code> 加入 <code>.gitignore</code>，避免洩漏金鑰</li>
+</ul>
+<hr>
+<h3 id="步驟-3：新增-User-Entity-欄位"><a href="#步驟-3：新增-User-Entity-欄位" class="headerlink" title="步驟 3：新增 User Entity 欄位"></a><strong>步驟 3：新增 User Entity 欄位</strong></h3><p>在 <code>User.ts</code> 增加 <code>profileUrl</code>，用來存放大頭貼位址：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">@Entity()</span><br><span class="line">export class User <span class="punctuation">&#123;</span></span><br><span class="line">  @PrimaryGeneratedColumn(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">50</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  name!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">320</span><span class="punctuation">,</span> unique<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  email!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> name<span class="punctuation">:</span> <span class="string">&quot;profile_url&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">2048</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  profileUrl?<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts"><a href="#步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts" class="headerlink" title="步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)"></a><strong>步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> admin <span class="keyword">from</span> <span class="string">&quot;firebase-admin&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析環境變數中的 JSON 字串</span></span><br><span class="line"><span class="keyword">const</span> serviceAccount = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(process.<span class="property">env</span>.<span class="property">FIREBASE_SERVICE_ACCOUNT</span>!);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 Firebase Admin</span></span><br><span class="line">admin.<span class="title function_">initializeApp</span>(&#123;</span><br><span class="line">  <span class="attr">credential</span>: admin.<span class="property">credential</span>.<span class="title function_">cert</span>(serviceAccount),</span><br><span class="line">  <span class="attr">storageBucket</span>: process.<span class="property">env</span>.<span class="property">FIREBASE_STORAGE_BUCKET</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取得 Storage Bucket</span></span><br><span class="line"><span class="keyword">const</span> bucket = admin.<span class="title function_">storage</span>().<span class="title function_">bucket</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; admin, bucket &#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts"><a href="#步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts" class="headerlink" title="步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)"></a><strong>步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multer <span class="keyword">from</span> <span class="string">&quot;multer&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Express</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用記憶體儲存（不寫入硬碟）</span></span><br><span class="line"><span class="keyword">const</span> storage = multer.<span class="title function_">memoryStorage</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 檔案過濾器：只接受 JPG 和 PNG</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">imageFileFilter</span> = (<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  file: Express.Multer.File,</span></span><br><span class="line"><span class="params">  cb: multer.FileFilterCallback</span></span><br><span class="line"><span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(file.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">  <span class="keyword">if</span> (![<span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.png&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>].<span class="title function_">includes</span>(ext)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">cb</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;只接受 JPG/PNG 格式的圖片檔案&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cb</span>(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 限制：2 MB、JPG/PNG 格式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> imageUpload = <span class="title function_">multer</span>(&#123;</span><br><span class="line">  storage,</span><br><span class="line">  <span class="attr">limits</span>: &#123; <span class="attr">fileSize</span>: <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span> &#125;, <span class="comment">// 2 MB</span></span><br><span class="line">  <span class="attr">fileFilter</span>: imageFileFilter,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>設計重點：</strong></p>
+<ul>
+<li><code>memoryStorage()</code>: 檔案存在記憶體中（<code>req.file.buffer</code>），適合直接上傳到雲端</li>
+<li><code>fileFilter</code>: 限制只接受圖片格式</li>
+<li><code>limits</code>: 限制檔案大小為 2 MB</li>
+</ul>
+<hr>
+<h3 id="步驟-6：建立上傳-Controller-controllers-uploadController-ts"><a href="#步驟-6：建立上傳-Controller-controllers-uploadController-ts" class="headerlink" title="步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)"></a><strong>步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; bucket &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/firebaseUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 Firebase Storage</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatar</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生遠端檔案路徑</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> remotePath = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 取得 Firebase Storage 檔案參考</span></span><br><span class="line">    <span class="keyword">const</span> file = bucket.<span class="title function_">file</span>(remotePath);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 建立寫入串流</span></span><br><span class="line">    <span class="keyword">const</span> stream = file.<span class="title function_">createWriteStream</span>(&#123;</span><br><span class="line">      <span class="attr">metadata</span>: &#123;</span><br><span class="line">        <span class="attr">contentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 錯誤處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;error&quot;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> <span class="title function_">next</span>(err));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 上傳完成後的處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;finish&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 設定檔案為公開存取</span></span><br><span class="line">        <span class="keyword">await</span> file.<span class="title function_">makePublic</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 產生公開 URL</span></span><br><span class="line">        <span class="keyword">const</span> publicUrl = <span class="string">`https://storage.googleapis.com/<span class="subst">$&#123;bucket.name&#125;</span>/<span class="subst">$&#123;remotePath&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 更新資料庫（根據你的 ORM/資料庫架構調整）</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">          &#123; <span class="attr">id</span>: req.<span class="property">user</span>?.<span class="property">id</span> &#125;,</span><br><span class="line">          &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. 回傳成功訊息</span></span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">          <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="title function_">next</span>(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 10. 將檔案緩衝區寫入串流</span></span><br><span class="line">    stream.<span class="title function_">end</span>(req.<span class="property">file</span>.<span class="property">buffer</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-7：設定路由-routes-uploadRoutes-ts"><a href="#步驟-7：設定路由-routes-uploadRoutes-ts" class="headerlink" title="步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)"></a><strong>步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; uploadAvatar &#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(</span><br><span class="line">  <span class="string">&quot;/avatar&quot;</span>,</span><br><span class="line">  isAuth, <span class="comment">// 1. 驗證 JWT token</span></span><br><span class="line">  imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), <span class="comment">// 2. 處理單一檔案上傳，欄位名稱為 &quot;file&quot;</span></span><br><span class="line">  uploadAvatar <span class="comment">// 3. 執行上傳邏輯</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<p><strong>中間件順序很重要：</strong></p>
+<ol>
+<li>先驗證使用者身份 (<code>isAuth</code>)</li>
+<li>再處理檔案上傳 (<code>imageUpload.single(&quot;file&quot;)</code>)</li>
+<li>最後執行業務邏輯 (<code>uploadAvatar</code>)</li>
+</ol>
+<hr>
+<h3 id="步驟-8：註冊路由到主應用程式-app-ts"><a href="#步驟-8：註冊路由到主應用程式-app-ts" class="headerlink" title="步驟 8：註冊路由到主應用程式 (app.ts)"></a><strong>步驟 8：註冊路由到主應用程式 (app.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 其他中間件設定</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 註冊上傳路由</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes); <span class="comment">// 上傳路由</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> app;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="步驟-9：上傳範例"><a href="#步驟-9：上傳範例" class="headerlink" title="步驟 9：上傳範例"></a><strong>步驟 9：上傳範例</strong></h3><p>使用 <strong>Postman</strong> 測試：</p>
+<ol>
+<li>選擇 <code>POST</code> 方法</li>
+<li>URL: <code>http://localhost:3000/api/upload/avatar</code></li>
+<li>Headers: <code>Authorization: Bearer YOUR_JWT_TOKEN</code></li>
+<li>Body → form-data → Key: <code>file</code> (選擇 File 類型) → 選擇圖片</li>
+</ol>
+<p>經由 Postman 回傳結果可得知成功上傳！成功後就能拿到一個 Firebase Storage 的公開 URL 🎉</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true"></p>
+<p>接著，查看一下資料庫 <code>profileUrl</code> 欄位 → 發現已經有正確的 URL 存入</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/2-database.png?raw=true"></p>
+<p>最後，再到我們的 Firebase Storage 查看檔案 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/3-firebase.png?raw=true"></p>
+<p>太棒了！我們用 Node.js + multer 成功串接了 Firebase Storage 服務 🍻</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了：</p>
+<ul>
+<li>使用 <code>multer</code> 處理圖片上傳</li>
+<li>串接 Firebase Storage</li>
+<li>把檔案存雲端並取得公開連結</li>
+<li>更新資料庫，讓使用者能擁有自己的大頭貼</li>
+</ul>
+<p>到這裡，我們的服務具備了「圖片上傳」的能力！ 🚀</p>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
+<p>commit : use multer and firebase storage to upload file</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/e46e7f49aa707b49da1f733534fd2747898974d1">Github 連結</a></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log</title>
     <url>/2025/10/02/Day18%20-%20NodeJS-Pino/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在寫程式的過程中，你是不是也常常這樣做？</p>
@@ -786,103 +883,6 @@
 <p>commit : add pino plugin</p>
 </blockquote>
 <p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/1fd0dd5fc31366fb503f98116fd2ab2166647263">Github 連結</a></p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>Tools</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 17 - Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端</title>
-    <url>/2025/10/01/Day17%20-%20Firebase-Multer/</url>
-    <content><![CDATA[<p>昨天我們完成了 <strong>Firebase Storage 的環境設定</strong>：</p>
-<ul>
-<li>建立專案 &amp; Bucket</li>
-<li>下載服務金鑰</li>
-<li>設定 <code>.env</code></li>
-</ul>
-<p>今天就要正式進入<strong>實戰篇</strong>！</p>
-<p>想像一下：現在我們的服務需要讓使用者可以上傳<strong>大頭貼</strong>。</p>
-<p>那我們該怎麼做？</p>
-<p>👉 就是用 <strong>Node.js + multer</strong> 串接 Firebase Storage，把檔案安全地存到雲端，最後產生一個公開可存取的 URL。</p>
-<span id="more"></span>
-
-<h3 id="步驟-1：安裝必要套件"><a href="#步驟-1：安裝必要套件" class="headerlink" title="步驟 1：安裝必要套件"></a><strong>步驟 1：安裝必要套件</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 核心套件</span></span><br><span class="line">npm install multer firebase-admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># TypeScript 開發依賴（如果使用 TypeScript）</span></span><br><span class="line">npm install -D @types/multer</span><br></pre></td></tr></table></figure>
-
-<p><strong>套件說明：</strong></p>
-<ul>
-<li><code>multer</code>: 處理 <code>multipart/form-data</code> 的文件上傳中間件</li>
-<li><code>firebase-admin</code>: Firebase Admin SDK，用於操作 Firebase Storage</li>
-</ul>
-<hr>
-<h3 id="步驟-2：設定環境變數-env"><a href="#步驟-2：設定環境變數-env" class="headerlink" title="步驟 2：設定環境變數 (.env)"></a><strong>步驟 2：設定環境變數 (.env)</strong></h3><p>在 <code>.env</code> 檔案中加入 Firebase 設定（詳細可參考 Day16 文章)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Firebase 設定</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br></pre></td></tr></table></figure>
-
-<p><strong>重要提醒：</strong></p>
-<ul>
-<li><code>FIREBASE_SERVICE_ACCOUNT</code> 必須是<strong>完整的 JSON 字串</strong>（單行）</li>
-<li>記得把 <code>.env</code> 加入 <code>.gitignore</code>，避免洩漏金鑰</li>
-</ul>
-<hr>
-<h3 id="步驟-3：新增-User-Entity-欄位"><a href="#步驟-3：新增-User-Entity-欄位" class="headerlink" title="步驟 3：新增 User Entity 欄位"></a><strong>步驟 3：新增 User Entity 欄位</strong></h3><p>在 <code>User.ts</code> 增加 <code>profileUrl</code>，用來存放大頭貼位址：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">@Entity()</span><br><span class="line">export class User <span class="punctuation">&#123;</span></span><br><span class="line">  @PrimaryGeneratedColumn(<span class="string">&quot;uuid&quot;</span>)</span><br><span class="line">  id!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">50</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  name!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> type<span class="punctuation">:</span> <span class="string">&quot;varchar&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">320</span><span class="punctuation">,</span> unique<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  email!<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  @Column(<span class="punctuation">&#123;</span> name<span class="punctuation">:</span> <span class="string">&quot;profile_url&quot;</span><span class="punctuation">,</span> length<span class="punctuation">:</span> <span class="number">2048</span><span class="punctuation">,</span> nullable<span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="punctuation">&#125;</span>)</span><br><span class="line">  profileUrl?<span class="punctuation">:</span> string;</span><br><span class="line"></span><br><span class="line">	...</span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts"><a href="#步驟-4：建立-Firebase-工具檔-utils-firebaseUtils-ts" class="headerlink" title="步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)"></a><strong>步驟 4：建立 Firebase 工具檔 (utils&#x2F;firebaseUtils.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> admin <span class="keyword">from</span> <span class="string">&quot;firebase-admin&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析環境變數中的 JSON 字串</span></span><br><span class="line"><span class="keyword">const</span> serviceAccount = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(process.<span class="property">env</span>.<span class="property">FIREBASE_SERVICE_ACCOUNT</span>!);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 Firebase Admin</span></span><br><span class="line">admin.<span class="title function_">initializeApp</span>(&#123;</span><br><span class="line">  <span class="attr">credential</span>: admin.<span class="property">credential</span>.<span class="title function_">cert</span>(serviceAccount),</span><br><span class="line">  <span class="attr">storageBucket</span>: process.<span class="property">env</span>.<span class="property">FIREBASE_STORAGE_BUCKET</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 取得 Storage Bucket</span></span><br><span class="line"><span class="keyword">const</span> bucket = admin.<span class="title function_">storage</span>().<span class="title function_">bucket</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123; admin, bucket &#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts"><a href="#步驟-5：建立圖片上傳中間件-middleware-imageUpload-ts" class="headerlink" title="步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)"></a><strong>步驟 5：建立圖片上傳中間件 (middleware&#x2F;imageUpload.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> multer <span class="keyword">from</span> <span class="string">&quot;multer&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Request</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Express</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用記憶體儲存（不寫入硬碟）</span></span><br><span class="line"><span class="keyword">const</span> storage = multer.<span class="title function_">memoryStorage</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 檔案過濾器：只接受 JPG 和 PNG</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">imageFileFilter</span> = (<span class="params"></span></span><br><span class="line"><span class="params">  req: Request,</span></span><br><span class="line"><span class="params">  file: Express.Multer.File,</span></span><br><span class="line"><span class="params">  cb: multer.FileFilterCallback</span></span><br><span class="line"><span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(file.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">  <span class="keyword">if</span> (![<span class="string">&quot;.jpg&quot;</span>, <span class="string">&quot;.png&quot;</span>, <span class="string">&quot;.jpeg&quot;</span>].<span class="title function_">includes</span>(ext)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">cb</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;只接受 JPG/PNG 格式的圖片檔案&quot;</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">cb</span>(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 限制：2 MB、JPG/PNG 格式</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> imageUpload = <span class="title function_">multer</span>(&#123;</span><br><span class="line">  storage,</span><br><span class="line">  <span class="attr">limits</span>: &#123; <span class="attr">fileSize</span>: <span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span> &#125;, <span class="comment">// 2 MB</span></span><br><span class="line">  <span class="attr">fileFilter</span>: imageFileFilter,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><strong>設計重點：</strong></p>
-<ul>
-<li><code>memoryStorage()</code>: 檔案存在記憶體中（<code>req.file.buffer</code>），適合直接上傳到雲端</li>
-<li><code>fileFilter</code>: 限制只接受圖片格式</li>
-<li><code>limits</code>: 限制檔案大小為 2 MB</li>
-</ul>
-<hr>
-<h3 id="步驟-6：建立上傳-Controller-controllers-uploadController-ts"><a href="#步驟-6：建立上傳-Controller-controllers-uploadController-ts" class="headerlink" title="步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)"></a><strong>步驟 6：建立上傳 Controller (controllers&#x2F;uploadController.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; bucket &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/firebaseUtils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 Firebase Storage</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatar</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生遠端檔案路徑</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> remotePath = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 取得 Firebase Storage 檔案參考</span></span><br><span class="line">    <span class="keyword">const</span> file = bucket.<span class="title function_">file</span>(remotePath);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 建立寫入串流</span></span><br><span class="line">    <span class="keyword">const</span> stream = file.<span class="title function_">createWriteStream</span>(&#123;</span><br><span class="line">      <span class="attr">metadata</span>: &#123;</span><br><span class="line">        <span class="attr">contentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 錯誤處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;error&quot;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> <span class="title function_">next</span>(err));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 上傳完成後的處理</span></span><br><span class="line">    stream.<span class="title function_">on</span>(<span class="string">&quot;finish&quot;</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 設定檔案為公開存取</span></span><br><span class="line">        <span class="keyword">await</span> file.<span class="title function_">makePublic</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 產生公開 URL</span></span><br><span class="line">        <span class="keyword">const</span> publicUrl = <span class="string">`https://storage.googleapis.com/<span class="subst">$&#123;bucket.name&#125;</span>/<span class="subst">$&#123;remotePath&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 8. 更新資料庫（根據你的 ORM/資料庫架構調整）</span></span><br><span class="line">        <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">          &#123; <span class="attr">id</span>: req.<span class="property">user</span>?.<span class="property">id</span> &#125;,</span><br><span class="line">          &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 9. 回傳成功訊息</span></span><br><span class="line">        res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">          <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">          <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="title function_">next</span>(err);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 10. 將檔案緩衝區寫入串流</span></span><br><span class="line">    stream.<span class="title function_">end</span>(req.<span class="property">file</span>.<span class="property">buffer</span>);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="步驟-7：設定路由-routes-uploadRoutes-ts"><a href="#步驟-7：設定路由-routes-uploadRoutes-ts" class="headerlink" title="步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)"></a><strong>步驟 7：設定路由 (routes&#x2F;uploadRoutes.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; uploadAvatar &#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(</span><br><span class="line">  <span class="string">&quot;/avatar&quot;</span>,</span><br><span class="line">  isAuth, <span class="comment">// 1. 驗證 JWT token</span></span><br><span class="line">  imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), <span class="comment">// 2. 處理單一檔案上傳，欄位名稱為 &quot;file&quot;</span></span><br><span class="line">  uploadAvatar <span class="comment">// 3. 執行上傳邏輯</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
-
-<p><strong>中間件順序很重要：</strong></p>
-<ol>
-<li>先驗證使用者身份 (<code>isAuth</code>)</li>
-<li>再處理檔案上傳 (<code>imageUpload.single(&quot;file&quot;)</code>)</li>
-<li>最後執行業務邏輯 (<code>uploadAvatar</code>)</li>
-</ol>
-<hr>
-<h3 id="步驟-8：註冊路由到主應用程式-app-ts"><a href="#步驟-8：註冊路由到主應用程式-app-ts" class="headerlink" title="步驟 8：註冊路由到主應用程式 (app.ts)"></a><strong>步驟 8：註冊路由到主應用程式 (app.ts)</strong></h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// ... 其他中間件設定</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 註冊上傳路由</span></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes); <span class="comment">// 上傳路由</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> app;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="步驟-9：上傳範例"><a href="#步驟-9：上傳範例" class="headerlink" title="步驟 9：上傳範例"></a><strong>步驟 9：上傳範例</strong></h3><p>使用 <strong>Postman</strong> 測試：</p>
-<ol>
-<li>選擇 <code>POST</code> 方法</li>
-<li>URL: <code>http://localhost:3000/api/upload/avatar</code></li>
-<li>Headers: <code>Authorization: Bearer YOUR_JWT_TOKEN</code></li>
-<li>Body → form-data → Key: <code>file</code> (選擇 File 類型) → 選擇圖片</li>
-</ol>
-<p>經由 Postman 回傳結果可得知成功上傳！成功後就能拿到一個 Firebase Storage 的公開 URL 🎉</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/1-postman.png?raw=true"></p>
-<p>接著，查看一下資料庫 <code>profileUrl</code> 欄位 → 發現已經有正確的 URL 存入</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/2-database.png?raw=true"></p>
-<p>最後，再到我們的 Firebase Storage 查看檔案 :</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day17-Firebase-Multer/3-firebase.png?raw=true"></p>
-<p>太棒了！我們用 Node.js + multer 成功串接了 Firebase Storage 服務 🍻</p>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了：</p>
-<ul>
-<li>使用 <code>multer</code> 處理圖片上傳</li>
-<li>串接 Firebase Storage</li>
-<li>把檔案存雲端並取得公開連結</li>
-<li>更新資料庫，讓使用者能擁有自己的大頭貼</li>
-</ul>
-<p>到這裡，我們的服務具備了「圖片上傳」的能力！ 🚀</p>
-<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><blockquote>
-<p>commit : use multer and firebase storage to upload file</p>
-</blockquote>
-<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/e46e7f49aa707b49da1f733534fd2747898974d1">Github 連結</a></p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
@@ -1087,65 +1087,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
-    <url>/2025/10/05/Day21%20-%20AWS-Intro/</url>
-    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
-<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
-<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
-<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
-<ul>
-<li>購買實體伺服器</li>
-<li>放在機房，接上網路</li>
-<li>聘請 MIS 工程師維護</li>
-</ul>
-<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
-<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
-<hr>
-<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
-<ul>
-<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
-<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
-<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
-</ul>
-<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
-<hr>
-<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
-<ul>
-<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
-<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
-<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
-<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
-</ul>
-<hr>
-<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
-<ul>
-<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
-<li><strong>備份（Backup）</strong>：自動保存資料</li>
-<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
-<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
-</ul>
-<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
-<hr>
-<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
-<ul>
-<li>想要伺服器？拿 EC2。</li>
-<li>想要資料庫？拿 RDS。</li>
-<li>想要檔案空間？拿 S3。</li>
-</ul>
-<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>AWS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 20 - 從 0 到自動化：開啟你的第一個 GitHub Actions 旅程</title>
     <url>/2025/10/04/Day20%20-%20Github-Actions/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在專案開發的過程中，常常會遇到這種情況：</p>
@@ -1289,6 +1230,137 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
+    <url>/2025/10/05/Day21%20-%20AWS-Intro/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
+<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
+<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
+<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
+<ul>
+<li>購買實體伺服器</li>
+<li>放在機房，接上網路</li>
+<li>聘請 MIS 工程師維護</li>
+</ul>
+<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
+<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
+<hr>
+<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
+<ul>
+<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
+<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
+<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
+</ul>
+<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
+<hr>
+<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
+<ul>
+<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
+<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
+<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
+<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
+</ul>
+<hr>
+<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
+<ul>
+<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
+<li><strong>備份（Backup）</strong>：自動保存資料</li>
+<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
+<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
+</ul>
+<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
+<hr>
+<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
+<ul>
+<li>想要伺服器？拿 EC2。</li>
+<li>想要資料庫？拿 RDS。</li>
+<li>想要檔案空間？拿 S3。</li>
+</ul>
+<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 22 - AWS 初探 (2) - 破關拿獎金・預算防護</title>
+    <url>/2025/10/06/Day22%20-%20AWS-Budget/</url>
+    <content><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>目前申辦 AWS 帳號會提供一組「探索 AWS」活動，只要完成幾個指定任務，就能獲得最多 <strong>US$100 的抵用金</strong>。</p>
+<p>這些任務包含：</p>
+<ul>
+<li>使用 Amazon Bedrock</li>
+<li>在 Budgets 中設定成本預算</li>
+<li>建立一個 Lambda 應用程式</li>
+<li>建立一個 RDS 資料庫</li>
+<li>啟動一台 EC2 虛擬主機</li>
+</ul>
+<span id="more"></span>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/1-aws-tasks.png?raw=true"></p>
+<p>筆者目前已完成兩項任務，共獲得 <strong>US$40</strong> 的抵用金。</p>
+<p>接下來要挑戰的就是——<strong>建立 AWS Budgets 預算防護</strong>，避免帳單炸裂 。</p>
+<hr>
+<h2 id="🧾-為什麼要設定預算防護？"><a href="#🧾-為什麼要設定預算防護？" class="headerlink" title="🧾 為什麼要設定預算防護？"></a>🧾 為什麼要設定預算防護？</h2><p>筆者去年使用 GCP Cloud SQL 時，</p>
+<p>因為忘記關閉服務，結果帳單爆出 <strong>七千多元台幣 QQ</strong>。</p>
+<p>這次吸取教訓，覺得在 AWS 設定「預算警報」非常重要。</p>
+<p>這樣當使用量或金額超過設定值時，系統會自動寄信提醒，避免再度出事。</p>
+<hr>
+<h2 id="實作：設定-AWS-Budgets-預算防護"><a href="#實作：設定-AWS-Budgets-預算防護" class="headerlink" title="實作：設定 AWS Budgets 預算防護"></a>實作：設定 AWS Budgets 預算防護</h2><p>以下步驟超簡單，大約 5 分鐘即可完成！</p>
+<hr>
+<h3 id="Step-1-參與-AWS-探索活動"><a href="#Step-1-參與-AWS-探索活動" class="headerlink" title="Step 1. 參與 AWS 探索活動"></a>Step 1. 參與 AWS 探索活動</h3><ol>
+<li><p>註冊新帳號 → 登入 AWS Console</p>
+</li>
+<li><p>尋找探索 AWS 區塊</p>
+</li>
+<li><p>點擊<strong>使用 AWS Budgets 設定成本預算</strong></p>
+</li>
+<li><p>按下開始活動</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/2-start-event.png?raw=true"></p>
+</li>
+</ol>
+<hr>
+<h3 id="Step-2-選擇預算類型"><a href="#Step-2-選擇預算類型" class="headerlink" title="Step 2. 選擇預算類型"></a>Step 2. 選擇預算類型</h3><p>這裡我們選擇使用教學範本 → 每月成本預算</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/3-budget-type.png?raw=true"></p>
+<hr>
+<h3 id="Step-3-設定預算名稱與金額"><a href="#Step-3-設定預算名稱與金額" class="headerlink" title="Step 3. 設定預算名稱與金額"></a>Step 3. 設定預算名稱與金額</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/4-set-budget.png?raw=true"></p>
+<p>在「<strong>每月成本預算 – 範本</strong>」區域：</p>
+<ul>
+<li><strong>預算名稱</strong>：輸入 <code>MyBudget</code></li>
+<li>**輸入預算金額 (US$)**：設定每月預算，例如 <code>5 USD</code></li>
+<li><strong>電子郵件收件人</strong>：填入要收到通知的電子郵件</li>
+</ul>
+<blockquote>
+<p>小技巧：</p>
+<p>如果你只是測試用途，設定 5 或 10 美元即可。</p>
+<p>一旦超過這個金額，AWS 就會發信通知。</p>
+</blockquote>
+<hr>
+<h3 id="Step-4-確認與建立"><a href="#Step-4-確認與建立" class="headerlink" title="Step 4. 確認與建立"></a>Step 4. 確認與建立</h3><p>檢查設定沒問題後，按下 建立預算。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/5-create-budget.png?raw=true"></p>
+<p>接著回到 Budgets 列表，你就能看到剛建立的預算監控項目。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/6-budget-dashboard.png?raw=true"></p>
+<hr>
+<h2 id="✅-領取獎金"><a href="#✅-領取獎金" class="headerlink" title="✅ 領取獎金"></a>✅ 領取獎金</h2><p>上述步驟都完成後就可以回到主控台 → 探索 AWS 區塊查看是否有成功領取抵用金額啦！</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/7-get-aws-money.png?raw=true"></p>
+<hr>
+<h2 id="小結：用預算防護安心玩雲端"><a href="#小結：用預算防護安心玩雲端" class="headerlink" title="小結：用預算防護安心玩雲端"></a>小結：用預算防護安心玩雲端</h2><p>這一步看似簡單，卻非常關鍵。</p>
+<p>它就像你在玩雲端服務時荷包的「安全保障」，</p>
+<p>讓你可以放心探索，而不用擔心月底帳單爆炸。</p>
+<p>今天解鎖了「探索 AWS」任務、多拿到 20 美元抵用金 💰  太棒啦！</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 23 - 從零啟動雲端主機：帶你開出第一台 AWS EC2！</title>
     <url>/2025/10/07/Day23%20-%20AWS-EC2/</url>
     <content><![CDATA[<blockquote>
@@ -1404,343 +1476,6 @@
         <tag>TypeScript</tag>
         <tag>Node.js</tag>
         <tag>AWS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 22 - AWS 初探 (2) - 破關拿獎金・預算防護</title>
-    <url>/2025/10/06/Day22%20-%20AWS-Budget/</url>
-    <content><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>目前申辦 AWS 帳號會提供一組「探索 AWS」活動，只要完成幾個指定任務，就能獲得最多 <strong>US$100 的抵用金</strong>。</p>
-<p>這些任務包含：</p>
-<ul>
-<li>使用 Amazon Bedrock</li>
-<li>在 Budgets 中設定成本預算</li>
-<li>建立一個 Lambda 應用程式</li>
-<li>建立一個 RDS 資料庫</li>
-<li>啟動一台 EC2 虛擬主機</li>
-</ul>
-<span id="more"></span>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/1-aws-tasks.png?raw=true"></p>
-<p>筆者目前已完成兩項任務，共獲得 <strong>US$40</strong> 的抵用金。</p>
-<p>接下來要挑戰的就是——<strong>建立 AWS Budgets 預算防護</strong>，避免帳單炸裂 。</p>
-<hr>
-<h2 id="🧾-為什麼要設定預算防護？"><a href="#🧾-為什麼要設定預算防護？" class="headerlink" title="🧾 為什麼要設定預算防護？"></a>🧾 為什麼要設定預算防護？</h2><p>筆者去年使用 GCP Cloud SQL 時，</p>
-<p>因為忘記關閉服務，結果帳單爆出 <strong>七千多元台幣 QQ</strong>。</p>
-<p>這次吸取教訓，覺得在 AWS 設定「預算警報」非常重要。</p>
-<p>這樣當使用量或金額超過設定值時，系統會自動寄信提醒，避免再度出事。</p>
-<hr>
-<h2 id="實作：設定-AWS-Budgets-預算防護"><a href="#實作：設定-AWS-Budgets-預算防護" class="headerlink" title="實作：設定 AWS Budgets 預算防護"></a>實作：設定 AWS Budgets 預算防護</h2><p>以下步驟超簡單，大約 5 分鐘即可完成！</p>
-<hr>
-<h3 id="Step-1-參與-AWS-探索活動"><a href="#Step-1-參與-AWS-探索活動" class="headerlink" title="Step 1. 參與 AWS 探索活動"></a>Step 1. 參與 AWS 探索活動</h3><ol>
-<li><p>註冊新帳號 → 登入 AWS Console</p>
-</li>
-<li><p>尋找探索 AWS 區塊</p>
-</li>
-<li><p>點擊<strong>使用 AWS Budgets 設定成本預算</strong></p>
-</li>
-<li><p>按下開始活動</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/2-start-event.png?raw=true"></p>
-</li>
-</ol>
-<hr>
-<h3 id="Step-2-選擇預算類型"><a href="#Step-2-選擇預算類型" class="headerlink" title="Step 2. 選擇預算類型"></a>Step 2. 選擇預算類型</h3><p>這裡我們選擇使用教學範本 → 每月成本預算</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/3-budget-type.png?raw=true"></p>
-<hr>
-<h3 id="Step-3-設定預算名稱與金額"><a href="#Step-3-設定預算名稱與金額" class="headerlink" title="Step 3. 設定預算名稱與金額"></a>Step 3. 設定預算名稱與金額</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/4-set-budget.png?raw=true"></p>
-<p>在「<strong>每月成本預算 – 範本</strong>」區域：</p>
-<ul>
-<li><strong>預算名稱</strong>：輸入 <code>MyBudget</code></li>
-<li>**輸入預算金額 (US$)**：設定每月預算，例如 <code>5 USD</code></li>
-<li><strong>電子郵件收件人</strong>：填入要收到通知的電子郵件</li>
-</ul>
-<blockquote>
-<p>小技巧：</p>
-<p>如果你只是測試用途，設定 5 或 10 美元即可。</p>
-<p>一旦超過這個金額，AWS 就會發信通知。</p>
-</blockquote>
-<hr>
-<h3 id="Step-4-確認與建立"><a href="#Step-4-確認與建立" class="headerlink" title="Step 4. 確認與建立"></a>Step 4. 確認與建立</h3><p>檢查設定沒問題後，按下 建立預算。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/5-create-budget.png?raw=true"></p>
-<p>接著回到 Budgets 列表，你就能看到剛建立的預算監控項目。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/6-budget-dashboard.png?raw=true"></p>
-<hr>
-<h2 id="✅-領取獎金"><a href="#✅-領取獎金" class="headerlink" title="✅ 領取獎金"></a>✅ 領取獎金</h2><p>上述步驟都完成後就可以回到主控台 → 探索 AWS 區塊查看是否有成功領取抵用金額啦！</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day22-AWS-budgets/7-get-aws-money.png?raw=true"></p>
-<hr>
-<h2 id="小結：用預算防護安心玩雲端"><a href="#小結：用預算防護安心玩雲端" class="headerlink" title="小結：用預算防護安心玩雲端"></a>小結：用預算防護安心玩雲端</h2><p>這一步看似簡單，卻非常關鍵。</p>
-<p>它就像你在玩雲端服務時荷包的「安全保障」，</p>
-<p>讓你可以放心探索，而不用擔心月底帳單爆炸。</p>
-<p>今天解鎖了「探索 AWS」任務、多拿到 20 美元抵用金 💰  太棒啦！</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>AWS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！</title>
-    <url>/2025/10/10/Day26%20-%20AWS-EC2-RDS/</url>
-    <content><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>Day 24，我們已經成功開啟 EC2，並在上面部署了第一版的 Node.js Express App。</p>
-<p>Day 25，我們建立了 RDS 資料庫並成功測試連線。</p>
-<p>今天，我們要來完成最關鍵的一步 ——</p>
-<p><strong>讓 EC2 上的應用程式正式連上 RDS，打造完整的雲端架構！</strong></p>
-<span id="more"></span>
-
-<hr>
-<h2 id="前置作業：關閉-RDS-公開存取權限，提高安全性"><a href="#前置作業：關閉-RDS-公開存取權限，提高安全性" class="headerlink" title="前置作業：關閉 RDS 公開存取權限，提高安全性"></a>前置作業：關閉 RDS 公開存取權限，提高安全性</h2><p>進入 <strong>RDS 儀表板</strong> → 點擊右上角「修改」 →</p>
-<p>下滑到「連線」區塊 → 將「可公開存取」改為 <strong>No</strong> → 儲存修改。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/1-rds-access.png?raw=true"></p>
-<blockquote>
-<p>💡 昨天為了用 DBeaver 測試，我們暫時開啟了公開存取。</p>
-<p>不過長期而言，這樣的設定會帶來極大的安全風險！</p>
-</blockquote>
-<hr>
-<h3 id="為什麼關閉「公開存取」能提升安全性？"><a href="#為什麼關閉「公開存取」能提升安全性？" class="headerlink" title="為什麼關閉「公開存取」能提升安全性？"></a>為什麼關閉「公開存取」能提升安全性？</h3><h3 id="1-阻擋所有「外部網際網路」的流量"><a href="#1-阻擋所有「外部網際網路」的流量" class="headerlink" title="1. 阻擋所有「外部網際網路」的流量"></a>1. 阻擋所有「外部網際網路」的流量</h3><p>當你設定 <code>Public access = No</code> 時，RDS 僅會分配 <strong>私有 IP</strong>，</p>
-<p>外部網路無法直接抵達它。</p>
-<p>即使你的 Security Group 開得再寬（像 <code>0.0.0.0/0</code>），</p>
-<p>外部世界也<strong>完全 ping 不到</strong>。</p>
-<p>這能有效防止：</p>
-<ul>
-<li>自動化掃描（masscan、nmap）</li>
-<li>惡意登入爆破（如 PostgreSQL 密碼暴力破解）</li>
-<li>被搜尋引擎（例如 Shodan）暴露</li>
-</ul>
-<blockquote>
-<p>換句話說，它在「網路層」上就被隔離了！</p>
-</blockquote>
-<hr>
-<h3 id="2-所有資料庫存取都需走「內部網路」"><a href="#2-所有資料庫存取都需走「內部網路」" class="headerlink" title="2. 所有資料庫存取都需走「內部網路」"></a>2. 所有資料庫存取都需走「內部網路」</h3><p>當 RDS 僅有私有 IP，能連線的主機僅限於：</p>
-<ul>
-<li>同一個 <strong>VPC</strong> 內的 EC2</li>
-<li>或透過 <strong>VPN</strong> 進來的內部節點</li>
-</ul>
-<p>這樣，你能明確控制「誰」能夠存取資料庫，</p>
-<p>將環境從「開放世界」轉變為「封閉社區」。</p>
-<hr>
-<h2 id="步驟-1：更新-EC2-上的專案版本"><a href="#步驟-1：更新-EC2-上的專案版本" class="headerlink" title="步驟 1：更新 EC2 上的專案版本"></a>步驟 1：更新 EC2 上的專案版本</h2><p>SSH 登入 EC2：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/2-ssh-conn.png?raw=true"></p>
-<p>在 EC2 執行以下指令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 進入專案資料夾</span></span><br><span class="line"><span class="built_in">cd</span> ~/iThome2025-node-ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 停止目前的應用 (如果之前有開啟)</span></span><br><span class="line">pm2 stop ithome-app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 切換並拉取最新分支</span></span><br><span class="line">git checkout feature/init-ts-express</span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 安裝套件</span></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 重新編譯</span></span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="步驟-2：設定環境變數"><a href="#步驟-2：設定環境變數" class="headerlink" title="步驟 2：設定環境變數"></a>步驟 2：設定環境變數</h2><p>建立 <code>.env</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nano .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
-
-<p>輸入內容如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RDS 資料庫設定</span></span><br><span class="line">DB_HOST=node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com</span><br><span class="line">DB_NAME=postgres</span><br><span class="line">DB_USERNAME=postgres</span><br><span class="line">DB_PASSWORD=password</span><br><span class="line">DB_PORT=5432</span><br><span class="line"></span><br><span class="line"><span class="comment"># JWT</span></span><br><span class="line">JWT_SECRET=jwt_secret</span><br><span class="line"></span><br><span class="line"><span class="comment"># Firebase</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br><span class="line"></span><br><span class="line">LOG_LEVEL=debug</span><br><span class="line">NODE_ENV=production</span><br></pre></td></tr></table></figure>
-
-<p>儲存離開：<code>Ctrl + X → Y → Enter</code></p>
-<hr>
-<h2 id="步驟-3：測試-RDS-連線"><a href="#步驟-3：測試-RDS-連線" class="headerlink" title="步驟 3：測試 RDS 連線"></a>步驟 3：測試 RDS 連線</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install postgresql-client -y</span><br><span class="line"></span><br><span class="line">psql -h node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com \</span><br><span class="line">     -p 5432 \</span><br><span class="line">     -U postgres \</span><br><span class="line">     -d postgres</span><br></pre></td></tr></table></figure>
-
-<p>輸入密碼後若成功進入 <code>psql</code> 介面，代表連線順利 🎉</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/3-pgsql-conn.png?raw=true"></p>
-<p>輸入 <code>\q</code> 可退出。</p>
-<hr>
-<h2 id="步驟-4：執行資料庫-Migration"><a href="#步驟-4：執行資料庫-Migration" class="headerlink" title="步驟 4：執行資料庫 Migration"></a>步驟 4：執行資料庫 Migration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 migration 檔案</span></span><br><span class="line"><span class="built_in">ls</span> -la src/migrations/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行 migration 建立資料表</span></span><br><span class="line">npm run migration:run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 migration 狀態</span></span><br><span class="line">npm run migration:show</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/4-migration.png?raw=true"></p>
-<hr>
-<h2 id="⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！"><a href="#⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！" class="headerlink" title="⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！"></a>⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！</h2><p>我原本滿心期待啟動應用程式，</p>
-<p>結果一跑 <code>node dist/app.js</code>，瞬間炸裂：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/5-db-conn-failed.png?raw=true"></p>
-<p>心想：「為何？Migration 都成功了，怎麼跑不動？」</p>
-<hr>
-<h3 id="問題分析"><a href="#問題分析" class="headerlink" title="問題分析"></a>問題分析</h3><p>這是 TypeORM 常見陷阱之一：</p>
-<ul>
-<li><code>migration:run</code> 是由 <code>typeorm-ts-node-commonjs</code> 執行，可直接讀 <code>.ts</code></li>
-<li>但 <code>node dist/app.js</code> 僅能執行 <code>.js</code><br>—— TypeORM 嘗試載入 <code>.ts</code> migration，自然報錯。</li>
-</ul>
-<p>也就是說：</p>
-<blockquote>
-<p>開發環境能吃 TS，但佈署環境只能吃 JS。</p>
-</blockquote>
-<hr>
-<h3 id="✅-解決方案"><a href="#✅-解決方案" class="headerlink" title="✅ 解決方案"></a>✅ 解決方案</h3><p>在 <code>db.ts</code> 調整 migrations 路徑設定：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="attr">migrations</span>: process.<span class="property">env</span>.<span class="property">NODE_ENV</span> === <span class="string">&quot;production&quot;</span></span><br><span class="line">  ? [__dirname + <span class="string">&quot;/../migrations/*.js&quot;</span>]</span><br><span class="line">  : [<span class="string">&quot;src/migrations/**/*.ts&quot;</span>];</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="步驟-5：重新部署與驗證"><a href="#步驟-5：重新部署與驗證" class="headerlink" title="步驟 5：重新部署與驗證"></a>步驟 5：重新部署與驗證</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 拉取修改後程式碼</span></span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/6-git-pull.png?raw=true"></p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/7-git-log.png?raw=true"></p>
-<p>接著重新啟動：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node dist/app.js</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/8-db-conn-ok.png?raw=true"></p>
-<p>成功連線 🎉</p>
-<hr>
-<h2 id="步驟-6：用-PM2-正式啟動"><a href="#步驟-6：用-PM2-正式啟動" class="headerlink" title="步驟 6：用 PM2 正式啟動"></a>步驟 6：用 PM2 正式啟動</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pm2 start ithome-app</span><br><span class="line">pm2 logs ithome-app</span><br></pre></td></tr></table></figure>
-
-<p>應看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">📦 DB Connected!</span><br><span class="line">🚀 Server running on http://localhost:3000</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="步驟-7：全面驗證"><a href="#步驟-7：全面驗證" class="headerlink" title="步驟 7：全面驗證"></a>步驟 7：全面驗證</h2><h3 id="7-1-從瀏覽器測試"><a href="#7-1-從瀏覽器測試" class="headerlink" title="7.1 從瀏覽器測試"></a>7.1 從瀏覽器測試</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/9-browser-test.png?raw=true"></p>
-<h3 id="7-2-Postman-測試主要-API"><a href="#7-2-Postman-測試主要-API" class="headerlink" title="7.2 Postman 測試主要 API"></a>7.2 Postman 測試主要 API</h3><p>註冊：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/10-postman-test-reg.png?raw=true"></p>
-<p>登入：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/11-postman-test-login.png?raw=true"></p>
-<p>新增 Todo：</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/12-add-todo.png?raw=true"></p>
-<h3 id="7-3-檢查資料庫內容"><a href="#7-3-檢查資料庫內容" class="headerlink" title="7.3 檢查資料庫內容"></a>7.3 檢查資料庫內容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在 EC2 上連接到 RDS</span></span><br><span class="line">psql -h your-rds-endpoint -p 5432 -U postgres -d postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看資料表</span></span><br><span class="line">\dt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 todo 資料</span></span><br><span class="line">SELECT * FROM <span class="string">&quot;todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/13-check-pgsql-todo.png?raw=true"></p>
-<p>測試成功 🎉</p>
-<hr>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這一天，我們正式打通了 <strong>Node.js 應用 + AWS RDS 資料庫</strong> 的雲端實戰串接！</p>
-<p>這次的流程看似繁瑣，</p>
-<p>但我們一步步實作並理解了：</p>
-<ul>
-<li>為何要關閉 Public Access</li>
-<li>如何讓 EC2 連上 RDS</li>
-<li>TypeORM 在生產環境常見的 <code>.ts/.js</code> 落差問題</li>
-</ul>
-<p>在雲端部署世界裡，<strong>每一次錯誤都是最珍貴的學習歷程。</strong></p>
-<p>下一篇，我們將進一步探索 AWS 的另一個明星服務 — <strong>S3（Simple Storage Service）</strong>。</p>
-<p>它是許多應用的「檔案中樞」，可以安全地存放圖片、影片、PDF、甚至備份資料。</p>
-<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
-<p>commit :<br>fix: 🐛 update migrations config to support .js in production an<br>修正 TypeORM migration 設定，讓 production 使用 .js、開發使用 .ts</p>
-</blockquote>
-<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/659efb96fa58de0a07452d039a8f6997184842c4">Github 連結</a></p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>AWS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
-    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
-    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
-<hr>
-<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
-<ul>
-<li><strong>string</strong>：字串</li>
-<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
-<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
-<li><strong>array</strong>：陣列</li>
-<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
-<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
-<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
-<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
-<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
-</ul>
-<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
-
-<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
-<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
-<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
-</ul>
-<hr>
-<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
-<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>物件結構清楚表達</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>與 API 或外部資料互動</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
-<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
-<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
-</ul>
-<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
-<hr>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
-    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
-    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
-<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
-<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
-<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
-<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
-</ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>車票 ID（可能是數字 &#x2F; 字串）</li>
-<li>車廂座位（可能是 “A12” 也可能是 12）</li>
-<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
-<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
-<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
-<li>可讀性高，適合大型專案。</li>
-</ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
-<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
-<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
-<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
-<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
-</ul>
-<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
       </tags>
   </entry>
   <entry>
@@ -1995,6 +1730,443 @@
         <tag>TypeScript</tag>
         <tag>Node.js</tag>
         <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 26 - 雲端串接實戰：Node.js 成功連上 AWS RDS！</title>
+    <url>/2025/10/10/Day26%20-%20AWS-EC2-RDS/</url>
+    <content><![CDATA[<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>Day 24，我們已經成功開啟 EC2，並在上面部署了第一版的 Node.js Express App。</p>
+<p>Day 25，我們建立了 RDS 資料庫並成功測試連線。</p>
+<p>今天，我們要來完成最關鍵的一步 ——</p>
+<p><strong>讓 EC2 上的應用程式正式連上 RDS，打造完整的雲端架構！</strong></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="前置作業：關閉-RDS-公開存取權限，提高安全性"><a href="#前置作業：關閉-RDS-公開存取權限，提高安全性" class="headerlink" title="前置作業：關閉 RDS 公開存取權限，提高安全性"></a>前置作業：關閉 RDS 公開存取權限，提高安全性</h2><p>進入 <strong>RDS 儀表板</strong> → 點擊右上角「修改」 →</p>
+<p>下滑到「連線」區塊 → 將「可公開存取」改為 <strong>No</strong> → 儲存修改。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/1-rds-access.png?raw=true"></p>
+<blockquote>
+<p>💡 昨天為了用 DBeaver 測試，我們暫時開啟了公開存取。</p>
+<p>不過長期而言，這樣的設定會帶來極大的安全風險！</p>
+</blockquote>
+<hr>
+<h3 id="為什麼關閉「公開存取」能提升安全性？"><a href="#為什麼關閉「公開存取」能提升安全性？" class="headerlink" title="為什麼關閉「公開存取」能提升安全性？"></a>為什麼關閉「公開存取」能提升安全性？</h3><h3 id="1-阻擋所有「外部網際網路」的流量"><a href="#1-阻擋所有「外部網際網路」的流量" class="headerlink" title="1. 阻擋所有「外部網際網路」的流量"></a>1. 阻擋所有「外部網際網路」的流量</h3><p>當你設定 <code>Public access = No</code> 時，RDS 僅會分配 <strong>私有 IP</strong>，</p>
+<p>外部網路無法直接抵達它。</p>
+<p>即使你的 Security Group 開得再寬（像 <code>0.0.0.0/0</code>），</p>
+<p>外部世界也<strong>完全 ping 不到</strong>。</p>
+<p>這能有效防止：</p>
+<ul>
+<li>自動化掃描（masscan、nmap）</li>
+<li>惡意登入爆破（如 PostgreSQL 密碼暴力破解）</li>
+<li>被搜尋引擎（例如 Shodan）暴露</li>
+</ul>
+<blockquote>
+<p>換句話說，它在「網路層」上就被隔離了！</p>
+</blockquote>
+<hr>
+<h3 id="2-所有資料庫存取都需走「內部網路」"><a href="#2-所有資料庫存取都需走「內部網路」" class="headerlink" title="2. 所有資料庫存取都需走「內部網路」"></a>2. 所有資料庫存取都需走「內部網路」</h3><p>當 RDS 僅有私有 IP，能連線的主機僅限於：</p>
+<ul>
+<li>同一個 <strong>VPC</strong> 內的 EC2</li>
+<li>或透過 <strong>VPN</strong> 進來的內部節點</li>
+</ul>
+<p>這樣，你能明確控制「誰」能夠存取資料庫，</p>
+<p>將環境從「開放世界」轉變為「封閉社區」。</p>
+<hr>
+<h2 id="步驟-1：更新-EC2-上的專案版本"><a href="#步驟-1：更新-EC2-上的專案版本" class="headerlink" title="步驟 1：更新 EC2 上的專案版本"></a>步驟 1：更新 EC2 上的專案版本</h2><p>SSH 登入 EC2：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/2-ssh-conn.png?raw=true"></p>
+<p>在 EC2 執行以下指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 進入專案資料夾</span></span><br><span class="line"><span class="built_in">cd</span> ~/iThome2025-node-ts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 停止目前的應用 (如果之前有開啟)</span></span><br><span class="line">pm2 stop ithome-app</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 切換並拉取最新分支</span></span><br><span class="line">git checkout feature/init-ts-express</span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 安裝套件</span></span><br><span class="line">npm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 重新編譯</span></span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-2：設定環境變數"><a href="#步驟-2：設定環境變數" class="headerlink" title="步驟 2：設定環境變數"></a>步驟 2：設定環境變數</h2><p>建立 <code>.env</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nano .<span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<p>輸入內容如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RDS 資料庫設定</span></span><br><span class="line">DB_HOST=node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com</span><br><span class="line">DB_NAME=postgres</span><br><span class="line">DB_USERNAME=postgres</span><br><span class="line">DB_PASSWORD=password</span><br><span class="line">DB_PORT=5432</span><br><span class="line"></span><br><span class="line"><span class="comment"># JWT</span></span><br><span class="line">JWT_SECRET=jwt_secret</span><br><span class="line"></span><br><span class="line"><span class="comment"># Firebase</span></span><br><span class="line">FIREBASE_SERVICE_ACCOUNT=&#123;<span class="string">&quot;type&quot;</span>:<span class="string">&quot;service_account&quot;</span>,...,<span class="string">&quot;client_x509_cert_url&quot;</span>:<span class="string">&quot;xxx&gt;&quot;</span>&#125;</span><br><span class="line">FIREBASE_STORAGE_BUCKET=your-project.appspot.com</span><br><span class="line"></span><br><span class="line">LOG_LEVEL=debug</span><br><span class="line">NODE_ENV=production</span><br></pre></td></tr></table></figure>
+
+<p>儲存離開：<code>Ctrl + X → Y → Enter</code></p>
+<hr>
+<h2 id="步驟-3：測試-RDS-連線"><a href="#步驟-3：測試-RDS-連線" class="headerlink" title="步驟 3：測試 RDS 連線"></a>步驟 3：測試 RDS 連線</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install postgresql-client -y</span><br><span class="line"></span><br><span class="line">psql -h node-ts-demo-db.xxxxxx.ap-northeast-1.rds.amazonaws.com \</span><br><span class="line">     -p 5432 \</span><br><span class="line">     -U postgres \</span><br><span class="line">     -d postgres</span><br></pre></td></tr></table></figure>
+
+<p>輸入密碼後若成功進入 <code>psql</code> 介面，代表連線順利 🎉</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/3-pgsql-conn.png?raw=true"></p>
+<p>輸入 <code>\q</code> 可退出。</p>
+<hr>
+<h2 id="步驟-4：執行資料庫-Migration"><a href="#步驟-4：執行資料庫-Migration" class="headerlink" title="步驟 4：執行資料庫 Migration"></a>步驟 4：執行資料庫 Migration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 migration 檔案</span></span><br><span class="line"><span class="built_in">ls</span> -la src/migrations/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行 migration 建立資料表</span></span><br><span class="line">npm run migration:run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 migration 狀態</span></span><br><span class="line">npm run migration:show</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/4-migration.png?raw=true"></p>
+<hr>
+<h2 id="⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！"><a href="#⚠️-踩坑紀錄：Migration-成功，但-App-啟動失敗！" class="headerlink" title="⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！"></a>⚠️ 踩坑紀錄：Migration 成功，但 App 啟動失敗！</h2><p>我原本滿心期待啟動應用程式，</p>
+<p>結果一跑 <code>node dist/app.js</code>，瞬間炸裂：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/5-db-conn-failed.png?raw=true"></p>
+<p>心想：「為何？Migration 都成功了，怎麼跑不動？」</p>
+<hr>
+<h3 id="問題分析"><a href="#問題分析" class="headerlink" title="問題分析"></a>問題分析</h3><p>這是 TypeORM 常見陷阱之一：</p>
+<ul>
+<li><code>migration:run</code> 是由 <code>typeorm-ts-node-commonjs</code> 執行，可直接讀 <code>.ts</code></li>
+<li>但 <code>node dist/app.js</code> 僅能執行 <code>.js</code><br>—— TypeORM 嘗試載入 <code>.ts</code> migration，自然報錯。</li>
+</ul>
+<p>也就是說：</p>
+<blockquote>
+<p>開發環境能吃 TS，但佈署環境只能吃 JS。</p>
+</blockquote>
+<hr>
+<h3 id="✅-解決方案"><a href="#✅-解決方案" class="headerlink" title="✅ 解決方案"></a>✅ 解決方案</h3><p>在 <code>db.ts</code> 調整 migrations 路徑設定：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="attr">migrations</span>: process.<span class="property">env</span>.<span class="property">NODE_ENV</span> === <span class="string">&quot;production&quot;</span></span><br><span class="line">  ? [__dirname + <span class="string">&quot;/../migrations/*.js&quot;</span>]</span><br><span class="line">  : [<span class="string">&quot;src/migrations/**/*.ts&quot;</span>];</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-5：重新部署與驗證"><a href="#步驟-5：重新部署與驗證" class="headerlink" title="步驟 5：重新部署與驗證"></a>步驟 5：重新部署與驗證</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 拉取修改後程式碼</span></span><br><span class="line">git pull origin feature/init-ts-express</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/6-git-pull.png?raw=true"></p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/7-git-log.png?raw=true"></p>
+<p>接著重新啟動：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node dist/app.js</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/8-db-conn-ok.png?raw=true"></p>
+<p>成功連線 🎉</p>
+<hr>
+<h2 id="步驟-6：用-PM2-正式啟動"><a href="#步驟-6：用-PM2-正式啟動" class="headerlink" title="步驟 6：用 PM2 正式啟動"></a>步驟 6：用 PM2 正式啟動</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pm2 start ithome-app</span><br><span class="line">pm2 logs ithome-app</span><br></pre></td></tr></table></figure>
+
+<p>應看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">📦 DB Connected!</span><br><span class="line">🚀 Server running on http://localhost:3000</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-7：全面驗證"><a href="#步驟-7：全面驗證" class="headerlink" title="步驟 7：全面驗證"></a>步驟 7：全面驗證</h2><h3 id="7-1-從瀏覽器測試"><a href="#7-1-從瀏覽器測試" class="headerlink" title="7.1 從瀏覽器測試"></a>7.1 從瀏覽器測試</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/9-browser-test.png?raw=true"></p>
+<h3 id="7-2-Postman-測試主要-API"><a href="#7-2-Postman-測試主要-API" class="headerlink" title="7.2 Postman 測試主要 API"></a>7.2 Postman 測試主要 API</h3><p>註冊：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/10-postman-test-reg.png?raw=true"></p>
+<p>登入：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/11-postman-test-login.png?raw=true"></p>
+<p>新增 Todo：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/12-add-todo.png?raw=true"></p>
+<h3 id="7-3-檢查資料庫內容"><a href="#7-3-檢查資料庫內容" class="headerlink" title="7.3 檢查資料庫內容"></a>7.3 檢查資料庫內容</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在 EC2 上連接到 RDS</span></span><br><span class="line">psql -h your-rds-endpoint -p 5432 -U postgres -d postgres</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看資料表</span></span><br><span class="line">\dt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 todo 資料</span></span><br><span class="line">SELECT * FROM <span class="string">&quot;todo&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出</span></span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day26-EC2-RDS/13-check-pgsql-todo.png?raw=true"></p>
+<p>測試成功 🎉</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這一天，我們正式打通了 <strong>Node.js 應用 + AWS RDS 資料庫</strong> 的雲端實戰串接！</p>
+<p>這次的流程看似繁瑣，</p>
+<p>但我們一步步實作並理解了：</p>
+<ul>
+<li>為何要關閉 Public Access</li>
+<li>如何讓 EC2 連上 RDS</li>
+<li>TypeORM 在生產環境常見的 <code>.ts/.js</code> 落差問題</li>
+</ul>
+<p>在雲端部署世界裡，<strong>每一次錯誤都是最珍貴的學習歷程。</strong></p>
+<p>下一篇，我們將進一步探索 AWS 的另一個明星服務 — <strong>S3（Simple Storage Service）</strong>。</p>
+<p>它是許多應用的「檔案中樞」，可以安全地存放圖片、影片、PDF、甚至備份資料。</p>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
+<p>commit :<br>fix: 🐛 update migrations config to support .js in production an<br>修正 TypeORM migration 設定，讓 production 使用 .js、開發使用 .ts</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/659efb96fa58de0a07452d039a8f6997184842c4">Github 連結</a></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 27 - AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心</title>
+    <url>/2025/10/11/Day27%20-%20AWS-S3/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天，我們已經完成了 <strong>EC2 主機部署</strong> 以及 <strong>RDS 資料庫串接</strong>，</p>
+<p>一個完整的後端雲端架構也漸漸成形。</p>
+<p>但如果今天你的應用要讓使用者能上傳圖片、影片、報表、PDF…</p>
+<p>這些「檔案」要放哪裡呢？</p>
+<p>這時候，主角就登場了 —— **AWS S3 (Simple Storage Service)**。</p>
+<blockquote>
+<p>💡 S3 是 AWS 三大基礎服務之一（EC2、RDS、S3），</p>
+<p>它就像你在雲端的「硬碟」，負責安全地儲存、管理檔案。</p>
+</blockquote>
+<p>今天我們就要實際操作：</p>
+<p>從建立 S3 Bucket → 設定權限 → 實作 Node.js 上傳功能，</p>
+<p>一步步完成「檔案雲端化」的實戰練習！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="為什麼要使用-AWS-S3？"><a href="#為什麼要使用-AWS-S3？" class="headerlink" title="為什麼要使用 AWS S3？"></a>為什麼要使用 AWS S3？</h2><h3 id="1-超穩定的雲端儲存空間"><a href="#1-超穩定的雲端儲存空間" class="headerlink" title="1.超穩定的雲端儲存空間"></a>1.超穩定的雲端儲存空間</h3><p>S3 的資料儲存設計達到「<strong>99.999999999%（11 個 9）</strong>」的耐久性，</p>
+<p>意思是：你的圖片幾乎不可能遺失。</p>
+<h3 id="2-價格便宜又按量計費"><a href="#2-價格便宜又按量計費" class="headerlink" title="2.價格便宜又按量計費"></a>2.價格便宜又按量計費</h3><p>你只需為實際用到的空間與流量付費，</p>
+<p>不用像傳統伺服器那樣一直維護硬碟或備份。</p>
+<h3 id="3-全球可存取"><a href="#3-全球可存取" class="headerlink" title="3.全球可存取"></a>3.全球可存取</h3><p>S3 的檔案可以透過 URL 在全世界直接被讀取，</p>
+<p>搭配 CDN（如 CloudFront）後，速度更是飛快。</p>
+<h3 id="4-完美整合-AWS-生態系"><a href="#4-完美整合-AWS-生態系" class="headerlink" title="4.完美整合 AWS 生態系"></a>4.完美整合 AWS 生態系</h3><p>與 EC2、Lambda、CloudFront、IAM、Route53 等無縫結合</p>
+<p>不論是後端 API、影片平台、或電商後台都能輕鬆擴充。</p>
+<hr>
+<h2 id="第一部分：AWS-S3-設定步驟"><a href="#第一部分：AWS-S3-設定步驟" class="headerlink" title="第一部分：AWS S3 設定步驟"></a>第一部分：AWS S3 設定步驟</h2><h3 id="步驟-1：建立-S3-Bucket"><a href="#步驟-1：建立-S3-Bucket" class="headerlink" title="步驟 1：建立 S3 Bucket"></a>步驟 1：建立 S3 Bucket</h3><ol>
+<li><strong>登入 AWS Console</strong><ul>
+<li>前往 <a href="https://aws.amazon.com/console/">https://aws.amazon.com/console/</a></li>
+<li>使用您的 AWS 帳號登入</li>
+</ul>
+</li>
+<li><strong>進入 S3 服務</strong><ul>
+<li>在上方搜尋欄輸入「S3」</li>
+<li>點選「S3」服務</li>
+</ul>
+</li>
+<li><strong>建立新的 Bucket</strong><ul>
+<li>點擊「 <strong>建立儲存貯體</strong> 」按鈕<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/1-aws-s3.png?raw=true"></li>
+<li><strong>AWS Region</strong>: 選擇離您最近的區域（例如：<code>ap-northeast-1</code> 東京）</li>
+<li><strong>Bucket name</strong>: 輸入唯一名稱（例如：<code>my-ithome-2025-bucket</code>）<ul>
+<li>注意：Bucket 名稱必須是全球唯一的<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/2-bucket-name.png?raw=true"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>設定 Object Ownership</strong><ul>
+<li>選擇「ACLs disabled (recommended)」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/3-ACL-dis.png?raw=true"></li>
+</ul>
+</li>
+<li><strong>Block Public Access settings</strong><ul>
+<li><strong>取消勾選</strong>「Block all public access」</li>
+<li>勾選確認框（我了解這會讓檔案變成公開存取）</li>
+<li>⚠️ 注意：如果您想讓上傳的圖片可以公開存取，需要取消封鎖<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/4-public-access.png?raw=true"></li>
+</ul>
+</li>
+<li><strong>Bucket Versioning</strong><ul>
+<li>選擇「Disable」</li>
+</ul>
+</li>
+<li><strong>其他設定保持預設</strong>，點擊「 <strong>建立儲存貯體</strong> 」</li>
+</ol>
+<h3 id="步驟-2：設定-Bucket-Policy（讓檔案可公開讀取）"><a href="#步驟-2：設定-Bucket-Policy（讓檔案可公開讀取）" class="headerlink" title="步驟 2：設定 Bucket Policy（讓檔案可公開讀取）"></a>步驟 2：設定 Bucket Policy（讓檔案可公開讀取）</h3><ol>
+<li><p>點進剛建立的 Bucket</p>
+</li>
+<li><p>前往「Permissions」標籤</p>
+</li>
+<li><p>找到「Bucket policy」區塊，點擊「Edit」</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/5-bucket-policy.png?raw=true"></p>
+</li>
+<li><p>貼上以下 Policy（記得替換 <code>YOUR-BUCKET-NAME</code>）：</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2012-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Sid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PublicReadGetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Principal&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;s3:GetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:s3:::YOUR-BUCKET-NAME/*&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>點擊「Save changes」</li>
+</ol>
+<h3 id="步驟-3：建立-IAM-使用者與取得-Access-Key"><a href="#步驟-3：建立-IAM-使用者與取得-Access-Key" class="headerlink" title="步驟 3：建立 IAM 使用者與取得 Access Key"></a>步驟 3：建立 IAM 使用者與取得 Access Key</h3><ol>
+<li><strong>進入 IAM 服務</strong><ul>
+<li>搜尋並點選「IAM」服務</li>
+</ul>
+</li>
+<li><strong>建立新使用者</strong><ul>
+<li>左側選單點選「Users」</li>
+<li>點擊「Create user」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/6-create-user.png?raw=true"></li>
+<li><strong>User name</strong>: 輸入 <code>s3-upload-user</code><br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/7-user-name.png?raw=true"></li>
+<li>點擊「Next」</li>
+</ul>
+</li>
+<li><strong>設定權限</strong><ul>
+<li>選擇「Attach policies directly」</li>
+<li>搜尋並勾選「AmazonS3FullAccess」（簡單起見；生產環境建議使用更細緻的權限）<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/8-set-policy.png?raw=true"></li>
+<li>點擊「Next」，然後「Create user」</li>
+</ul>
+</li>
+<li><strong>建立 Access Key</strong><ul>
+<li>點進剛建立的使用者</li>
+<li>選擇「Security credentials」標籤</li>
+<li>找到「Access keys」區塊，點擊「Create access key」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/9-create-access-key.png?raw=true"></li>
+<li>選擇「Application running outside AWS」<br><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/10-key-range.png?raw=true"></li>
+<li>點擊「Next」</li>
+<li>描述標籤：輸入「Node.js Upload App」</li>
+<li>點擊「Create access key」</li>
+<li><strong>重要！</strong> 複製並儲存：(等等需在 <code>.env</code> 設定)<ul>
+<li><strong>Access key ID</strong> (類似：<code>AKIAIOSFODNN7EXAMPLE</code>)</li>
+<li><strong>Secret access key</strong> (類似：<code>wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</code>)</li>
+<li>⚠️ Secret key 只會顯示一次，請妥善保存！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="第二部分：程式碼整合"><a href="#第二部分：程式碼整合" class="headerlink" title="第二部分：程式碼整合"></a>第二部分：程式碼整合</h2><h3 id="1-安裝-AWS-SDK"><a href="#1-安裝-AWS-SDK" class="headerlink" title="1. 安裝 AWS SDK"></a>1. 安裝 AWS SDK</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install @aws-sdk/client-s3</span><br><span class="line">npm install --save-dev @types/node</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-設定環境變數"><a href="#2-設定環境變數" class="headerlink" title="2. 設定環境變數"></a>2. 設定環境變數</h3><p>在您的 <code>.env</code> 檔案加入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># AWS S3 設定</span><br><span class="line">AWS_REGION=ap-northeast-1</span><br><span class="line">AWS_ACCESS_KEY_ID=your-access-key-id</span><br><span class="line">AWS_SECRET_ACCESS_KEY=your-secret-access-key</span><br><span class="line">AWS_S3_BUCKET_NAME=my-ithome-2025-bucket</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-建立-S3-工具檔案"><a href="#3-建立-S3-工具檔案" class="headerlink" title="3. 建立 S3 工具檔案"></a>3. 建立 S3 工具檔案</h3><p>建立新檔案：<code>src/utils/s3Utils.ts</code></p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; S3Client &#125; <span class="keyword">from</span> <span class="string">&quot;@aws-sdk/client-s3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化 S3 Client</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> s3Client = <span class="keyword">new</span> <span class="title function_">S3Client</span>(&#123;</span><br><span class="line">  <span class="attr">region</span>: process.<span class="property">env</span>.<span class="property">AWS_REGION</span> || <span class="string">&quot;ap-northeast-1&quot;</span>,</span><br><span class="line">  <span class="attr">credentials</span>: &#123;</span><br><span class="line">    <span class="attr">accessKeyId</span>: process.<span class="property">env</span>.<span class="property">AWS_ACCESS_KEY_ID</span> || <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="attr">secretAccessKey</span>: process.<span class="property">env</span>.<span class="property">AWS_SECRET_ACCESS_KEY</span> || <span class="string">&quot;&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> bucketName = process.<span class="property">env</span>.<span class="property">AWS_S3_BUCKET_NAME</span> || <span class="string">&quot;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-修改上傳-Controller"><a href="#4-修改上傳-Controller" class="headerlink" title="4. 修改上傳 Controller"></a>4. 修改上傳 Controller</h3><p>修改 <code>src/controllers/uploadController.ts</code>，新增一個使用 S3 的函式：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Response</span>, <span class="title class_">NextFunction</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">PutObjectCommand</span> &#125; <span class="keyword">from</span> <span class="string">&quot;@aws-sdk/client-s3&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; s3Client, bucketName &#125; <span class="keyword">from</span> <span class="string">&quot;../utils/s3Utils&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AuthRequest</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entities/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 上傳大頭照到 AWS S3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">uploadAvatarToS3</span>(<span class="params"></span></span><br><span class="line"><span class="params">  req: AuthRequest,</span></span><br><span class="line"><span class="params">  res: Response,</span></span><br><span class="line"><span class="params">  next: NextFunction</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 檢查是否有上傳檔案</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">file</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請選擇要上傳的圖片檔案&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 檢查使用者是否已登入</span></span><br><span class="line">    <span class="keyword">if</span> (!req.<span class="property">user</span>) &#123;</span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">status</span>: <span class="string">&quot;failed&quot;</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;請先登入&quot;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 產生檔案路徑與名稱</span></span><br><span class="line">    <span class="keyword">const</span> timestamp = <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">    <span class="keyword">const</span> ext = path.<span class="title function_">extname</span>(req.<span class="property">file</span>.<span class="property">originalname</span>).<span class="title function_">toLowerCase</span>();</span><br><span class="line">    <span class="keyword">const</span> key = <span class="string">`images/avatars/user-<span class="subst">$&#123;req.user.id&#125;</span>-<span class="subst">$&#123;timestamp&#125;</span><span class="subst">$&#123;ext&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4. 上傳到 S3</span></span><br><span class="line">    <span class="keyword">const</span> command = <span class="keyword">new</span> <span class="title class_">PutObjectCommand</span>(&#123;</span><br><span class="line">      <span class="title class_">Bucket</span>: bucketName,</span><br><span class="line">      <span class="title class_">Key</span>: key,</span><br><span class="line">      <span class="title class_">Body</span>: req.<span class="property">file</span>.<span class="property">buffer</span>,</span><br><span class="line">      <span class="title class_">ContentType</span>: req.<span class="property">file</span>.<span class="property">mimetype</span>,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> s3Client.<span class="title function_">send</span>(command);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 5. 產生公開 URL</span></span><br><span class="line">    <span class="keyword">const</span> region = process.<span class="property">env</span>.<span class="property">AWS_REGION</span> || <span class="string">&quot;ap-northeast-1&quot;</span>;</span><br><span class="line">    <span class="keyword">const</span> publicUrl = <span class="string">`https://<span class="subst">$&#123;bucketName&#125;</span>.s3.<span class="subst">$&#123;region&#125;</span>.amazonaws.com/<span class="subst">$&#123;key&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 6. 更新資料庫</span></span><br><span class="line">    <span class="keyword">await</span> <span class="title class_">AppDataSource</span>.<span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">update</span>(</span><br><span class="line">      &#123; <span class="attr">id</span>: req.<span class="property">user</span>.<span class="property">id</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">profileUrl</span>: publicUrl &#125;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 7. 回傳成功訊息</span></span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">200</span>).<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">status</span>: <span class="string">&quot;success&quot;</span>,</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;大頭照上傳成功&quot;</span>,</span><br><span class="line">      <span class="attr">data</span>: &#123; <span class="attr">avatarUrl</span>: publicUrl &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="title function_">next</span>(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-更新路由"><a href="#5-更新路由" class="headerlink" title="5. 更新路由"></a>5. 更新路由</h3><p>修改 <code>src/routes/uploadRoutes.ts</code>：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Router</span> &#125; <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  uploadAvatar,</span><br><span class="line">  uploadAvatarToS3,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;../controllers/uploadController&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; imageUpload &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/imageUpload&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; isAuth &#125; <span class="keyword">from</span> <span class="string">&quot;../middleware/isAuth&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="title class_">Router</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Firebase 版本（保留原有功能）</span></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/avatar&quot;</span>, isAuth, imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), uploadAvatar);</span><br><span class="line"></span><br><span class="line"><span class="comment">// AWS S3 版本（新增）</span></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&quot;/avatar-s3&quot;</span>, isAuth, imageUpload.<span class="title function_">single</span>(<span class="string">&quot;file&quot;</span>), uploadAvatarToS3);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="測試上傳檔案"><a href="#測試上傳檔案" class="headerlink" title="測試上傳檔案"></a>測試上傳檔案</h2><p>使用 Postman 測試：</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/11-postman-test.png?raw=true"></p>
+<p>查看資料庫 <code>profile_url</code> 欄位 : (成功填入檔案位址)</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/12-check-db.png?raw=true"></p>
+<p>到 S3 查看檔案是否已經上傳 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day27-AWS-S3/13-check-s3.png?raw=true"></p>
+<p>成功驗證檔案上傳！</p>
+<hr>
+<h2 id="重點提醒"><a href="#重點提醒" class="headerlink" title="重點提醒"></a>重點提醒</h2><ol>
+<li><strong>不要將 AWS credentials 提交到 Git</strong><ul>
+<li>確保 <code>.env</code> 在 <code>.gitignore</code> 中</li>
+</ul>
+</li>
+<li><strong>成本考量</strong><ul>
+<li>S3 儲存與流量都會收費，但非常便宜</li>
+<li>可設定 Lifecycle policy 自動刪除舊檔案</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這次的實作，我們練習了：</p>
+<ul>
+<li>建立並設定 S3 Bucket</li>
+<li>讓檔案可公開讀取</li>
+<li>透過 Node.js 上傳檔案到雲端</li>
+<li>並將結果寫回資料庫</li>
+</ul>
+<p>雖然看起來步驟很多，但這正是「真實世界後端」會遇到的流程。</p>
+<p>加油！</p>
+<hr>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
+<p>commit :</p>
+<p>feat: 🎸 integrate AWS S3 upload feature<br>新增 AWS S3 檔案上傳功能（s3Utils + uploadController + route）</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/89e8d3de7355d24c174923dc0a4606874a4920fa">Github 連結</a></p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
+    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
+    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
+<hr>
+<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
+<ul>
+<li><strong>string</strong>：字串</li>
+<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
+<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
+<li><strong>array</strong>：陣列</li>
+<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
+<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
+<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
+<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
+<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
+</ul>
+<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
+<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
+<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
+</ul>
+<hr>
+<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
+<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>物件結構清楚表達</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>與 API 或外部資料互動</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
+<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
+<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
+</ul>
+<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
+    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
+    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
+<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
+<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
+<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
+<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>車票 ID（可能是數字 &#x2F; 字串）</li>
+<li>車廂座位（可能是 “A12” 也可能是 12）</li>
+<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
+<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
+<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
+<li>可讀性高，適合大型專案。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
+<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
+<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
+<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
+<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
+</ul>
+<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
       </tags>
   </entry>
   <entry>
@@ -2653,21 +2825,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>關於嚴格模式</title>
-    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
-    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
-<span id="more"></span>
-
-<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
-<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
-]]></content>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常用 Hexo 指令帶你無往不利</title>
     <url>/2024/06/07/%E5%B8%B8%E7%94%A8%20Hexo%20%E6%8C%87%E4%BB%A4%E5%B8%B6%E4%BD%A0%E7%84%A1%E5%BE%80%E4%B8%8D%E5%88%A9/</url>
     <content><![CDATA[<p>Hexo 是一个快速、简单且功能强大的静态博客框架。以下是一些常用的 Hexo 指令：</p>
@@ -2724,6 +2881,21 @@
 ]]></content>
       <tags>
         <tag>Hexo 指令</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>關於嚴格模式</title>
+    <url>/2024/06/12/%E9%97%9C%E6%96%BC%E5%9A%B4%E6%A0%BC%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<p>在 JavaScript 和 PHP 中，嚴格模式（strict mode）都是後期引入的。</p>
+<span id="more"></span>
+
+<h2 id="JavaScript-的嚴格模式"><a href="#JavaScript-的嚴格模式" class="headerlink" title="JavaScript 的嚴格模式"></a>JavaScript 的嚴格模式</h2><p>JavaScript 的嚴格模式首次出現在 ECMAScript 5（ES5）標準中，於 2009 年發布。嚴格模式通過 <code>&quot;use strict&quot;;</code> 指令來啟用，它將代碼執行模式從寬鬆模式切換到嚴格模式，並引入了一些新的限制和改變，以幫助開發者避免常見的問題，提高代碼的品質和性能。</p>
+<h2 id="PHP-的嚴格模式"><a href="#PHP-的嚴格模式" class="headerlink" title="PHP 的嚴格模式"></a>PHP 的嚴格模式</h2><p>PHP 的嚴格模式首次出現在 PHP 7.0 版本中，於 2015 年發布。它通過引入 <code>declare(strict_types=1);</code> 來啟用，用於強制函數和方法的傳入參數和返回值進行嚴格的類型檢查。在嚴格模式下，函數和方法的參數類型和返回類型必須與函數和方法的聲明一致，否則將引發致命錯誤。</p>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>儘管嚴格模式在 JavaScript 和 PHP 中的實現方式有所不同，但它們的目標都是提高代碼的品質和可靠性，並幫助開發者避免常見的錯誤。JavaScript 的嚴格模式於 ECMAScript 5 中首次出現，而 PHP 的嚴格模式則在 PHP 7.0 中首次引入。</p>
+]]></content>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
 </search>
