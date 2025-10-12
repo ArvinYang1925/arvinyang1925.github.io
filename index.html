@@ -132,7 +132,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -158,6 +158,97 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/12/Day28%20-%20AWS-VPC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/10/12/Day28%20-%20AWS-VPC/" class="post-title-link" itemprop="url">Day 28 - AWS VPC 入門：初探雲端世界的隱形網路</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-12 22:30:11 / 修改時間：22:31:53" itemprop="dateCreated datePublished" datetime="2025-10-12T22:30:11+08:00">2025-10-12</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>從 Day23 開始，我們一步步搭起了：</p>
+<ul>
+<li><strong>EC2</strong>：讓服務跑起來</li>
+<li><strong>RDS</strong>：讓資料有地方存</li>
+<li><strong>S3</strong>：讓檔案能雲端化</li>
+</ul>
+<p>這三者合起來，已經是個完整的雲端應用了。</p>
+<p>但在這個過程中，你可能有注意到一些問題：</p>
+<ul>
+<li>為什麼 EC2 可以連到 RDS？</li>
+<li>為什麼有的 RDS「不能公開存取」？</li>
+<li>為什麼有時候我 ping 不到另一台主機？</li>
+</ul>
+<p>這些現象看似神秘，其實背後都有一個共同的原因：</p>
+<p>👉 它們都活在同一個「網路世界」中，也就是 <strong>VPC（Virtual Private Cloud）</strong>。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/10/12/Day28%20-%20AWS-VPC/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -899,87 +990,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2025/10/03/Day19%20-%20NodeJS-Migration/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/02/Day18%20-%20NodeJS-Pino/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Arvin Yang">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Arvin's Blog">
-      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Arvin's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/10/02/Day18%20-%20NodeJS-Pino/" class="post-title-link" itemprop="url">Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-      
-
-      <time title="創建時間：2025-10-02 20:25:01 / 修改時間：20:26:59" itemprop="dateCreated datePublished" datetime="2025-10-02T20:25:01+08:00">2025-10-02</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在寫程式的過程中，你是不是也常常這樣做？</p>
-<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;資料有進來嗎？&quot;</span>, data);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;API 回傳結果：&quot;</span>, response);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;進到這裡了嗎？&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>👆 這些 <code>console.log</code> 幾乎是每個工程師的「人生必經之路」。它快速、直覺，甚至帶點安全感，因為我們可以立即知道程式有沒有跑到某一段。</p>
-<p>不過，當專案越來越大、功能越來越複雜，<code>console.log</code> 的缺點就會暴露出來。今天，我們來聊聊什麼是「日誌 (log)」，以及它在專案中的價值，並實戰介紹一個超好用的 Node.js 日誌套件 <strong>Pino</strong> 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/10/02/Day18%20-%20NodeJS-Pino/#more" rel="contents">
                 閱讀全文 &raquo;
               </a>
             </div>

@@ -2038,69 +2038,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
-    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
-    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
-<hr>
-<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
-<ul>
-<li><strong>string</strong>：字串</li>
-<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
-<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
-<li><strong>array</strong>：陣列</li>
-<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
-<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
-<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
-<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
-<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
-</ul>
-<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
-
-<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
-<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
-<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
-</ul>
-<hr>
-<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
-<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>物件結構清楚表達</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>與 API 或外部資料互動</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
-<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
-<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
-</ul>
-<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
-<hr>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
     <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
     <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
@@ -2167,6 +2104,162 @@
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 28 - AWS VPC 入門：初探雲端世界的隱形網路</title>
+    <url>/2025/10/12/Day28%20-%20AWS-VPC/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>從 Day23 開始，我們一步步搭起了：</p>
+<ul>
+<li><strong>EC2</strong>：讓服務跑起來</li>
+<li><strong>RDS</strong>：讓資料有地方存</li>
+<li><strong>S3</strong>：讓檔案能雲端化</li>
+</ul>
+<p>這三者合起來，已經是個完整的雲端應用了。</p>
+<p>但在這個過程中，你可能有注意到一些問題：</p>
+<ul>
+<li>為什麼 EC2 可以連到 RDS？</li>
+<li>為什麼有的 RDS「不能公開存取」？</li>
+<li>為什麼有時候我 ping 不到另一台主機？</li>
+</ul>
+<p>這些現象看似神秘，其實背後都有一個共同的原因：</p>
+<p>👉 它們都活在同一個「網路世界」中，也就是 <strong>VPC（Virtual Private Cloud）</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、什麼是-VPC？"><a href="#一、什麼是-VPC？" class="headerlink" title="一、什麼是 VPC？"></a>一、什麼是 VPC？</h2><blockquote>
+<p>💡 一句話理解：</p>
+<p><strong>VPC 是 AWS 上的「虛擬私人網路」，讓你在雲端擁有一塊專屬的網路空間。</strong></p>
+</blockquote>
+<p>你可以把整個 AWS 想成一座「雲端大城市」，</p>
+<p>而每一個使用者申請的 VPC，就是在城市裡劃出一塊區域：</p>
+<p>這塊區域上，你可以：</p>
+<ul>
+<li>決定有哪些建築（EC2、RDS、Lambda）</li>
+<li>設定哪些道路能通往外部世界（Internet Gateway）</li>
+<li>規劃哪些區域只能內部通訊（Private Subnet）</li>
+</ul>
+<blockquote>
+<p>換句話說：</p>
+<p><strong>VPC 是所有 AWS 服務運作的「網路基礎設施」。</strong></p>
+</blockquote>
+<hr>
+<h2 id="二、為什麼需要-VPC？"><a href="#二、為什麼需要-VPC？" class="headerlink" title="二、為什麼需要 VPC？"></a>二、為什麼需要 VPC？</h2><p>沒有 VPC 的世界，就像所有房子都建在同一條馬路上，</p>
+<p>大家彼此都能看到、都能互通，安全性極低。</p>
+<p>而 VPC 的出現，解決了三件事：</p>
+<h3 id="1-網路隔離（Network-Isolation）"><a href="#1-網路隔離（Network-Isolation）" class="headerlink" title="1.網路隔離（Network Isolation）"></a>1.網路隔離（Network Isolation）</h3><p>你可以建立多個 VPC，讓不同專案的服務彼此隔離。</p>
+<p>例如：</p>
+<ul>
+<li>一個 VPC 給測試環境</li>
+<li>一個 VPC 給正式環境<br>這樣可以避免誤連線、資料誤操作。</li>
+</ul>
+<h3 id="2-安全控制（Security-Control）"><a href="#2-安全控制（Security-Control）" class="headerlink" title="2.安全控制（Security Control）"></a>2.安全控制（Security Control）</h3><p>VPC 搭配 <strong>Security Group</strong> 和 <strong>NACL</strong>，</p>
+<p>能夠細緻地控制「誰能進、誰能出」。</p>
+<p>例如：</p>
+<ul>
+<li>只允許 EC2 連到 RDS</li>
+<li>禁止外部直接存取資料庫</li>
+</ul>
+<h3 id="3-流量管理（Traffic-Routing）"><a href="#3-流量管理（Traffic-Routing）" class="headerlink" title="3.流量管理（Traffic Routing）"></a>3.流量管理（Traffic Routing）</h3><p>透過 <strong>Route Table</strong>、<strong>Internet Gateway</strong>、<strong>NAT Gateway</strong>，</p>
+<p>你可以決定哪些子網可以上網、哪些只能內部存取。</p>
+<p>這也是為什麼「RDS 放在 Private Subnet、EC2 放在 Public Subnet」是 AWS 的最佳實踐。</p>
+<hr>
+<h2 id="三、VPC-的核心組成"><a href="#三、VPC-的核心組成" class="headerlink" title="三、VPC 的核心組成"></a>三、VPC 的核心組成</h2><table>
+<thead>
+<tr>
+<th>元件</th>
+<th>角色說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>VPC</strong></td>
+<td>你的虛擬私有網路，所有服務的基礎環境。</td>
+</tr>
+<tr>
+<td><strong>Subnet</strong></td>
+<td>子網路，區分公有與私有區域。</td>
+</tr>
+<tr>
+<td><strong>Internet Gateway (IGW)</strong></td>
+<td>讓 VPC 能連到外部網際網路。</td>
+</tr>
+<tr>
+<td><strong>NAT Gateway</strong></td>
+<td>讓私有子網的主機能「對外連線」但外部無法主動連入。</td>
+</tr>
+<tr>
+<td><strong>Route Table</strong></td>
+<td>決定流量要走哪條路。</td>
+</tr>
+<tr>
+<td><strong>Security Group</strong></td>
+<td>控制進出流量的防火牆規則。</td>
+</tr>
+<tr>
+<td><strong>Network ACL</strong></td>
+<td>子網層級的進階流量控制。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、圖解理解：雲端裡的城市地圖"><a href="#四、圖解理解：雲端裡的城市地圖" class="headerlink" title="四、圖解理解：雲端裡的城市地圖"></a>四、圖解理解：雲端裡的城市地圖</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        🌍 Internet</span><br><span class="line">             |</span><br><span class="line">     +----------------+</span><br><span class="line">     | InternetGateway|</span><br><span class="line">     +----------------+</span><br><span class="line">             |</span><br><span class="line">┌──────────────────────────┐</span><br><span class="line">│        VPC 10.0.0.0/16   │</span><br><span class="line">│                          │</span><br><span class="line">│  +-------------------+   │</span><br><span class="line">│  | Public Subnet     |   │ --&gt; EC2 (Web Server)</span><br><span class="line">│  | 10.0.1.0/24       |   │</span><br><span class="line">│  +-------------------+   │</span><br><span class="line">│                          │</span><br><span class="line">│  +-------------------+   │</span><br><span class="line">│  | Private Subnet    |   │ --&gt; RDS (Database)</span><br><span class="line">│  | 10.0.2.0/24       |   │</span><br><span class="line">│  +-------------------+   │</span><br><span class="line">└──────────────────────────┘</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這張圖能讓人一眼看懂：</p>
+<ul>
+<li>EC2（公有子網）能上網</li>
+<li>RDS（私有子網）只能被 EC2 存取</li>
+<li>兩者在同一個 VPC 下安全地互通</li>
+</ul>
+<blockquote>
+<p>💡 小知識：</p>
+<p>在 AWS 裡，幾乎所有服務（EC2、RDS、Lambda）都「必須」放在某個 VPC 之下。</p>
+<p>它是整個雲端架構的「底層基礎建設」。</p>
+</blockquote>
+<hr>
+<h2 id="五、VPC-與其他服務的關係"><a href="#五、VPC-與其他服務的關係" class="headerlink" title="五、VPC 與其他服務的關係"></a>五、VPC 與其他服務的關係</h2><table>
+<thead>
+<tr>
+<th>服務</th>
+<th>依附於 VPC 的部分</th>
+<th>為什麼重要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EC2</strong></td>
+<td>放在 Public Subnet</td>
+<td>需要能被外界存取</td>
+</tr>
+<tr>
+<td><strong>RDS</strong></td>
+<td>放在 Private Subnet</td>
+<td>只允許內部連線</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>不在 VPC 裡，但可透過 VPC Endpoint 連線</td>
+<td>提高安全性</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 小知識：</p>
+<p>雖然 S3 不屬於 VPC 網路，但可以建立「VPC Endpoint」讓流量走內部路線，不經外網，安全又穩定。</p>
+</blockquote>
+<hr>
+<h2 id="六、日常開發者應該知道的-VPC-概念"><a href="#六、日常開發者應該知道的-VPC-概念" class="headerlink" title="六、日常開發者應該知道的 VPC 概念"></a>六、日常開發者應該知道的 VPC 概念</h2><ul>
+<li><strong>Security Group 是 VPC 的第一層安全防線</strong><br>它是狀態式防火牆，能自動允許回應流量。</li>
+<li><strong>Private Subnet 並非不能上網</strong><br>搭配 NAT Gateway，就能「單向上網」。</li>
+<li><strong>一個 AWS 帳號可建立多個 VPC</strong><br>用來區隔不同環境（開發、測試、正式）。</li>
+</ul>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>今天，我們沒有寫一行程式，</p>
+<p>卻認識了 AWS 背後最重要的基礎：<strong>網路架構的設計思維。</strong></p>
+<p>VPC 就像你在雲端世界的「地基」——</p>
+<p>所有 EC2、RDS、S3、Lambda 都是在這塊地上蓋出來的。</p>
+<p>理解 VPC，可以讓我們設計出更安全、可維護、具延展性的雲端應用。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
       </tags>
   </entry>
   <entry>
@@ -2247,107 +2340,6 @@
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
-    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
-    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
-<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
-<p>準備好了嗎？Let’s go！</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
-<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
-<hr>
-<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
-<hr>
-<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
-<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
-<hr>
-<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
-<ul>
-<li><strong>Express</strong>：後端 API 框架</li>
-<li><strong>TypeScript</strong>：型別安全</li>
-<li><strong>@types</strong>：型別定義檔</li>
-<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
-</ul>
-<p>一次裝好：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
-<hr>
-<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>這邊要記住幾個關鍵設定：</p>
-<ul>
-<li><code>rootDir</code> → 原始碼放哪裡</li>
-<li><code>outDir</code> → 編譯輸出到哪裡</li>
-<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
-<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
-</ul>
-<p>然後新增一個 <code>src</code> 資料夾：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>寫入以下內容：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
-<hr>
-<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果一切順利，你會看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
-<ul>
-<li>Git 分支管理</li>
-<li>設定 <code>.gitignore</code></li>
-<li>初始化 <code>package.json</code></li>
-<li>安裝必要套件</li>
-<li>設定 TypeScript</li>
-<li>建立第一個 Express 程式</li>
-</ul>
-<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
-<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
-<hr>
-<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
-<blockquote>
-<p>commit message: Day 6 - set up Express + TS environment</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -2714,6 +2706,190 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
+    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
+    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
+<hr>
+<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
+<ul>
+<li><strong>string</strong>：字串</li>
+<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
+<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
+<li><strong>array</strong>：陣列</li>
+<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
+<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
+<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
+<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
+<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
+</ul>
+<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
+<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
+<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
+</ul>
+<hr>
+<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
+<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>物件結構清楚表達</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>與 API 或外部資料互動</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
+<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
+<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
+</ul>
+<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
+    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
+    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
+<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
+<p>準備好了嗎？Let’s go！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
+<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
+<hr>
+<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
+<hr>
+<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
+<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
+<hr>
+<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
+<ul>
+<li><strong>Express</strong>：後端 API 框架</li>
+<li><strong>TypeScript</strong>：型別安全</li>
+<li><strong>@types</strong>：型別定義檔</li>
+<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
+</ul>
+<p>一次裝好：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
+<hr>
+<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這邊要記住幾個關鍵設定：</p>
+<ul>
+<li><code>rootDir</code> → 原始碼放哪裡</li>
+<li><code>outDir</code> → 編譯輸出到哪裡</li>
+<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
+<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
+</ul>
+<p>然後新增一個 <code>src</code> 資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>寫入以下內容：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
+<hr>
+<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果一切順利，你會看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
+<ul>
+<li>Git 分支管理</li>
+<li>設定 <code>.gitignore</code></li>
+<li>初始化 <code>package.json</code></li>
+<li>安裝必要套件</li>
+<li>設定 TypeScript</li>
+<li>建立第一個 Express 程式</li>
+</ul>
+<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
+<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit message: Day 6 - set up Express + TS environment</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
     <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
     <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
@@ -2803,26 +2979,6 @@
         <tag>前端開發</tag>
         <tag>程式語言</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>常用 Hexo 指令帶你無往不利</title>
