@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言在前一篇，我們探索了 AWS 的網路基礎 —— VPC。 有了網路邊界之後，雲端服務之間可以安全地連線與隔離。 但接下來還有一個更關鍵的問題：  「誰能登入你的 AWS？誰能刪除資料？誰能動到伺服器？」  這，就是 AWS 的安全核心 —— IAM（Identity and Access Management）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/13/Day29%20-%20AWS-IAM/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言在前一篇，我們探索了 AWS 的網路基礎 —— VPC。 有了網路邊界之後，雲端服務之間可以安全地連線與隔離。 但接下來還有一個更關鍵的問題：  「誰能登入你的 AWS？誰能刪除資料？誰能動到伺服器？」  這，就是 AWS 的安全核心 —— IAM（Identity and Access Management）。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-10-13T14:41:02.000Z">
+<meta property="article:modified_time" content="2025-10-13T14:44:28.186Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/13/Day29%20-%20AWS-IAM/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/13/Day29%20-%20AWS-IAM/","path":"2025/10/13/Day29 - AWS-IAM/","title":"Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E9%BA%BC%E6%98%AF-IAM%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">一、什麼是 IAM？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81-IAM%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">二、為什麼需要 IAM？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81IAM-%E7%9A%84%E5%9B%9B%E5%A4%A7%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">三、IAM 的四大核心概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">小例子：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81IAM-%E7%9A%84%E9%81%8B%E4%BD%9C%E9%82%8F%E8%BC%AF"><span class="nav-number">5.</span> <span class="nav-text">四、IAM 的運作邏輯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81IAM-%E7%9A%84%E5%B8%B8%E8%A6%8B%E6%87%89%E7%94%A8%E6%83%85%E5%A2%83"><span class="nav-number">6.</span> <span class="nav-text">五、IAM 的常見應用情境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%AE%89%E5%85%A8%E6%9C%80%E4%BD%B3%E5%AF%A6%E8%B8%90"><span class="nav-number">7.</span> <span class="nav-text">六、安全最佳實踐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9C%80%E5%B0%8F%E6%AC%8A%E9%99%90%E5%8E%9F%E5%89%87%EF%BC%88Least-Privilege%EF%BC%89"><span class="nav-number">7.1.</span> <span class="nav-text">1.最小權限原則（Least Privilege）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%80%E4%BA%BA%E4%B8%80%E5%B8%B3%E8%99%9F"><span class="nav-number">7.2.</span> <span class="nav-text">2.一人一帳號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%84%AA%E5%85%88%E4%BD%BF%E7%94%A8-Role%EF%BC%8C%E5%B0%91%E7%94%A8-Access-Key"><span class="nav-number">7.3.</span> <span class="nav-text">3.優先使用 Role，少用 Access Key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AE%9A%E6%9C%9F%E6%AA%A2%E6%9F%A5%E6%AC%8A%E9%99%90%E8%88%87%E4%BD%BF%E7%94%A8%E7%B4%80%E9%8C%84"><span class="nav-number">7.4.</span> <span class="nav-text">4.定期檢查權限與使用紀錄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81IAM-%E8%88%87%E5%85%B6%E4%BB%96%E6%9C%8D%E5%8B%99%E7%9A%84%E9%97%9C%E4%BF%82"><span class="nav-number">8.</span> <span class="nav-text">七、IAM 與其他服務的關係</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">9.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/13/Day29%20-%20AWS-IAM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-13 22:41:02 / 修改時間：22:44:28" itemprop="dateCreated datePublished" datetime="2025-10-13T22:41:02+08:00">2025-10-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前一篇，我們探索了 AWS 的網路基礎 —— <strong>VPC</strong>。</p>
+<p>有了網路邊界之後，雲端服務之間可以安全地連線與隔離。</p>
+<p>但接下來還有一個更關鍵的問題：</p>
+<blockquote>
+<p>「誰能登入你的 AWS？誰能刪除資料？誰能動到伺服器？」</p>
+</blockquote>
+<p>這，就是 AWS 的安全核心 —— <strong>IAM（Identity and Access Management）</strong>。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、什麼是-IAM？"><a href="#一、什麼是-IAM？" class="headerlink" title="一、什麼是 IAM？"></a>一、什麼是 IAM？</h2><blockquote>
+<p>💡 一句話理解：</p>
+<p><strong>IAM 是 AWS 的身分與權限控管系統，負責決定「誰能做什麼」。</strong></p>
+</blockquote>
+<p>IAM 的全名是 <strong>Identity and Access Management</strong>，</p>
+<p>它幫助我們在雲端中安全地管理：</p>
+<ul>
+<li>使用者（User）</li>
+<li>權限（Policy）</li>
+<li>群組（Group）</li>
+<li>角色（Role）</li>
+</ul>
+<p>換句話說，VPC 解決「資料怎麼流」，</p>
+<p>IAM 則解決「人與服務能不能動這些資料」。</p>
+<hr>
+<h2 id="二、為什麼需要-IAM？"><a href="#二、為什麼需要-IAM？" class="headerlink" title="二、為什麼需要 IAM？"></a>二、為什麼需要 IAM？</h2><p>想像你開了一家公司：</p>
+<ul>
+<li>EC2 是你的伺服器</li>
+<li>RDS 是資料庫</li>
+<li>S3 是雲端儲存櫃</li>
+<li>而 IAM 就是你的「門禁系統」</li>
+</ul>
+<p>如果沒有 IAM，</p>
+<p>那所有人都能進 AWS 控制台、刪資料、上傳亂七八糟的檔案 😱</p>
+<p>IAM 的目標是確保：</p>
+<ol>
+<li><strong>每個人都有自己的身分</strong>（誰在操作）</li>
+<li><strong>每個身分都有明確權限</strong>（能做什麼）</li>
+<li><strong>服務之間的互動是安全的</strong>（程式彼此授權）</li>
+</ol>
+<hr>
+<h2 id="三、IAM-的四大核心概念"><a href="#三、IAM-的四大核心概念" class="headerlink" title="三、IAM 的四大核心概念"></a>三、IAM 的四大核心概念</h2><table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>定義</th>
+<th>舉例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>User</strong></td>
+<td>真實使用者帳號（開發者、管理員）</td>
+<td>你的個人登入帳號</td>
+</tr>
+<tr>
+<td><strong>Group</strong></td>
+<td>一群使用者，方便統一設定權限</td>
+<td>後端開發組 &#x2F; 財務組</td>
+</tr>
+<tr>
+<td><strong>Role</strong></td>
+<td>給服務使用的「臨時身分」</td>
+<td>EC2 或 Lambda 角色</td>
+</tr>
+<tr>
+<td><strong>Policy</strong></td>
+<td>JSON 格式的權限規則，定義能做什麼事</td>
+<td>允許 <code>s3:GetObject</code> 讀取檔案</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="小例子："><a href="#小例子：" class="headerlink" title="小例子："></a>小例子：</h3><p>一個典型的 Policy（權限規則）長這樣：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2012-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;s3:GetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:s3:::my-ithome-bucket/*&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>它的意思是：</p>
+<blockquote>
+<p>「允許這個使用者從指定的 S3 bucket 讀取檔案。」</p>
+</blockquote>
+<hr>
+<h2 id="四、IAM-的運作邏輯"><a href="#四、IAM-的運作邏輯" class="headerlink" title="四、IAM 的運作邏輯"></a>四、IAM 的運作邏輯</h2><p>IAM 的權限設計有兩個層面：</p>
+<ol>
+<li><strong>身份驗證（Authentication）</strong><ul>
+<li>你是誰？（User &#x2F; Role）</li>
+<li>如何登入？（密碼、多重驗證、Access Key）</li>
+</ul>
+</li>
+<li><strong>授權（Authorization）</strong><ul>
+<li>你能做什麼？（根據附加的 Policy）</li>
+<li>對哪些資源？（S3、EC2、RDS…）</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>✅ AWS 的安全哲學：「一切都預設禁止，除非被允許。」</p>
+</blockquote>
+<p>也就是說，沒有被 Policy 明確授權的動作，都會被拒絕。</p>
+<hr>
+<h2 id="五、IAM-的常見應用情境"><a href="#五、IAM-的常見應用情境" class="headerlink" title="五、IAM 的常見應用情境"></a>五、IAM 的常見應用情境</h2><table>
+<thead>
+<tr>
+<th>應用場景</th>
+<th>做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>開發團隊多人共用 AWS</strong></td>
+<td>為每個人建立 IAM User，分配對應權限</td>
+</tr>
+<tr>
+<td><strong>EC2 要存取 S3</strong></td>
+<td>建立 IAM Role 掛到 EC2 上（不用明文金鑰）</td>
+</tr>
+<tr>
+<td><strong>前端要讀取特定 S3 內容</strong></td>
+<td>建立具有限制的 Policy，允許 <code>s3:GetObject</code></td>
+</tr>
+<tr>
+<td><strong>CI&#x2F;CD Pipeline 部署</strong></td>
+<td>為 GitHub Actions 或 CodeBuild 建立部署角色</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、安全最佳實踐"><a href="#六、安全最佳實踐" class="headerlink" title="六、安全最佳實踐"></a>六、安全最佳實踐</h2><h3 id="1-最小權限原則（Least-Privilege）"><a href="#1-最小權限原則（Least-Privilege）" class="headerlink" title="1.最小權限原則（Least Privilege）"></a>1.最小權限原則（Least Privilege）</h3><blockquote>
+<p>給使用者只需要的權限，不多不少。</p>
+<p>不要為方便而附加「AdministratorAccess」。</p>
+</blockquote>
+<h3 id="2-一人一帳號"><a href="#2-一人一帳號" class="headerlink" title="2.一人一帳號"></a>2.一人一帳號</h3><p>不要共用 root 帳號或同一組 Access Key，</p>
+<p>建立各自的 IAM User 並開啟 MFA。</p>
+<h3 id="3-優先使用-Role，少用-Access-Key"><a href="#3-優先使用-Role，少用-Access-Key" class="headerlink" title="3.優先使用 Role，少用 Access Key"></a>3.優先使用 Role，少用 Access Key</h3><p>金鑰容易洩漏；Role 可安全地授權給 EC2、Lambda。</p>
+<h3 id="4-定期檢查權限與使用紀錄"><a href="#4-定期檢查權限與使用紀錄" class="headerlink" title="4.定期檢查權限與使用紀錄"></a>4.定期檢查權限與使用紀錄</h3><p>使用 AWS CloudTrail 或 IAM Access Analyzer，</p>
+<p>檢查是否有過度開放的權限。</p>
+<hr>
+<h2 id="七、IAM-與其他服務的關係"><a href="#七、IAM-與其他服務的關係" class="headerlink" title="七、IAM 與其他服務的關係"></a>七、IAM 與其他服務的關係</h2><table>
+<thead>
+<tr>
+<th>服務</th>
+<th>IAM 的角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EC2</strong></td>
+<td>使用 IAM Role 存取 S3 或 RDS</td>
+</tr>
+<tr>
+<td><strong>Lambda</strong></td>
+<td>以 Role 執行雲端任務（安全且短期）</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>透過 Policy 管控誰能上傳、讀取</td>
+</tr>
+<tr>
+<td><strong>CloudWatch &#x2F; CloudTrail</strong></td>
+<td>搭配 IAM 記錄操作紀錄與審查行為</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>今天，我們理解了 AWS 的核心安全哲學：</p>
+<blockquote>
+<p>網路的安全靠 VPC，行為的安全靠 IAM。</p>
+</blockquote>
+<p>VPC 幫你築起圍牆，</p>
+<p>而 IAM 幫你決定「誰能進出、能做什麼」。</p>
+<p>掌握 IAM，就等於掌握了 AWS 的「金鑰」。</p>
+<p>它不只是設定權限的工具，更是保障整個雲端架構安全的最後防線。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/AWS/" rel="tag"># AWS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/12/Day28%20-%20AWS-VPC/" rel="prev" title="Day 28 - AWS VPC 入門：初探雲端世界的隱形網路">
+                  <i class="fa fa-angle-left"></i> Day 28 - AWS VPC 入門：初探雲端世界的隱形網路
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

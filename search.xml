@@ -1,157 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Day 1 - Typescript + Node.js 系列藍圖</title>
-    <url>/2025/09/15/Day1%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
-    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
-<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
-<span id="more"></span>
-
-<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
-<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
-<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
-<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
-<p>這份藍圖將分為以下幾個階段：</p>
-<ol>
-<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
-<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
-<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
-<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
-<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
-</ol>
-<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
-<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR</title>
-    <url>/2025/09/24/Day10%20-%20GithubPR-Render/</url>
-    <content><![CDATA[<h2 id="Render-服務簡介"><a href="#Render-服務簡介" class="headerlink" title="Render 服務簡介"></a>Render 服務簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true" alt="1-render.png"></p>
-<p>在前幾天的系列文章中，我們已經完成了本地端的環境建置與功能實作。但真實專案裡，光是「我的電腦能跑」是不夠的，我們需要把服務放到雲端，讓全世界都能存取。</p>
-<span id="more"></span>
-
-<p>常見的雲端平台有 <strong>AWS</strong>、<strong>GCP</strong>、<strong>Azure</strong> 等，它們提供完整的基礎建設服務（IaaS）。但對於初學者或中小型專案來說，這些平台的學習曲線偏高、設定也比較繁瑣。</p>
-<p><strong>Render</strong> 屬於 <strong>PaaS（平台即服務）</strong>，提供比 AWS、GCP 更直覺的部署體驗，只需要專注於程式碼本身，Render 就能自動幫我們完成環境建置、佈署、監控。</p>
-<p>👉 適合快速上手、部屬 Side Project 或個人練習專案。</p>
-<hr>
-<h2 id="用-Github-帳號第三方登入-Render-服務"><a href="#用-Github-帳號第三方登入-Render-服務" class="headerlink" title="用 Github 帳號第三方登入 Render 服務"></a>用 Github 帳號第三方登入 Render 服務</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/2-signin-render.png?raw=true" alt="Screenshot 2025-09-23 at 7.56.36 PM.png"></p>
-<p>Render 提供 <strong>Github 帳號登入</strong>，這樣做的好處是可以直接與 GitHub 專案連動。</p>
-<p>一旦我們在 GitHub 上有新的 commit（例如合併 PR），Render 就能自動觸發建置與部署。</p>
-<p><strong>優點：</strong></p>
-<ul>
-<li>自動同步 GitHub repo</li>
-<li>省去手動上傳程式碼的麻煩</li>
-<li>CI&#x2F;CD 整合更簡單</li>
-</ul>
-<hr>
-<h2 id="Node-js-專案部署前置作業"><a href="#Node-js-專案部署前置作業" class="headerlink" title="Node.js 專案部署前置作業"></a>Node.js 專案部署前置作業</h2><h3 id="修改-package-json"><a href="#修改-package-json" class="headerlink" title="修改 package.json"></a>修改 package.json</h3><ol>
-<li><p><strong>新增啟動與建置指令</strong></p>
-<ul>
-<li><p>在 <code>package.json</code> 的 <code>scripts</code> 中加入：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node dist/app.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tsc&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>start</code>：執行編譯後的程式。</p>
-</li>
-<li><p><code>build</code>：把 TypeScript 編譯為 JavaScript。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>指定 Node.js 版本</strong></p>
-<ul>
-<li><p>在 <code>package.json</code> 中加入：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;engines&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;node&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20.x&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>為什麼要指定版本？</strong><br>Render 預設可能使用不同的 Node.js 版本，如果與本地端差異過大，可能導致部署錯誤。<br>指定 Node.js 版本能確保 Render 的執行環境與我們本地端一致，減少版本不相容的問題。</p>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="確認-app-ts"><a href="#確認-app-ts" class="headerlink" title="確認 app.ts"></a>確認 app.ts</h3><p>確保 <code>app.ts</code> 使用環境變數的 PORT：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Server is running on port <span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>⚠️ <strong>小提醒</strong></p>
-<p>在 Render 上，服務的埠號（<code>PORT</code>）是 <strong>自動分配</strong> 的，並透過 <code>process.env.PORT</code> 傳入程式。</p>
-<p>因此 <strong>不需要在 Render 控制台手動新增 <code>PORT</code> 環境變數</strong>。</p>
-<p>只要程式碼有寫：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br></pre></td></tr></table></figure>
-
-<p>就能正確接收 Render 給的 Port。</p>
-<hr>
-<h3 id="編譯與運行"><a href="#編譯與運行" class="headerlink" title="編譯與運行"></a>編譯與運行</h3><p>在部署到 Render 前，先在本地端測試：</p>
-<ol>
-<li><p><strong>編譯程式碼</strong></p>
-<ul>
-<li><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>這會將 TypeScript 編譯為 JavaScript，輸出到 <code>dist</code> 資料夾。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>運行編譯後的程式</strong></p>
-<ul>
-<li><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>檢查是否能正常啟動伺服器並連接到資料庫。</p>
-</li>
-</ul>
-</li>
-</ol>
-<blockquote>
-<p>[注意]：本地端測試成功後再進行部署，確保程式碼無誤。</p>
-</blockquote>
-<blockquote>
-<p>commit : Day 10 Render Deploy setting</p>
-</blockquote>
-<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/dec62b5d6891897d92eb39d5367be0471c9c2f37">範例程式碼</a></p>
-<hr>
-<h2 id="GitHub-Merge-PR-流程"><a href="#GitHub-Merge-PR-流程" class="headerlink" title="GitHub Merge PR 流程"></a>GitHub Merge PR 流程</h2><p>在專案開發時，我們通常會用 <strong>feature 分支</strong> 來開發新功能，完成後再透過 <strong>Pull Request (PR)</strong> 合併到 <code>develop</code> 分支。以下是簡單的操作流程：</p>
-<hr>
-<h3 id="Step-1-建立-Pull-Request"><a href="#Step-1-建立-Pull-Request" class="headerlink" title="Step 1. 建立 Pull Request"></a>Step 1. 建立 Pull Request</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/3-create-pr.png?raw=true" alt="Screenshot 2025-09-23 at 8.58.41 PM.png"></p>
-<p>點擊 <strong>Compare &amp; pull request</strong> !</p>
-<hr>
-<h3 id="Step-2-撰寫-PR-描述"><a href="#Step-2-撰寫-PR-描述" class="headerlink" title="Step 2. 撰寫 PR 描述"></a>Step 2. 撰寫 PR 描述</h3><p>選擇要合併的分支：</p>
-<ul>
-<li><strong>base</strong>：<code>develop</code></li>
-<li><strong>compare</strong>：<code>feature/init-ts-express</code></li>
-</ul>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/4-pr-desc.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.06 PM.png"></p>
-<p>在描述區塊中，列出這次 PR 的主要變更，例如：</p>
-<ul>
-<li>初始化 Node.js + TypeScript 專案架構</li>
-<li>建立基本 Express server</li>
-<li>新增 TodoList API (CRUD)</li>
-<li>整合 TypeORM 與資料庫連線</li>
-</ul>
-<p>填寫 PR 標題與描述，準備送出 PR。按下 Create pull request !</p>
-<hr>
-<h3 id="Step-3-檢視-PR-狀態"><a href="#Step-3-檢視-PR-狀態" class="headerlink" title="Step 3. 檢視 PR 狀態"></a>Step 3. 檢視 PR 狀態</h3><p>送出 PR 後，可以看到 Commit 記錄與檔案變更。</p>
-<p>此時 GitHub 會檢查與 <code>develop</code> 分支是否有衝突：</p>
-<ul>
-<li>✅ <strong>No conflicts</strong> → 可以安全合併</li>
-<li>⚠️ <strong>有衝突</strong> → 需要先解決衝突</li>
-</ul>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/5-check-pr.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.35 PM.png"></p>
-<hr>
-<h3 id="Step-4-合併到-develop"><a href="#Step-4-合併到-develop" class="headerlink" title="Step 4. 合併到 develop"></a>Step 4. 合併到 develop</h3><p>確認無誤後，點擊 <strong>Merge pull request</strong> → <strong>Confirm merge</strong>，就能把 feature 分支合併到 <code>develop</code>。</p>
-<p>合併完成後，<code>develop</code> 分支就會更新，包含最新的功能。</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/6-merge-result.png?raw=true" alt="Screenshot 2025-09-23 at 9.02.07 PM.png"></p>
-<hr>
-<p>先完成這些步驟後，明天我們就能把 <code>develop</code> 分支部署到 Render 囉 🚀。</p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>Render</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 11 - 一鍵上線！完整部署到 Render 的實戰流程</title>
     <url>/2025/09/25/Day11%20-%20Render-NodeJS/</url>
     <content><![CDATA[<p>昨天我們完成了部署的前置作業，今天當然要來實戰部署啦！這篇文章會帶你一步步把 Node.js + TypeScript 專案部署到 <strong>Render</strong>，並驗證 API 是否能正常運作。</p>
@@ -412,6 +261,157 @@
         <tag>TypeScript</tag>
         <tag>Node.js</tag>
         <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 1 - Typescript + Node.js 系列藍圖</title>
+    <url>/2025/09/15/Day1%20-%20Typescript%20+%20Node.js%20%E7%B3%BB%E5%88%97%E8%97%8D%E5%9C%96/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day1/TypeScriptNode.png?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>哈囉！很高興您點開這篇文章。如果您是 Node.js 開發者，並且想讓自己的程式碼更穩健、易於維護，那麼您來對地方了。在這場為期 30 天的技術挑戰賽中，我將一步步探索 TypeScript，並將它整合到 Node.js 的開發流程中。</p>
+<p>從基礎的語法、環境建置，到常見的商業應用場景（如金流串接、檔案上傳），甚至是最後的雲端部署，我們將循序漸進地完成一些功能性的專案。這不僅僅是一場寫作馬拉松，更是一趟讓您的開發技能全面升級的旅程。</p>
+<span id="more"></span>
+
+<h2 id="為什麼要用-TypeScript？"><a href="#為什麼要用-TypeScript？" class="headerlink" title="為什麼要用 TypeScript？"></a>為什麼要用 TypeScript？</h2><p>在進入主軸之前，您可能會想：「為什麼要花時間學 TypeScript？JavaScript 不是已經夠用了嗎？」</p>
+<p>確實，JavaScript 靈活、入門門檻低，但當專案規模越來越大時，它的「彈性」也可能帶來維護上的挑戰。TypeScript 正是為了解決這個問題而生。它引入了靜態型別系統，讓您在寫程式的當下就能發現潛在的錯誤，大幅降低了除錯的成本。此外，透過明確的型別定義，程式碼的可讀性會大大提升，團隊協作也變得更加順暢。</p>
+<p>簡而言之，TypeScript 就像是為您的程式碼加上了安全帶，讓您在高速開發的同時，也能確保品質。</p>
+<h2 id="系列文章藍圖與規劃"><a href="#系列文章藍圖與規劃" class="headerlink" title="系列文章藍圖與規劃"></a>系列文章藍圖與規劃</h2><p>為了讓這趟旅程更有方向，我規劃了接下來 30 天的學習藍圖。它將引導我們從 TypeScript 的基礎知識，航向更複雜的後端應用場景，最終將我們的成果部署到雲端。</p>
+<p>這份藍圖將分為以下幾個階段：</p>
+<ol>
+<li><strong>Typescript 核心語法與基礎複習</strong> : 在正式進入實戰前，我們會先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</li>
+<li><strong>基礎建置與環境設定</strong>：從零開始，帶您建立一個完善的 TypeScript + Node.js 開發環境，並完成一個簡單的 API 實作。</li>
+<li><strong>專案工具與進階功能</strong>：讓專案更專業！我們會加入程式碼格式化工具、自動化產生 API 文件，並探索如何快速部署。</li>
+<li><strong>後端常見商業應用場景</strong>：這部分將涵蓋後端開發中不可或缺的功能，如使用者驗證、金流與雲端服務串接等。</li>
+<li><strong>雲端部署與維護</strong>：最後，我們會將專案部署到雲端服務上，並了解一些基本的雲端概念。</li>
+</ol>
+<p>每一天，我們都會專注於一些的知識點，確保您可以循序漸進地吸收新知。</p>
+<p>準備好和我一起挑戰了嗎？讓我們從明天開始，正式啟動這場 TypeScript 升級之旅吧！🚀🎉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 10 - 部署啟程！從 Render 部署前置作業到 GitHub PR</title>
+    <url>/2025/09/24/Day10%20-%20GithubPR-Render/</url>
+    <content><![CDATA[<h2 id="Render-服務簡介"><a href="#Render-服務簡介" class="headerlink" title="Render 服務簡介"></a>Render 服務簡介</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/1-render.png?raw=true" alt="1-render.png"></p>
+<p>在前幾天的系列文章中，我們已經完成了本地端的環境建置與功能實作。但真實專案裡，光是「我的電腦能跑」是不夠的，我們需要把服務放到雲端，讓全世界都能存取。</p>
+<span id="more"></span>
+
+<p>常見的雲端平台有 <strong>AWS</strong>、<strong>GCP</strong>、<strong>Azure</strong> 等，它們提供完整的基礎建設服務（IaaS）。但對於初學者或中小型專案來說，這些平台的學習曲線偏高、設定也比較繁瑣。</p>
+<p><strong>Render</strong> 屬於 <strong>PaaS（平台即服務）</strong>，提供比 AWS、GCP 更直覺的部署體驗，只需要專注於程式碼本身，Render 就能自動幫我們完成環境建置、佈署、監控。</p>
+<p>👉 適合快速上手、部屬 Side Project 或個人練習專案。</p>
+<hr>
+<h2 id="用-Github-帳號第三方登入-Render-服務"><a href="#用-Github-帳號第三方登入-Render-服務" class="headerlink" title="用 Github 帳號第三方登入 Render 服務"></a>用 Github 帳號第三方登入 Render 服務</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/2-signin-render.png?raw=true" alt="Screenshot 2025-09-23 at 7.56.36 PM.png"></p>
+<p>Render 提供 <strong>Github 帳號登入</strong>，這樣做的好處是可以直接與 GitHub 專案連動。</p>
+<p>一旦我們在 GitHub 上有新的 commit（例如合併 PR），Render 就能自動觸發建置與部署。</p>
+<p><strong>優點：</strong></p>
+<ul>
+<li>自動同步 GitHub repo</li>
+<li>省去手動上傳程式碼的麻煩</li>
+<li>CI&#x2F;CD 整合更簡單</li>
+</ul>
+<hr>
+<h2 id="Node-js-專案部署前置作業"><a href="#Node-js-專案部署前置作業" class="headerlink" title="Node.js 專案部署前置作業"></a>Node.js 專案部署前置作業</h2><h3 id="修改-package-json"><a href="#修改-package-json" class="headerlink" title="修改 package.json"></a>修改 package.json</h3><ol>
+<li><p><strong>新增啟動與建置指令</strong></p>
+<ul>
+<li><p>在 <code>package.json</code> 的 <code>scripts</code> 中加入：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node dist/app.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;build&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tsc&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>start</code>：執行編譯後的程式。</p>
+</li>
+<li><p><code>build</code>：把 TypeScript 編譯為 JavaScript。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>指定 Node.js 版本</strong></p>
+<ul>
+<li><p>在 <code>package.json</code> 中加入：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;engines&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;node&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20.x&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>為什麼要指定版本？</strong><br>Render 預設可能使用不同的 Node.js 版本，如果與本地端差異過大，可能導致部署錯誤。<br>指定 Node.js 版本能確保 Render 的執行環境與我們本地端一致，減少版本不相容的問題。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="確認-app-ts"><a href="#確認-app-ts" class="headerlink" title="確認 app.ts"></a>確認 app.ts</h3><p>確保 <code>app.ts</code> 使用環境變數的 PORT：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Server is running on port <span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>⚠️ <strong>小提醒</strong></p>
+<p>在 Render 上，服務的埠號（<code>PORT</code>）是 <strong>自動分配</strong> 的，並透過 <code>process.env.PORT</code> 傳入程式。</p>
+<p>因此 <strong>不需要在 Render 控制台手動新增 <code>PORT</code> 環境變數</strong>。</p>
+<p>只要程式碼有寫：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br></pre></td></tr></table></figure>
+
+<p>就能正確接收 Render 給的 Port。</p>
+<hr>
+<h3 id="編譯與運行"><a href="#編譯與運行" class="headerlink" title="編譯與運行"></a>編譯與運行</h3><p>在部署到 Render 前，先在本地端測試：</p>
+<ol>
+<li><p><strong>編譯程式碼</strong></p>
+<ul>
+<li><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>這會將 TypeScript 編譯為 JavaScript，輸出到 <code>dist</code> 資料夾。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>運行編譯後的程式</strong></p>
+<ul>
+<li><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>檢查是否能正常啟動伺服器並連接到資料庫。</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[注意]：本地端測試成功後再進行部署，確保程式碼無誤。</p>
+</blockquote>
+<blockquote>
+<p>commit : Day 10 Render Deploy setting</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/dec62b5d6891897d92eb39d5367be0471c9c2f37">範例程式碼</a></p>
+<hr>
+<h2 id="GitHub-Merge-PR-流程"><a href="#GitHub-Merge-PR-流程" class="headerlink" title="GitHub Merge PR 流程"></a>GitHub Merge PR 流程</h2><p>在專案開發時，我們通常會用 <strong>feature 分支</strong> 來開發新功能，完成後再透過 <strong>Pull Request (PR)</strong> 合併到 <code>develop</code> 分支。以下是簡單的操作流程：</p>
+<hr>
+<h3 id="Step-1-建立-Pull-Request"><a href="#Step-1-建立-Pull-Request" class="headerlink" title="Step 1. 建立 Pull Request"></a>Step 1. 建立 Pull Request</h3><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/3-create-pr.png?raw=true" alt="Screenshot 2025-09-23 at 8.58.41 PM.png"></p>
+<p>點擊 <strong>Compare &amp; pull request</strong> !</p>
+<hr>
+<h3 id="Step-2-撰寫-PR-描述"><a href="#Step-2-撰寫-PR-描述" class="headerlink" title="Step 2. 撰寫 PR 描述"></a>Step 2. 撰寫 PR 描述</h3><p>選擇要合併的分支：</p>
+<ul>
+<li><strong>base</strong>：<code>develop</code></li>
+<li><strong>compare</strong>：<code>feature/init-ts-express</code></li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/4-pr-desc.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.06 PM.png"></p>
+<p>在描述區塊中，列出這次 PR 的主要變更，例如：</p>
+<ul>
+<li>初始化 Node.js + TypeScript 專案架構</li>
+<li>建立基本 Express server</li>
+<li>新增 TodoList API (CRUD)</li>
+<li>整合 TypeORM 與資料庫連線</li>
+</ul>
+<p>填寫 PR 標題與描述，準備送出 PR。按下 Create pull request !</p>
+<hr>
+<h3 id="Step-3-檢視-PR-狀態"><a href="#Step-3-檢視-PR-狀態" class="headerlink" title="Step 3. 檢視 PR 狀態"></a>Step 3. 檢視 PR 狀態</h3><p>送出 PR 後，可以看到 Commit 記錄與檔案變更。</p>
+<p>此時 GitHub 會檢查與 <code>develop</code> 分支是否有衝突：</p>
+<ul>
+<li>✅ <strong>No conflicts</strong> → 可以安全合併</li>
+<li>⚠️ <strong>有衝突</strong> → 需要先解決衝突</li>
+</ul>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/5-check-pr.png?raw=true" alt="Screenshot 2025-09-23 at 9.01.35 PM.png"></p>
+<hr>
+<h3 id="Step-4-合併到-develop"><a href="#Step-4-合併到-develop" class="headerlink" title="Step 4. 合併到 develop"></a>Step 4. 合併到 develop</h3><p>確認無誤後，點擊 <strong>Merge pull request</strong> → <strong>Confirm merge</strong>，就能把 feature 分支合併到 <code>develop</code>。</p>
+<p>合併完成後，<code>develop</code> 分支就會更新，包含最新的功能。</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day10-Render-deploy/6-merge-result.png?raw=true" alt="Screenshot 2025-09-23 at 9.02.07 PM.png"></p>
+<hr>
+<p>先完成這些步驟後，明天我們就能把 <code>develop</code> 分支部署到 Render 囉 🚀。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Render</tag>
       </tags>
   </entry>
   <entry>
@@ -783,114 +783,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log</title>
-    <url>/2025/10/02/Day18%20-%20NodeJS-Pino/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在寫程式的過程中，你是不是也常常這樣做？</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;資料有進來嗎？&quot;</span>, data);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;API 回傳結果：&quot;</span>, response);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;進到這裡了嗎？&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>👆 這些 <code>console.log</code> 幾乎是每個工程師的「人生必經之路」。它快速、直覺，甚至帶點安全感，因為我們可以立即知道程式有沒有跑到某一段。</p>
-<p>不過，當專案越來越大、功能越來越複雜，<code>console.log</code> 的缺點就會暴露出來。今天，我們來聊聊什麼是「日誌 (log)」，以及它在專案中的價值，並實戰介紹一個超好用的 Node.js 日誌套件 <strong>Pino</strong> 。</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="為什麼需要日誌-Log-？"><a href="#為什麼需要日誌-Log-？" class="headerlink" title="為什麼需要日誌 (Log)？"></a>為什麼需要日誌 (Log)？</h2><p>在系統開發中，日誌就是程式的「黑盒子紀錄器」。它能幫助我們：</p>
-<ul>
-<li><strong>Debug 除錯</strong>：快速找到程式碼的執行狀況與錯誤來源。</li>
-<li><strong>監控系統</strong>：觀察 API 請求、伺服器效能與錯誤比例。</li>
-<li><strong>追蹤使用者行為</strong>：紀錄誰登入了系統、誰刪除了哪筆資料。</li>
-<li><strong>預警通知</strong>：當錯誤異常增加時，可以觸發告警，馬上通知工程師。</li>
-</ul>
-<p>簡單來說，log 是專案穩定性和維運效率的「關鍵後盾」。</p>
-<hr>
-<h2 id="console-log-的問題"><a href="#console-log-的問題" class="headerlink" title="console.log 的問題"></a><code>console.log</code> 的問題</h2><p>雖然 <code>console.log</code> 很方便，但它在大型專案中有許多限制：</p>
-<ol>
-<li><strong>沒有層級</strong>：錯誤與提示長得一樣，難以過濾。</li>
-<li><strong>缺乏結構</strong>：只會印文字，不利於後續分析。</li>
-<li><strong>難以集中管理</strong>：如有多台伺服器各印 log 的情況，較難彙整。</li>
-<li><strong>效能問題</strong>：高併發環境下，<code>console.log</code> 會拖慢程式速度。</li>
-</ol>
-<p>所以，我們需要一個更專業的解決方案：<strong>Pino</strong>。</p>
-<hr>
-<h2 id="Pino-是什麼？"><a href="#Pino-是什麼？" class="headerlink" title="Pino 是什麼？"></a>Pino 是什麼？</h2><p><code>Pino</code> 是目前 Node.js 生態中最熱門的日誌套件之一，特色包括：</p>
-<ul>
-<li><strong>效能超快</strong>（比 winston 快 5–10 倍）。</li>
-<li><strong>預設 JSON 格式</strong>，方便集中管理（如 Grafana Loki）。</li>
-<li><strong>開發模式友善</strong>，可搭配 <code>pino-pretty</code> 輸出彩色、人類可讀的 log。</li>
-<li><strong>支援多層級</strong>（info、warn、error、debug…），避免訊息混雜。</li>
-</ul>
-<p>接下來就實戰，帶你把專案的 <code>console.log</code> 全部升級成 Pino 吧！</p>
-<hr>
-<h2 id="步驟-1：安裝套件-📦"><a href="#步驟-1：安裝套件-📦" class="headerlink" title="步驟 1：安裝套件 📦"></a>步驟 1：安裝套件 📦</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install pino</span><br><span class="line">npm install -D pino-pretty @types/pino</span><br></pre></td></tr></table></figure>
-
-<p><strong>套件說明：</strong></p>
-<ul>
-<li><code>pino</code>：主要的日誌記錄套件。</li>
-<li><code>pino-pretty</code>：開發環境用的美化輸出工具（devDependencies）。</li>
-<li><code>@types/pino</code>：TypeScript 型別定義。</li>
-</ul>
-<hr>
-<h2 id="步驟-2：建立-Logger-配置-📝"><a href="#步驟-2：建立-Logger-配置-📝" class="headerlink" title="步驟 2：建立 Logger 配置 📝"></a>步驟 2：建立 Logger 配置 📝</h2><p>在 <code>src/utils/logger.ts</code> 中建立一個共用的 logger：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pino <span class="keyword">from</span> <span class="string">&quot;pino&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判斷是否為開發環境</span></span><br><span class="line"><span class="keyword">const</span> isDevelopment = process.<span class="property">env</span>.<span class="property">NODE_ENV</span> !== <span class="string">&quot;production&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立 logger 實例</span></span><br><span class="line"><span class="keyword">const</span> logger = <span class="title function_">pino</span>(&#123;</span><br><span class="line">  <span class="attr">level</span>: process.<span class="property">env</span>.<span class="property">LOG_LEVEL</span> || <span class="string">&quot;info&quot;</span>,</span><br><span class="line">  <span class="attr">transport</span>: isDevelopment</span><br><span class="line">    ? &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&quot;pino-pretty&quot;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">colorize</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">translateTime</span>: <span class="string">&quot;SYS:yyyy-mm-dd HH:MM:ss&quot;</span>,</span><br><span class="line">          <span class="attr">ignore</span>: <span class="string">&quot;pid,hostname&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    : <span class="literal">undefined</span>, <span class="comment">// 生產環境直接輸出 JSON</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> logger;</span><br></pre></td></tr></table></figure>
-
-<p>這樣，我們就有一個可以隨時呼叫的 <code>logger</code>，而且會根據環境自動調整輸出格式。</p>
-<hr>
-<h2 id="步驟-3：在-app-ts-使用-Logger-🚀"><a href="#步驟-3：在-app-ts-使用-Logger-🚀" class="headerlink" title="步驟 3：在 app.ts 使用 Logger 🚀"></a>步驟 3：在 app.ts 使用 Logger 🚀</h2><p>修改 <code>app.ts</code>，測試不同級別的日誌：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> authRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/authRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&quot;./utils/logger&quot;</span>; <span class="comment">// 導入 logger</span></span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試不同級別的日誌</span></span><br><span class="line">logger.<span class="title function_">info</span>(<span class="string">&quot;這是一般資訊&quot;</span>);</span><br><span class="line">logger.<span class="title function_">debug</span>(<span class="string">&quot;這是除錯訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">warn</span>(<span class="string">&quot;這是警告&quot;</span>);</span><br><span class="line">logger.<span class="title function_">error</span>(<span class="string">&quot;這是錯誤&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/auth&quot;</span>, authRoutes);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    logger.<span class="title function_">info</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      logger.<span class="title function_">info</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    logger.<span class="title function_">error</span>(&#123; err &#125;, <span class="string">&quot;❌ DB connection failed:&quot;</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-<p>不同級別的日誌測試結果 :</p>
-<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day18-Pino/1-log-test.png?raw=true"></p>
-<hr>
-<h2 id="步驟-4：HTTP-Request-Logger-中間件-🔍"><a href="#步驟-4：HTTP-Request-Logger-中間件-🔍" class="headerlink" title="步驟 4：HTTP Request Logger 中間件 🔍"></a>步驟 4：HTTP Request Logger 中間件 🔍</h2><p>想要紀錄 API 請求？加上 <code>pino-http</code> 就搞定：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install pino-http</span><br></pre></td></tr></table></figure>
-
-<p>在 <code>app.ts</code> 加入：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pinoHttp <span class="keyword">from</span> <span class="string">&quot;pino-http&quot;</span>;</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">pinoHttp</span>(&#123; logger &#125;));</span><br></pre></td></tr></table></figure>
-
-<p>這樣，每一次 API 請求和回應都會自動被記錄。</p>
-<hr>
-<h2 id="步驟-5：在-Controller-中使用-Logger-💡"><a href="#步驟-5：在-Controller-中使用-Logger-💡" class="headerlink" title="步驟 5：在 Controller 中使用 Logger 💡"></a>步驟 5：在 Controller 中使用 Logger 💡</h2><p>在任何檔案都能這樣呼叫：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&quot;../utils/logger&quot;</span>;</span><br><span class="line"></span><br><span class="line">logger.<span class="title function_">info</span>(<span class="string">&quot;一般資訊&quot;</span>);</span><br><span class="line">logger.<span class="title function_">debug</span>(<span class="string">&quot;除錯訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">warn</span>(<span class="string">&quot;警告訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">error</span>(<span class="string">&quot;錯誤訊息&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="實際測試"><a href="#實際測試" class="headerlink" title="實際測試"></a>實際測試</h2><p>當我們新增一個 Todo 時，log 會長這樣：(紀錄 API 請求和回應)</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span><span class="number">2025</span><span class="number">-10</span><span class="number">-02</span> <span class="number">15</span><span class="punctuation">:</span><span class="number">34</span><span class="punctuation">:</span><span class="number">09</span><span class="punctuation">]</span> INFO<span class="punctuation">:</span> request completed</span><br><span class="line">    req<span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;POST&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/api/todos&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;authorization&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Bearer &lt;token&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;user-agent&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PostmanRuntime/7.48.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;accept&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;postman-token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;77cca9bc-0c90-4539-9df1-923e409eddc7&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;host&quot;</span><span class="punctuation">:</span> <span class="string">&quot;localhost:3000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;accept-encoding&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gzip, deflate, br&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;connection&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keep-alive&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-length&quot;</span><span class="punctuation">:</span> <span class="string">&quot;38&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;remoteAddress&quot;</span><span class="punctuation">:</span> <span class="string">&quot;::1&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;remotePort&quot;</span><span class="punctuation">:</span> <span class="number">63412</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">    res<span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;statusCode&quot;</span><span class="punctuation">:</span> <span class="number">201</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;x-powered-by&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Express&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json; charset=utf-8&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-length&quot;</span><span class="punctuation">:</span> <span class="string">&quot;245&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;etag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;W/\&quot;f5-HbNtbBTEZGIV/ZC0+J4ggDvV1Qo\&quot;&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">    responseTime<span class="punctuation">:</span> <span class="number">1033</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="額外提示-💡"><a href="#額外提示-💡" class="headerlink" title="額外提示 💡"></a>額外提示 💡</h2><ol>
-<li><p><strong>環境變數</strong></p>
-<p>在 <code>.env</code> 檔設定 log 層級：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LOG_LEVEL=debug</span><br><span class="line">NODE_ENV=development</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>日誌層級順序（低 → 高）</strong></p>
-<p><code>trace &lt; debug &lt; info &lt; warn &lt; error &lt; fatal</code></p>
-</li>
-<li><p><strong>生產環境建議</strong></p>
-<ul>
-<li>輸出 JSON 格式（方便集中收集）。</li>
-<li>搭配 log 管理工具（如 Grafana Loki）。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><ul>
-<li><code>console.log</code> 缺乏層級、結構化，中大型系統維護上較難。</li>
-<li><strong>Pino</strong> 提供高效能、結構化、可擴展的 log 解決方案。</li>
-<li>透過層級、格式化、HTTP 中間件，我們能輕鬆掌握系統健康狀況。</li>
-</ul>
-<p>👉 從今天開始，讓我們跟 <code>console.log</code> 說掰掰，迎接更專業的日誌管理吧！</p>
-<hr>
-<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
-<p>commit : add pino plugin</p>
-</blockquote>
-<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/1fd0dd5fc31366fb503f98116fd2ab2166647263">Github 連結</a></p>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>Tools</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Day 19 - 專案升級必備：資料庫 Migration 實戰</title>
     <url>/2025/10/03/Day19%20-%20NodeJS-Migration/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在專案開發時，我們常常會遇到「資料庫 Schema 需要修改」的情況。</p>
@@ -1017,73 +909,170 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
-    <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
-    <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
-<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
+    <title>Day 18 - console.log 退役啦！Node.js Pino 帶你升級專案 Log</title>
+    <url>/2025/10/02/Day18%20-%20NodeJS-Pino/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在寫程式的過程中，你是不是也常常這樣做？</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;資料有進來嗎？&quot;</span>, data);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;API 回傳結果：&quot;</span>, response);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;進到這裡了嗎？&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>👆 這些 <code>console.log</code> 幾乎是每個工程師的「人生必經之路」。它快速、直覺，甚至帶點安全感，因為我們可以立即知道程式有沒有跑到某一段。</p>
+<p>不過，當專案越來越大、功能越來越複雜，<code>console.log</code> 的缺點就會暴露出來。今天，我們來聊聊什麼是「日誌 (log)」，以及它在專案中的價值，並實戰介紹一個超好用的 Node.js 日誌套件 <strong>Pino</strong> 。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
-<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
-<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
-<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
-<hr>
-<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
+<h2 id="為什麼需要日誌-Log-？"><a href="#為什麼需要日誌-Log-？" class="headerlink" title="為什麼需要日誌 (Log)？"></a>為什麼需要日誌 (Log)？</h2><p>在系統開發中，日誌就是程式的「黑盒子紀錄器」。它能幫助我們：</p>
 <ul>
-<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
-<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
+<li><strong>Debug 除錯</strong>：快速找到程式碼的執行狀況與錯誤來源。</li>
+<li><strong>監控系統</strong>：觀察 API 請求、伺服器效能與錯誤比例。</li>
+<li><strong>追蹤使用者行為</strong>：紀錄誰登入了系統、誰刪除了哪筆資料。</li>
+<li><strong>預警通知</strong>：當錯誤異常增加時，可以觸發告警，馬上通知工程師。</li>
 </ul>
-<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
-<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
+<p>簡單來說，log 是專案穩定性和維運效率的「關鍵後盾」。</p>
 <hr>
-<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
+<h2 id="console-log-的問題"><a href="#console-log-的問題" class="headerlink" title="console.log 的問題"></a><code>console.log</code> 的問題</h2><p>雖然 <code>console.log</code> 很方便，但它在大型專案中有許多限制：</p>
 <ol>
-<li><strong>靜態型別檢查</strong><ul>
-<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
-<li>例如：<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>沒有層級</strong>：錯誤與提示長得一樣，難以過濾。</li>
+<li><strong>缺乏結構</strong>：只會印文字，不利於後續分析。</li>
+<li><strong>難以集中管理</strong>：如有多台伺服器各印 log 的情況，較難彙整。</li>
+<li><strong>效能問題</strong>：高併發環境下，<code>console.log</code> 會拖慢程式速度。</li>
+</ol>
+<p>所以，我們需要一個更專業的解決方案：<strong>Pino</strong>。</p>
+<hr>
+<h2 id="Pino-是什麼？"><a href="#Pino-是什麼？" class="headerlink" title="Pino 是什麼？"></a>Pino 是什麼？</h2><p><code>Pino</code> 是目前 Node.js 生態中最熱門的日誌套件之一，特色包括：</p>
+<ul>
+<li><strong>效能超快</strong>（比 winston 快 5–10 倍）。</li>
+<li><strong>預設 JSON 格式</strong>，方便集中管理（如 Grafana Loki）。</li>
+<li><strong>開發模式友善</strong>，可搭配 <code>pino-pretty</code> 輸出彩色、人類可讀的 log。</li>
+<li><strong>支援多層級</strong>（info、warn、error、debug…），避免訊息混雜。</li>
 </ul>
-</li>
-<li><strong>更好的 IDE 支援</strong><ul>
-<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
-<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
+<p>接下來就實戰，帶你把專案的 <code>console.log</code> 全部升級成 Pino 吧！</p>
+<hr>
+<h2 id="步驟-1：安裝套件-📦"><a href="#步驟-1：安裝套件-📦" class="headerlink" title="步驟 1：安裝套件 📦"></a>步驟 1：安裝套件 📦</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install pino</span><br><span class="line">npm install -D pino-pretty @types/pino</span><br></pre></td></tr></table></figure>
+
+<p><strong>套件說明：</strong></p>
+<ul>
+<li><code>pino</code>：主要的日誌記錄套件。</li>
+<li><code>pino-pretty</code>：開發環境用的美化輸出工具（devDependencies）。</li>
+<li><code>@types/pino</code>：TypeScript 型別定義。</li>
 </ul>
+<hr>
+<h2 id="步驟-2：建立-Logger-配置-📝"><a href="#步驟-2：建立-Logger-配置-📝" class="headerlink" title="步驟 2：建立 Logger 配置 📝"></a>步驟 2：建立 Logger 配置 📝</h2><p>在 <code>src/utils/logger.ts</code> 中建立一個共用的 logger：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pino <span class="keyword">from</span> <span class="string">&quot;pino&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判斷是否為開發環境</span></span><br><span class="line"><span class="keyword">const</span> isDevelopment = process.<span class="property">env</span>.<span class="property">NODE_ENV</span> !== <span class="string">&quot;production&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 建立 logger 實例</span></span><br><span class="line"><span class="keyword">const</span> logger = <span class="title function_">pino</span>(&#123;</span><br><span class="line">  <span class="attr">level</span>: process.<span class="property">env</span>.<span class="property">LOG_LEVEL</span> || <span class="string">&quot;info&quot;</span>,</span><br><span class="line">  <span class="attr">transport</span>: isDevelopment</span><br><span class="line">    ? &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&quot;pino-pretty&quot;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">colorize</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">translateTime</span>: <span class="string">&quot;SYS:yyyy-mm-dd HH:MM:ss&quot;</span>,</span><br><span class="line">          <span class="attr">ignore</span>: <span class="string">&quot;pid,hostname&quot;</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;</span><br><span class="line">    : <span class="literal">undefined</span>, <span class="comment">// 生產環境直接輸出 JSON</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> logger;</span><br></pre></td></tr></table></figure>
+
+<p>這樣，我們就有一個可以隨時呼叫的 <code>logger</code>，而且會根據環境自動調整輸出格式。</p>
+<hr>
+<h2 id="步驟-3：在-app-ts-使用-Logger-🚀"><a href="#步驟-3：在-app-ts-使用-Logger-🚀" class="headerlink" title="步驟 3：在 app.ts 使用 Logger 🚀"></a>步驟 3：在 app.ts 使用 Logger 🚀</h2><p>修改 <code>app.ts</code>，測試不同級別的日誌：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;reflect-metadata&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppDataSource</span> &#125; <span class="keyword">from</span> <span class="string">&quot;./config/db&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> todoRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/todoRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> authRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/authRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> uploadRoutes <span class="keyword">from</span> <span class="string">&quot;./routes/uploadRoutes&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> dotenv <span class="keyword">from</span> <span class="string">&quot;dotenv&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&quot;./utils/logger&quot;</span>; <span class="comment">// 導入 logger</span></span><br><span class="line"></span><br><span class="line">dotenv.<span class="title function_">config</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 測試不同級別的日誌</span></span><br><span class="line">logger.<span class="title function_">info</span>(<span class="string">&quot;這是一般資訊&quot;</span>);</span><br><span class="line">logger.<span class="title function_">debug</span>(<span class="string">&quot;這是除錯訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">warn</span>(<span class="string">&quot;這是警告&quot;</span>);</span><br><span class="line">logger.<span class="title function_">error</span>(<span class="string">&quot;這是錯誤&quot;</span>);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/todos&quot;</span>, todoRoutes);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/auth&quot;</span>, authRoutes);</span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&quot;/api/upload&quot;</span>, uploadRoutes);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome 2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line"></span><br><span class="line"><span class="title class_">AppDataSource</span>.<span class="title function_">initialize</span>()</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    logger.<span class="title function_">info</span>(<span class="string">&quot;📦 DB Connected!&quot;</span>);</span><br><span class="line">    app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      logger.<span class="title function_">info</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    logger.<span class="title function_">error</span>(&#123; err &#125;, <span class="string">&quot;❌ DB connection failed:&quot;</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>不同級別的日誌測試結果 :</p>
+<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day18-Pino/1-log-test.png?raw=true"></p>
+<hr>
+<h2 id="步驟-4：HTTP-Request-Logger-中間件-🔍"><a href="#步驟-4：HTTP-Request-Logger-中間件-🔍" class="headerlink" title="步驟 4：HTTP Request Logger 中間件 🔍"></a>步驟 4：HTTP Request Logger 中間件 🔍</h2><p>想要紀錄 API 請求？加上 <code>pino-http</code> 就搞定：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install pino-http</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>app.ts</code> 加入：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pinoHttp <span class="keyword">from</span> <span class="string">&quot;pino-http&quot;</span>;</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">pinoHttp</span>(&#123; logger &#125;));</span><br></pre></td></tr></table></figure>
+
+<p>這樣，每一次 API 請求和回應都會自動被記錄。</p>
+<hr>
+<h2 id="步驟-5：在-Controller-中使用-Logger-💡"><a href="#步驟-5：在-Controller-中使用-Logger-💡" class="headerlink" title="步驟 5：在 Controller 中使用 Logger 💡"></a>步驟 5：在 Controller 中使用 Logger 💡</h2><p>在任何檔案都能這樣呼叫：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logger <span class="keyword">from</span> <span class="string">&quot;../utils/logger&quot;</span>;</span><br><span class="line"></span><br><span class="line">logger.<span class="title function_">info</span>(<span class="string">&quot;一般資訊&quot;</span>);</span><br><span class="line">logger.<span class="title function_">debug</span>(<span class="string">&quot;除錯訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">warn</span>(<span class="string">&quot;警告訊息&quot;</span>);</span><br><span class="line">logger.<span class="title function_">error</span>(<span class="string">&quot;錯誤訊息&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="實際測試"><a href="#實際測試" class="headerlink" title="實際測試"></a>實際測試</h2><p>當我們新增一個 Todo 時，log 會長這樣：(紀錄 API 請求和回應)</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span><span class="number">2025</span><span class="number">-10</span><span class="number">-02</span> <span class="number">15</span><span class="punctuation">:</span><span class="number">34</span><span class="punctuation">:</span><span class="number">09</span><span class="punctuation">]</span> INFO<span class="punctuation">:</span> request completed</span><br><span class="line">    req<span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;method&quot;</span><span class="punctuation">:</span> <span class="string">&quot;POST&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/api/todos&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;query&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;params&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;authorization&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Bearer &lt;token&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;user-agent&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PostmanRuntime/7.48.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;accept&quot;</span><span class="punctuation">:</span> <span class="string">&quot;*/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;postman-token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;77cca9bc-0c90-4539-9df1-923e409eddc7&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;host&quot;</span><span class="punctuation">:</span> <span class="string">&quot;localhost:3000&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;accept-encoding&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gzip, deflate, br&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;connection&quot;</span><span class="punctuation">:</span> <span class="string">&quot;keep-alive&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-length&quot;</span><span class="punctuation">:</span> <span class="string">&quot;38&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;remoteAddress&quot;</span><span class="punctuation">:</span> <span class="string">&quot;::1&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;remotePort&quot;</span><span class="punctuation">:</span> <span class="number">63412</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">    res<span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;statusCode&quot;</span><span class="punctuation">:</span> <span class="number">201</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;headers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;x-powered-by&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Express&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;application/json; charset=utf-8&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;content-length&quot;</span><span class="punctuation">:</span> <span class="string">&quot;245&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;etag&quot;</span><span class="punctuation">:</span> <span class="string">&quot;W/\&quot;f5-HbNtbBTEZGIV/ZC0+J4ggDvV1Qo\&quot;&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">    responseTime<span class="punctuation">:</span> <span class="number">1033</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="額外提示-💡"><a href="#額外提示-💡" class="headerlink" title="額外提示 💡"></a>額外提示 💡</h2><ol>
+<li><p><strong>環境變數</strong></p>
+<p>在 <code>.env</code> 檔設定 log 層級：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">LOG_LEVEL=debug</span><br><span class="line">NODE_ENV=development</span><br></pre></td></tr></table></figure>
 </li>
-<li><strong>程式結構更清晰</strong><ul>
-<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
-</ul>
+<li><p><strong>日誌層級順序（低 → 高）</strong></p>
+<p><code>trace &lt; debug &lt; info &lt; warn &lt; error &lt; fatal</code></p>
 </li>
-<li><strong>降低維護成本</strong><ul>
-<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
+<li><p><strong>生產環境建議</strong></p>
+<ul>
+<li>輸出 JSON 格式（方便集中收集）。</li>
+<li>搭配 log 管理工具（如 Grafana Loki）。</li>
 </ul>
 </li>
 </ol>
 <hr>
-<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
-<blockquote>
-<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
-</blockquote>
-<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
-<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
-<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
-<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
-<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><ul>
+<li><code>console.log</code> 缺乏層級、結構化，中大型系統維護上較難。</li>
+<li><strong>Pino</strong> 提供高效能、結構化、可擴展的 log 解決方案。</li>
+<li>透過層級、格式化、HTTP 中間件，我們能輕鬆掌握系統健康狀況。</li>
 </ul>
-<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
-<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
-<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
-<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
-</ul>
-<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
+<p>👉 從今天開始，讓我們跟 <code>console.log</code> 說掰掰，迎接更專業的日誌管理吧！</p>
 <hr>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
-<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
-<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
-<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
-<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><blockquote>
+<p>commit : add pino plugin</p>
+</blockquote>
+<p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/commit/1fd0dd5fc31366fb503f98116fd2ab2166647263">Github 連結</a></p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>Tools</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
+    <url>/2025/10/05/Day21%20-%20AWS-Intro/</url>
+    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
+<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
+<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
+<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
+<ul>
+<li>購買實體伺服器</li>
+<li>放在機房，接上網路</li>
+<li>聘請 MIS 工程師維護</li>
+</ul>
+<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
+<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
+<hr>
+<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
+<ul>
+<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
+<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
+<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
+</ul>
+<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
+<hr>
+<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
+<ul>
+<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
+<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
+<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
+<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
+</ul>
+<hr>
+<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
+<ul>
+<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
+<li><strong>備份（Backup）</strong>：自動保存資料</li>
+<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
+<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
+</ul>
+<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
+<hr>
+<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
+<ul>
+<li>想要伺服器？拿 EC2。</li>
+<li>想要資料庫？拿 RDS。</li>
+<li>想要檔案空間？拿 S3。</li>
+</ul>
+<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
       </tags>
   </entry>
   <entry>
@@ -1230,62 +1219,73 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 21 - AWS 初探 (1) – 什麼是雲端服務？</title>
-    <url>/2025/10/05/Day21%20-%20AWS-Intro/</url>
-    <content><![CDATA[<p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day21-AWS-Intro/1-AWS.jpeg?raw=true"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前幾天的系列文章裡，我們已經用 <strong>Render</strong> 來部署 Node.js 服務，體驗到雲端平台的便利。</p>
-<p>不過，Render 屬於偏向 <strong>PaaS（平台即服務）</strong> 的方案，幫我們把基礎建設包好，只需要專注在程式碼即可。</p>
-<p>如果我們希望有更大的 <strong>彈性與控制權</strong>——例如選擇伺服器規格、設定網路環境、管理使用者權限，那麼 <strong>AWS（Amazon Web Services）</strong> 就是更強大的選擇。</p>
-<p>今天，我們就來看看：什麼是 AWS，它能幫我們做什麼？</p>
+    <title>Day 2 - 為什麼要用 TypeScript 開發 Node.js？（價值、趨勢）</title>
+    <url>/2025/09/16/Day2%20-%20Why%20use%20TypeScript/</url>
+    <content><![CDATA[<p>在開始之前，先讓我們來談談今天的主角 —— <strong>TypeScript</strong>。</p>
+<p>許多人在接觸 TypeScript 的第一反應是：「這不就是 JavaScript 加上型別嗎？」沒錯，這句話雖然簡化了很多細節，但卻說中了核心。TypeScript 本質上就是 <strong>JavaScript 的超集（superset）</strong>，它在 JavaScript 的基礎上加上了型別系統與一些進階語法糖，讓開發者能寫出更可靠、更可維護的程式。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="1-為什麼需要雲端？"><a href="#1-為什麼需要雲端？" class="headerlink" title="1. 為什麼需要雲端？"></a>1. 為什麼需要雲端？</h2><p>過去如果公司要架網站，通常要做這些事：</p>
-<ul>
-<li>購買實體伺服器</li>
-<li>放在機房，接上網路</li>
-<li>聘請 MIS 工程師維護</li>
-</ul>
-<p>這樣不但成本高昂，也缺乏彈性。假如今天突然有一萬個人同時要用網站，伺服器很可能直接爆掉。</p>
-<p><strong>雲端服務的誕生</strong>，就是為了用「租」的方式，幫我們快速解決這些麻煩。</p>
+<h2 id="一、TypeScript-簡介與發展歷史"><a href="#一、TypeScript-簡介與發展歷史" class="headerlink" title="一、TypeScript 簡介與發展歷史"></a>一、TypeScript 簡介與發展歷史</h2><p><img src="https://github.com/ArvinYang1925/iThome-2025/blob/main/images/Day2/typescript-officle.png?raw=true"></p>
+<p>TypeScript 由 <strong>微軟（Microsoft）</strong> 團隊在 <strong>2012 年</strong>發表，設計之父是著名的程式語言專家 <strong>Anders Hejlsberg</strong>，他同時也是 C# 的主要設計者。當時 JavaScript 在大型專案中經常遇到可維護性與錯誤檢查的瓶頸，因此 TypeScript 誕生的目標就是：</p>
+<p>👉 <strong>讓 JavaScript 更適合大型專案的開發</strong>。</p>
+<p>隨著前端框架（Angular、React、Vue）逐漸壯大，以及 Node.js 進軍後端，TypeScript 的生態圈也迅速擴展。</p>
 <hr>
-<h2 id="2-雲端的三種層級"><a href="#2-雲端的三種層級" class="headerlink" title="2. 雲端的三種層級"></a>2. 雲端的三種層級</h2><p>在理解 AWS 之前，先來看看雲端服務的三種常見類型：</p>
+<h2 id="二、TypeScript-與-JavaScript-的關係"><a href="#二、TypeScript-與-JavaScript-的關係" class="headerlink" title="二、TypeScript 與 JavaScript 的關係"></a>二、TypeScript 與 JavaScript 的關係</h2><p>可以把 TypeScript 想成是 <strong>加強版的 JavaScript</strong>。</p>
 <ul>
-<li><strong>IaaS（Infrastructure as a Service）基礎建設即服務</strong><br>提供虛擬主機、網路、儲存空間。<br>例：AWS EC2</li>
-<li><strong>PaaS（Platform as a Service）平台即服務</strong><br>幫你準備好應用環境，你只要丟程式碼。<br>例：Render、AWS Elastic Beanstalk</li>
-<li><strong>SaaS（Software as a Service）軟體即服務</strong><br>直接用現成的應用。<br>例：Gmail、Google Drive</li>
+<li><strong>JavaScript</strong>：瀏覽器和 Node.js 都能直接執行的語言。</li>
+<li><strong>TypeScript</strong>：在 JavaScript 的基礎上，增加了 <strong>型別系統</strong>、<strong>介面（interface）</strong>、<strong>泛型（generics）</strong> 等功能。</li>
 </ul>
-<p>👉 AWS 主要提供 <strong>IaaS + PaaS</strong>，是開發者打造應用的基礎。</p>
+<p>所有 TypeScript 程式碼最終都會被「編譯（<strong>compile</strong>）」成純 JavaScript，才能在 Node.js 或瀏覽器中執行。換句話說：</p>
+<p>💡 <strong>任何合法的 JavaScript 程式碼，本身就是合法的 TypeScript 程式碼。</strong></p>
 <hr>
-<h2 id="3-AWS-的四大基礎服務類別"><a href="#3-AWS-的四大基礎服務類別" class="headerlink" title="3. AWS 的四大基礎服務類別"></a>3. AWS 的四大基礎服務類別</h2><p>AWS 提供上百種服務，不過一開始只要先認識四大類別就好：</p>
-<ul>
-<li><strong>Compute（運算）</strong> → EC2：租一台虛擬主機</li>
-<li><strong>Storage（儲存）</strong> → S3：放檔案；RDS：雲端資料庫</li>
-<li><strong>Network（網路）</strong> → VPC：建立雲端內部網路；Route53：網域服務</li>
-<li><strong>Auth（身分驗證）</strong> → IAM：管理使用者與權限</li>
+<h2 id="三、TypeScript-的優點"><a href="#三、TypeScript-的優點" class="headerlink" title="三、TypeScript 的優點"></a>三、TypeScript 的優點</h2><p>那麼 TypeScript 到底解決了什麼痛點呢？以下列幾個主要優點：</p>
+<ol>
+<li><strong>靜態型別檢查</strong><ul>
+<li>在編譯階段就能發現型別錯誤，減少 runtime bug。</li>
+<li>例如：<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line">age = <span class="string">&quot;twenty-five&quot;</span>; <span class="comment">// 編譯錯誤！</span></span><br></pre></td></tr></table></figure></li>
 </ul>
+</li>
+<li><strong>更好的 IDE 支援</strong><ul>
+<li>自動補全、即時型別提示與錯誤檢查，都比純 JavaScript 更精準。</li>
+<li>這能大幅提升開發體驗，尤其在大型專案中。</li>
+</ul>
+</li>
+<li><strong>程式結構更清晰</strong><ul>
+<li>使用 interface、type、enum 可以清楚描述資料結構，團隊成員更容易理解。</li>
+</ul>
+</li>
+<li><strong>降低維護成本</strong><ul>
+<li>型別提示與嚴格檢查，讓新成員接手專案更容易上手，也避免「看名字猜型別」的情況。</li>
+</ul>
+</li>
+</ol>
 <hr>
-<h2 id="4-延伸價值"><a href="#4-延伸價值" class="headerlink" title="4. 延伸價值"></a>4. 延伸價值</h2><p>為什麼不自己買伺服器，而是用 AWS？差別在於：</p>
-<ul>
-<li><strong>自動擴展（Scaling）</strong>：流量暴增也能撐住</li>
-<li><strong>備份（Backup）</strong>：自動保存資料</li>
-<li><strong>高可用性（Failover）</strong>：一台掛掉，另一台馬上接手</li>
-<li><strong>資安（Security）</strong>：帳號權限控管，符合產業安全標準</li>
+<h2 id="四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）"><a href="#四、為什麼要用-TypeScript-開發-Node-js？（價值與趨勢）" class="headerlink" title="四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）"></a>四、為什麼要用 TypeScript 開發 Node.js？（價值與趨勢）</h2><p>很多人會問：</p>
+<blockquote>
+<p>Node.js 已經用 JavaScript 就能開發了，為什麼還要多學一個 TypeScript？</p>
+</blockquote>
+<p>理由其實很簡單，歸納成兩個關鍵字：<strong>價值</strong>與<strong>趨勢</strong>。</p>
+<h3 id="1-價值"><a href="#1-價值" class="headerlink" title="1. 價值"></a>1. 價值</h3><ul>
+<li><strong>提升專案可靠度</strong>：伺服器端通常牽涉到資料庫、API、使用者資料，任何錯誤都可能導致重大問題。TypeScript 的型別檢查能大幅降低這種風險。</li>
+<li><strong>更好的團隊協作</strong>：Node.js 專案通常不是一人獨自開發，而是多人協作。TypeScript 的型別定義就是團隊之間的「契約（contract）」，避免誤解。</li>
+<li><strong>長期維護更輕鬆</strong>：後端系統常常需要跑好幾年，TypeScript 能讓專案在 1 年、3 年後依然可讀、可維護。</li>
 </ul>
-<p>這些功能對個人開發者來說，可能不常用到；但對於企業級專案，就是 AWS 最大的價值。</p>
+<h3 id="2-趨勢"><a href="#2-趨勢" class="headerlink" title="2. 趨勢"></a>2. 趨勢</h3><ul>
+<li><strong>主流框架全面支援</strong>：像是 NestJS、Next.js 都是以 TypeScript 為核心打造。</li>
+<li><strong>開發者市場需求</strong>：求職網站上，TypeScript 幾乎已經是 Node.js 工程師的必備技能。</li>
+<li><strong>生態系成熟</strong>：越來越多 npm 套件都提供官方的型別定義，不再需要自己額外補齊。</li>
+</ul>
+<p>換句話說，現在的 TypeScript 已經不是「可有可無的加分題」，而是 Node.js 開發中逐漸成為「基本配備」的技能。</p>
 <hr>
-<h2 id="5-結論"><a href="#5-結論" class="headerlink" title="5. 結論"></a>5. 結論</h2><p>AWS 可以想像成一個「雲端超市」：</p>
-<ul>
-<li>想要伺服器？拿 EC2。</li>
-<li>想要資料庫？拿 RDS。</li>
-<li>想要檔案空間？拿 S3。</li>
-</ul>
-<p>它不只是租硬體，更是提供了一整套幫你維護、擴展、安全管理的工具。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>總結來說，TypeScript 不是要取代 JavaScript，而是要 <strong>讓 JavaScript 更適合在大型、長期、多人協作的專案中發光發熱</strong>。</p>
+<p>在 Node.js 的後端開發世界，可靠性、維護性與可擴展性是第一優先，而這正是 TypeScript 最擅長的領域。</p>
+<p>所以，與其問「為什麼要用 TypeScript？」更應該問的是：</p>
+<p>👉 <strong>如果不用 TypeScript，我會損失什麼？</strong></p>
+<p>在未來的系列文章裡，我們會先介紹一些 TypeScript 基礎，然後一步一步示範，如何把 TypeScript 和 Node.js 結合起來，打造一個專案級的開發環境 🚀。</p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-        <tag>AWS</tag>
       </tags>
   </entry>
   <entry>
@@ -2038,72 +2038,178 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
-    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
-    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
-<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
+    <title>Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理</title>
+    <url>/2025/10/13/Day29%20-%20AWS-IAM/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前一篇，我們探索了 AWS 的網路基礎 —— <strong>VPC</strong>。</p>
+<p>有了網路邊界之後，雲端服務之間可以安全地連線與隔離。</p>
+<p>但接下來還有一個更關鍵的問題：</p>
+<blockquote>
+<p>「誰能登入你的 AWS？誰能刪除資料？誰能動到伺服器？」</p>
+</blockquote>
+<p>這，就是 AWS 的安全核心 —— <strong>IAM（Identity and Access Management）</strong>。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
-<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
-<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="一、什麼是-IAM？"><a href="#一、什麼是-IAM？" class="headerlink" title="一、什麼是 IAM？"></a>一、什麼是 IAM？</h2><blockquote>
+<p>💡 一句話理解：</p>
+<p><strong>IAM 是 AWS 的身分與權限控管系統，負責決定「誰能做什麼」。</strong></p>
+</blockquote>
+<p>IAM 的全名是 <strong>Identity and Access Management</strong>，</p>
+<p>它幫助我們在雲端中安全地管理：</p>
+<ul>
+<li>使用者（User）</li>
+<li>權限（Policy）</li>
+<li>群組（Group）</li>
+<li>角色（Role）</li>
+</ul>
+<p>換句話說，VPC 解決「資料怎麼流」，</p>
+<p>IAM 則解決「人與服務能不能動這些資料」。</p>
 <hr>
-<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
-<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
+<h2 id="二、為什麼需要-IAM？"><a href="#二、為什麼需要-IAM？" class="headerlink" title="二、為什麼需要 IAM？"></a>二、為什麼需要 IAM？</h2><p>想像你開了一家公司：</p>
+<ul>
+<li>EC2 是你的伺服器</li>
+<li>RDS 是資料庫</li>
+<li>S3 是雲端儲存櫃</li>
+<li>而 IAM 就是你的「門禁系統」</li>
+</ul>
+<p>如果沒有 IAM，</p>
+<p>那所有人都能進 AWS 控制台、刪資料、上傳亂七八糟的檔案 😱</p>
+<p>IAM 的目標是確保：</p>
+<ol>
+<li><strong>每個人都有自己的身分</strong>（誰在操作）</li>
+<li><strong>每個身分都有明確權限</strong>（能做什麼）</li>
+<li><strong>服務之間的互動是安全的</strong>（程式彼此授權）</li>
 </ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>車票 ID（可能是數字 &#x2F; 字串）</li>
-<li>車廂座位（可能是 “A12” 也可能是 12）</li>
-<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
+<hr>
+<h2 id="三、IAM-的四大核心概念"><a href="#三、IAM-的四大核心概念" class="headerlink" title="三、IAM 的四大核心概念"></a>三、IAM 的四大核心概念</h2><table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>定義</th>
+<th>舉例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>User</strong></td>
+<td>真實使用者帳號（開發者、管理員）</td>
+<td>你的個人登入帳號</td>
+</tr>
+<tr>
+<td><strong>Group</strong></td>
+<td>一群使用者，方便統一設定權限</td>
+<td>後端開發組 &#x2F; 財務組</td>
+</tr>
+<tr>
+<td><strong>Role</strong></td>
+<td>給服務使用的「臨時身分」</td>
+<td>EC2 或 Lambda 角色</td>
+</tr>
+<tr>
+<td><strong>Policy</strong></td>
+<td>JSON 格式的權限規則，定義能做什麼事</td>
+<td>允許 <code>s3:GetObject</code> 讀取檔案</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="小例子："><a href="#小例子：" class="headerlink" title="小例子："></a>小例子：</h3><p>一個典型的 Policy（權限規則）長這樣：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2012-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;s3:GetObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:s3:::my-ithome-bucket/*&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>它的意思是：</p>
+<blockquote>
+<p>「允許這個使用者從指定的 S3 bucket 讀取檔案。」</p>
+</blockquote>
+<hr>
+<h2 id="四、IAM-的運作邏輯"><a href="#四、IAM-的運作邏輯" class="headerlink" title="四、IAM 的運作邏輯"></a>四、IAM 的運作邏輯</h2><p>IAM 的權限設計有兩個層面：</p>
+<ol>
+<li><strong>身份驗證（Authentication）</strong><ul>
+<li>你是誰？（User &#x2F; Role）</li>
+<li>如何登入？（密碼、多重驗證、Access Key）</li>
 </ul>
 </li>
+<li><strong>授權（Authorization）</strong><ul>
+<li>你能做什麼？（根據附加的 Policy）</li>
+<li>對哪些資源？（S3、EC2、RDS…）</li>
 </ul>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
-<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
-<li><strong>優點</strong>：<ol>
-<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
-<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
-<li>可讀性高，適合大型專案。</li>
+</li>
 </ol>
-</li>
-<li><strong>常見使用場景</strong>：<ul>
-<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
-<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
-<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
-</ul>
-</li>
-</ul>
+<blockquote>
+<p>✅ AWS 的安全哲學：「一切都預設禁止，除非被允許。」</p>
+</blockquote>
+<p>也就是說，沒有被 Policy 明確授權的動作，都會被拒絕。</p>
 <hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
-<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
-<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
-</ul>
-<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
+<h2 id="五、IAM-的常見應用情境"><a href="#五、IAM-的常見應用情境" class="headerlink" title="五、IAM 的常見應用情境"></a>五、IAM 的常見應用情境</h2><table>
+<thead>
+<tr>
+<th>應用場景</th>
+<th>做法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>開發團隊多人共用 AWS</strong></td>
+<td>為每個人建立 IAM User，分配對應權限</td>
+</tr>
+<tr>
+<td><strong>EC2 要存取 S3</strong></td>
+<td>建立 IAM Role 掛到 EC2 上（不用明文金鑰）</td>
+</tr>
+<tr>
+<td><strong>前端要讀取特定 S3 內容</strong></td>
+<td>建立具有限制的 Policy，允許 <code>s3:GetObject</code></td>
+</tr>
+<tr>
+<td><strong>CI&#x2F;CD Pipeline 部署</strong></td>
+<td>為 GitHub Actions 或 CodeBuild 建立部署角色</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、安全最佳實踐"><a href="#六、安全最佳實踐" class="headerlink" title="六、安全最佳實踐"></a>六、安全最佳實踐</h2><h3 id="1-最小權限原則（Least-Privilege）"><a href="#1-最小權限原則（Least-Privilege）" class="headerlink" title="1.最小權限原則（Least Privilege）"></a>1.最小權限原則（Least Privilege）</h3><blockquote>
+<p>給使用者只需要的權限，不多不少。</p>
+<p>不要為方便而附加「AdministratorAccess」。</p>
+</blockquote>
+<h3 id="2-一人一帳號"><a href="#2-一人一帳號" class="headerlink" title="2.一人一帳號"></a>2.一人一帳號</h3><p>不要共用 root 帳號或同一組 Access Key，</p>
+<p>建立各自的 IAM User 並開啟 MFA。</p>
+<h3 id="3-優先使用-Role，少用-Access-Key"><a href="#3-優先使用-Role，少用-Access-Key" class="headerlink" title="3.優先使用 Role，少用 Access Key"></a>3.優先使用 Role，少用 Access Key</h3><p>金鑰容易洩漏；Role 可安全地授權給 EC2、Lambda。</p>
+<h3 id="4-定期檢查權限與使用紀錄"><a href="#4-定期檢查權限與使用紀錄" class="headerlink" title="4.定期檢查權限與使用紀錄"></a>4.定期檢查權限與使用紀錄</h3><p>使用 AWS CloudTrail 或 IAM Access Analyzer，</p>
+<p>檢查是否有過度開放的權限。</p>
+<hr>
+<h2 id="七、IAM-與其他服務的關係"><a href="#七、IAM-與其他服務的關係" class="headerlink" title="七、IAM 與其他服務的關係"></a>七、IAM 與其他服務的關係</h2><table>
+<thead>
+<tr>
+<th>服務</th>
+<th>IAM 的角色</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>EC2</strong></td>
+<td>使用 IAM Role 存取 S3 或 RDS</td>
+</tr>
+<tr>
+<td><strong>Lambda</strong></td>
+<td>以 Role 執行雲端任務（安全且短期）</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>透過 Policy 管控誰能上傳、讀取</td>
+</tr>
+<tr>
+<td><strong>CloudWatch &#x2F; CloudTrail</strong></td>
+<td>搭配 IAM 記錄操作紀錄與審查行為</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>今天，我們理解了 AWS 的核心安全哲學：</p>
+<blockquote>
+<p>網路的安全靠 VPC，行為的安全靠 IAM。</p>
+</blockquote>
+<p>VPC 幫你築起圍牆，</p>
+<p>而 IAM 幫你決定「誰能進出、能做什麼」。</p>
+<p>掌握 IAM，就等於掌握了 AWS 的「金鑰」。</p>
+<p>它不只是設定權限的工具，更是保障整個雲端架構安全的最後防線。</p>
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
+        <tag>Node.js</tag>
+        <tag>AWS</tag>
       </tags>
   </entry>
   <entry>
@@ -2263,6 +2369,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Day 4 - TypeScript 核心語法 (2)：union、enum</title>
+    <url>/2025/09/18/Day4%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(2)/</url>
+    <content><![CDATA[<p>昨天我們介紹了基本型別，今天要進一步學會 <strong>Union Type（聯合型別）</strong> 和 <strong>Enum（列舉）</strong>。</p>
+<p>這次一樣用「搭火車」的例子 🚄，讓程式碼更貼近生活！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Union-Type（聯合型別）"><a href="#1-Union-Type（聯合型別）" class="headerlink" title="1. Union Type（聯合型別）"></a>1. Union Type（聯合型別）</h2><p>Union 的特色是用 <strong><code>|</code></strong> 將多種可能型別區分開來。</p>
+<p>當一個值可能有「多種型別」時，Union 非常好用。</p>
+<h3 id="搭火車範例：乘客的票號"><a href="#搭火車範例：乘客的票號" class="headerlink" title="搭火車範例：乘客的票號"></a>搭火車範例：乘客的票號</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">ticketId</span>: <span class="built_in">number</span> | <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">ticketId = <span class="number">12345</span>; <span class="comment">// 數字型票號</span></span><br><span class="line">ticketId = <span class="string">&quot;A12&quot;</span>; <span class="comment">// 字串型票號</span></span><br><span class="line"><span class="comment">// ticketId = true; // ❌ 編譯錯誤</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="常見搭配：型別守衛-Type-Guards"><a href="#常見搭配：型別守衛-Type-Guards" class="headerlink" title="常見搭配：型別守衛 (Type Guards)"></a>常見搭配：型別守衛 (Type Guards)</h3><p>在使用 Union 時，我們通常需要用 <strong><code>typeof</code></strong> 來判斷型別後再操作，避免出錯。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">printTicketId</span>(<span class="params">id: <span class="built_in">number</span> | <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> id === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（字串）：&quot;</span> + id.<span class="title function_">toUpperCase</span>());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;票號（數字）：&quot;</span> + id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="number">12345</span>);</span><br><span class="line"><span class="title function_">printTicketId</span>(<span class="string">&quot;b23&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Union-Type-補充說明-🚉"><a href="#Union-Type-補充說明-🚉" class="headerlink" title="Union Type 補充說明 🚉"></a>Union Type 補充說明 🚉</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>適合處理「多種可能型別」的情境，例如 <strong>API 回傳值</strong> 或 <strong>使用者輸入</strong>。</li>
+<li>可以搭配 <strong>Type Guards</strong> 提高安全性。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>車票 ID（可能是數字 &#x2F; 字串）</li>
+<li>車廂座位（可能是 “A12” 也可能是 12）</li>
+<li>付款方式（可能是 “現金” | “信用卡” | “行動支付”）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">PaymentMethod</span> = <span class="string">&quot;Cash&quot;</span> | <span class="string">&quot;CreditCard&quot;</span> | <span class="string">&quot;MobilePay&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">payment</span>: <span class="title class_">PaymentMethod</span>;</span><br><span class="line"></span><br><span class="line">payment = <span class="string">&quot;Cash&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line">payment = <span class="string">&quot;MobilePay&quot;</span>; <span class="comment">// ✅</span></span><br><span class="line"><span class="comment">// payment = &quot;Coupon&quot;;  // ❌ 不在定義範圍</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-Enum（列舉）"><a href="#2-Enum（列舉）" class="headerlink" title="2. Enum（列舉）"></a>2. Enum（列舉）</h2><p>Enum 適合定義「固定範圍內的值」，比 Union 更有「名稱 → 值」的對應關係。</p>
+<h3 id="搭火車範例：車票狀態"><a href="#搭火車範例：車票狀態" class="headerlink" title="搭火車範例：車票狀態"></a>搭火車範例：車票狀態</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TicketStatus</span> &#123;</span><br><span class="line">  <span class="title class_">NotBought</span>, <span class="comment">// 尚未購買</span></span><br><span class="line">  <span class="title class_">Bought</span>, <span class="comment">// 已購票</span></span><br><span class="line">  <span class="title class_">Used</span>, <span class="comment">// 已使用</span></span><br><span class="line">  <span class="title class_">Expired</span>, <span class="comment">// 已過期</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">myTicket</span>: &#123; <span class="attr">passenger</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">passenger</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">Bought</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-陣列應用：乘客清單"><a href="#Enum-陣列應用：乘客清單" class="headerlink" title="Enum + 陣列應用：乘客清單"></a>Enum + 陣列應用：乘客清單</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passengers</span>: &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="title class_">TicketStatus</span> &#125;[] = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addPassenger</span>(<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  passengers.<span class="title function_">push</span>(&#123;</span><br><span class="line">    <span class="attr">name</span>: name,</span><br><span class="line">    <span class="attr">status</span>: <span class="title class_">TicketStatus</span>.<span class="property">NotBought</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Alice&quot;</span>);</span><br><span class="line"><span class="title function_">addPassenger</span>(<span class="string">&quot;Bob&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(passengers);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-設定字串值（更直觀）"><a href="#Enum-設定字串值（更直觀）" class="headerlink" title="Enum 設定字串值（更直觀）"></a>Enum 設定字串值（更直觀）</h3><figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">TrainClass</span> &#123;</span><br><span class="line">  <span class="title class_">Express</span> = <span class="string">&quot;自強號&quot;</span>,</span><br><span class="line">  <span class="title class_">Local</span> = <span class="string">&quot;區間車&quot;</span>,</span><br><span class="line">  <span class="title class_">HighSpeed</span> = <span class="string">&quot;高鐵&quot;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printTrainClass</span>(<span class="params">c: TrainClass</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;列車種類：&quot;</span> + c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">printTrainClass</span>(<span class="title class_">TrainClass</span>.<span class="property">Express</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Enum-補充說明-🚆"><a href="#Enum-補充說明-🚆" class="headerlink" title="Enum 補充說明 🚆"></a>Enum 補充說明 🚆</h3><ul>
+<li><strong>優點</strong>：<ol>
+<li>讓「固定選項」更清楚（比字串常數更有語意）。</li>
+<li>避免拼錯字串（TS 編譯時就會檢查錯誤）。</li>
+<li>可讀性高，適合大型專案。</li>
+</ol>
+</li>
+<li><strong>常見使用場景</strong>：<ul>
+<li>票券狀態（已購買 &#x2F; 未購買 &#x2F; 已使用 &#x2F; 過期）</li>
+<li>列車種類（自強號 &#x2F; 區間車 &#x2F; 高鐵）</li>
+<li>座位等級（普通 &#x2F; 商務 &#x2F; 頭等）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>Union Type</strong>：讓一個變數可以有多種型別，常用於「票號、付款方式」這類不確定型別的場景。</li>
+<li><strong>Enum</strong>：讓「固定範圍的值」更有語意，常用於「票券狀態、列車種類、座位等級」。</li>
+<li>Union 靈活，Enum 嚴謹 —— 搭配使用可以讓程式碼更乾淨又安全。</li>
+</ul>
+<p>👉 明天（Day 5）我們會介紹 <strong>interface</strong> 和 <strong>type</strong>，讓我們的火車旅程更結構化！ 🚉</p>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Day 5 - TypeScript 核心語法 (3)：interface、type、generics</title>
     <url>/2025/09/19/Day5%20-%20TypeScript%20-%20interface%E3%80%81type%E3%80%81generics/</url>
     <content><![CDATA[<p>昨天我們介紹了 <strong>Union</strong> 和 <strong>Enum</strong>，今天要進一步學習如何用 <strong>Interface、Type、Generics</strong> 來讓程式更有結構、更可重用。</p>
@@ -2340,6 +2515,170 @@
 ]]></content>
       <tags>
         <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
+    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
+    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
+<hr>
+<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
+<ul>
+<li><strong>string</strong>：字串</li>
+<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
+<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
+<li><strong>array</strong>：陣列</li>
+<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
+<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
+<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
+<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
+<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
+</ul>
+<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
+
+<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
+<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
+<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
+</ul>
+<hr>
+<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
+<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>物件結構清楚表達</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>與 API 或外部資料互動</strong></li>
+</ol>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
+<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
+<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
+<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
+</ul>
+<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
+<hr>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
+    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
+    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
+<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
+<p>準備好了嗎？Let’s go！</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
+<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
+<hr>
+<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
+<hr>
+<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
+<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
+<hr>
+<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
+<ul>
+<li><strong>Express</strong>：後端 API 框架</li>
+<li><strong>TypeScript</strong>：型別安全</li>
+<li><strong>@types</strong>：型別定義檔</li>
+<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
+</ul>
+<p>一次裝好：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
+<hr>
+<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這邊要記住幾個關鍵設定：</p>
+<ul>
+<li><code>rootDir</code> → 原始碼放哪裡</li>
+<li><code>outDir</code> → 編譯輸出到哪裡</li>
+<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
+<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
+</ul>
+<p>然後新增一個 <code>src</code> 資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>寫入以下內容：</p>
+<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
+<hr>
+<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果一切順利，你會看到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
+<ul>
+<li>Git 分支管理</li>
+<li>設定 <code>.gitignore</code></li>
+<li>初始化 <code>package.json</code></li>
+<li>安裝必要套件</li>
+<li>設定 TypeScript</li>
+<li>建立第一個 Express 程式</li>
+</ul>
+<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
+<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
+<hr>
+<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
+<blockquote>
+<p>commit message: Day 6 - set up Express + TS environment</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>TypeScript</tag>
+        <tag>Node.js</tag>
       </tags>
   </entry>
   <entry>
@@ -2706,190 +3045,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Day 3 - TypeScript 核心語法 (1)：型別系統與核心</title>
-    <url>/2025/09/17/Day3%20-%20TypeScript%20%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%20(1)/</url>
-    <content><![CDATA[<p>前兩天我們介紹了 TypeScript 的背景與價值，今天要開始動手寫程式碼，從最常見的 <strong>基本型別</strong> 與 <strong>型別推斷 &#x2F; 型別註記</strong> 講起。</p>
-<hr>
-<h2 id="1-基本常用型別"><a href="#1-基本常用型別" class="headerlink" title="1. 基本常用型別"></a>1. 基本常用型別</h2><p>TypeScript 在 JavaScript 基礎上，提供了更嚴謹的型別檢查。以下是常見的基本型別：</p>
-<ul>
-<li><strong>string</strong>：字串</li>
-<li><strong>number</strong>：數字（整數、浮點數都屬於 number）</li>
-<li><strong>boolean</strong>：布林值（true&#x2F;false）</li>
-<li><strong>array</strong>：陣列</li>
-<li><strong>object</strong>：物件，可指定 key 與 value 的型別</li>
-<li><strong>null</strong> &#x2F; <strong>undefined</strong>：空值與未定義<span id="more"></span></li>
-<li><strong>any</strong>：跳過型別檢查，不建議常用</li>
-<li><strong>unknown</strong>：安全版的 any，需要檢查後才能使用</li>
-<li><strong>void</strong>：通常用在函式沒有回傳值時</li>
-</ul>
-<p>我們用「搭火車」這個情境，來把 <strong>基本型別</strong> 串在一起，這樣學起來更有畫面。以下是範例：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 搭火車的情境</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 乘客名字（string）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">passengerName</span>: <span class="built_in">string</span> = <span class="string">&quot;Arvin&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 年齡（number）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">age</span>: <span class="built_in">number</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是否已經買票（boolean）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isBuyTicket</span>: <span class="built_in">boolean</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 行李（array）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">packages</span>: <span class="built_in">string</span>[] = [<span class="string">&quot;背包&quot;</span>, <span class="string">&quot;行李箱&quot;</span>, <span class="string">&quot;Mac&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 車票（object）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticket</span>: &#123; <span class="attr">start</span>: <span class="built_in">string</span>; <span class="attr">destination</span>: <span class="built_in">string</span>; <span class="attr">price</span>: <span class="built_in">number</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">start</span>: <span class="string">&quot;台南&quot;</span>,</span><br><span class="line">  <span class="attr">destination</span>: <span class="string">&quot;台北&quot;</span>,</span><br><span class="line">  <span class="attr">price</span>: <span class="number">750</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不確定的外部輸入（unknown）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">inputSeat</span>: <span class="built_in">unknown</span> = <span class="string">&quot;A12&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> inputSeat === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`座位號碼是 <span class="subst">$&#123;inputSeat&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不小心遺失票券（null &amp; undefined）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">lostTicket</span>: <span class="literal">null</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">notAssignedSeat</span>: <span class="literal">undefined</span> = <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// any（不建議，但有時候需要先用）</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">randomInfo</span>: <span class="built_in">any</span> = <span class="string">&quot;隨便的資訊&quot;</span>;</span><br><span class="line">randomInfo = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// void：檢查是否有買票（沒有回傳值）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">checkTicket</span>(<span class="params">name: <span class="built_in">string</span>, hasTicket: <span class="built_in">boolean</span></span>): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (hasTicket) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 已經買票，可以進站！`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;name&#125;</span> 尚未購票！`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">checkTicket</span>(passengerName, isBuyTicket);</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="2-型別推斷-vs-型別註記"><a href="#2-型別推斷-vs-型別註記" class="headerlink" title="2. 型別推斷 vs 型別註記"></a>2. 型別推斷 vs 型別註記</h2><p>TypeScript 在很多情況下會自動「推斷型別」：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainStation = <span class="string">&quot;台北&quot;</span>; <span class="comment">// 推斷為 string</span></span><br><span class="line"><span class="keyword">let</span> ticketPrice = <span class="number">500</span>; <span class="comment">// 推斷為 number</span></span><br></pre></td></tr></table></figure>
-
-<p>但有時候我們需要 <strong>手動註記型別</strong>，讓程式碼更清楚：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">trainStation</span>: <span class="built_in">string</span> = <span class="string">&quot;台北&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">ticketPrice</span>: <span class="built_in">number</span> = <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="差異比較"><a href="#差異比較" class="headerlink" title="差異比較"></a>差異比較</h3><ul>
-<li><strong>型別推斷</strong>：程式更簡潔，讓 TS 自動判斷。</li>
-<li><strong>型別註記</strong>：在需要 <strong>可讀性</strong>、<strong>強制規範</strong>、或 <strong>複雜物件</strong> 時更適合。</li>
-</ul>
-<hr>
-<h2 id="3-簡單使用場景"><a href="#3-簡單使用場景" class="headerlink" title="3. 簡單使用場景"></a>3. 簡單使用場景</h2><h3 id="✅-適合用型別推斷"><a href="#✅-適合用型別推斷" class="headerlink" title="✅ 適合用型別推斷"></a>✅ 適合用型別推斷</h3><p>當值一看就知道型別，TS 自動判斷即可。</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> trainName = <span class="string">&quot;自強號&quot;</span>; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> travelTime = <span class="number">120</span>; <span class="comment">// number</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="✅-適合用型別註記"><a href="#✅-適合用型別註記" class="headerlink" title="✅ 適合用型別註記"></a>✅ 適合用型別註記</h3><ol>
-<li><strong>函式參數與回傳值</strong>（TS 無法從空參數自動推斷，必須標註）</li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">buyTicket</span>(<span class="params">start: <span class="built_in">string</span>, destination: <span class="built_in">string</span>, price: <span class="built_in">number</span></span>): <span class="built_in">string</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`已購買從 <span class="subst">$&#123;start&#125;</span> 到 <span class="subst">$&#123;destination&#125;</span> 的車票，票價 <span class="subst">$&#123;price&#125;</span> 元`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>物件結構清楚表達</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">passenger</span>: &#123; <span class="attr">id</span>: <span class="built_in">number</span>; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">hasTicket</span>: <span class="built_in">boolean</span> &#125; = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Arvin&quot;</span>,</span><br><span class="line">  <span class="attr">hasTicket</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><strong>與 API 或外部資料互動</strong></li>
-</ol>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">stations</span>: <span class="built_in">string</span>[];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">res</span>: <span class="title class_">TrainApiResponse</span> = &#123;</span><br><span class="line">  <span class="attr">status</span>: <span class="number">200</span>,</span><br><span class="line">  <span class="attr">stations</span>: [<span class="string">&quot;台北&quot;</span>, <span class="string">&quot;新竹&quot;</span>, <span class="string">&quot;台中&quot;</span>],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><ul>
-<li><strong>基本型別</strong>是 TypeScript 的基礎：<code>string</code>、<code>number</code>、<code>boolean</code>、<code>array</code>、<code>object</code>、<code>null</code>、<code>undefined</code>…</li>
-<li><strong>型別推斷</strong>：讓程式更簡潔。</li>
-<li><strong>型別註記</strong>：在函式、物件、API 回傳值等情境中特別重要。</li>
-</ul>
-<p>👉 明天（Day 4）我們會進一步介紹 union、enum，讓型別系統更靈活！</p>
-<hr>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Day 6 - 如何建立一個 TypeScript + Node.js 環境 (1)：初始化專案</title>
-    <url>/2025/09/20/Day6%20-%20Node.js%20+%20TS%20(1)/</url>
-    <content><![CDATA[<p>昨天我們聊了很多概念，今天開始要<strong>動手實作</strong>啦！💻</p>
-<p>我們的目標很簡單：建立一個能跑起來的 <strong>TypeScript + Node.js 專案環境</strong>，並讓瀏覽器成功回應 <strong>「Hello, iThome2025 !」</strong> 🚀</p>
-<p>準備好了嗎？Let’s go！</p>
-<span id="more"></span>
-
-<hr>
-<h2 id="一、專案初始化"><a href="#一、專案初始化" class="headerlink" title="一、專案初始化"></a>一、專案初始化</h2><h3 id="1-開一個專案資料夾"><a href="#1-開一個專案資料夾" class="headerlink" title="1. 開一個專案資料夾"></a>1. 開一個專案資料夾</h3><p>你可以直接在電腦裡開一個新資料夾，或是從 GitHub Clone 專案下來。</p>
-<p>這邊示範 Git 版本，順便練習一下分支管理：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;你的專案網址&gt;</span><br><span class="line"><span class="built_in">cd</span> &lt;專案資料夾&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 develop 分支</span></span><br><span class="line">git checkout -b develop</span><br><span class="line">git push --set-upstream origin develop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立功能分支</span></span><br><span class="line">git checkout -b feature/init-ts-express</span><br><span class="line">git push --set-upstream origin feature/init-ts-express</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>👉 這樣就能在一個乾淨的分支上開始開發，方便日後合併 PR。</p>
-<hr>
-<h3 id="2-加上-gitignore"><a href="#2-加上-gitignore" class="headerlink" title="2. 加上 .gitignore"></a>2. 加上 <code>.gitignore</code></h3><p>為了避免「一些不必要的檔案」被推到 GitHub，我們要新增一個 <code>.gitignore</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Node modules</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># Logs</span><br><span class="line">logs/</span><br><span class="line">*.log</span><br><span class="line">npm-debug.log*</span><br><span class="line"></span><br><span class="line"># Environment variables</span><br><span class="line">.env</span><br><span class="line"></span><br><span class="line"># Build output</span><br><span class="line">dist/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"># TypeScript cache</span><br><span class="line">*.tsbuildinfo</span><br><span class="line"></span><br><span class="line"># OS / Editor 系統檔案</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># VS Code 設定</span><br><span class="line">.vscode/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>小提醒</strong>：這一步很容易被忽略，但很重要，因為上傳 <code>node_modules</code> 到 GitHub 真的有可能會被嫌棄 😅</p>
-<hr>
-<h3 id="3-初始化-Node-js-專案"><a href="#3-初始化-Node-js-專案" class="headerlink" title="3. 初始化 Node.js 專案"></a>3. 初始化 Node.js 專案</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init -y</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會快速生成一個 <code>package.json</code>，裡面記錄專案資訊和套件清單。</p>
-<p>按下 <code>-y</code> 代表接受所有預設值，超省時！👌</p>
-<hr>
-<h2 id="二、安裝必要套件"><a href="#二、安裝必要套件" class="headerlink" title="二、安裝必要套件"></a>二、安裝必要套件</h2><p>我們的工具包包含：</p>
-<ul>
-<li><strong>Express</strong>：後端 API 框架</li>
-<li><strong>TypeScript</strong>：型別安全</li>
-<li><strong>@types</strong>：型別定義檔</li>
-<li><strong>ts-node-dev</strong>：開發時自動編譯 + 重啟</li>
-</ul>
-<p>一次裝好：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install express</span><br><span class="line">npm install -D typescript @types/express @types/node ts-node-dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>裝完後，<code>package.json</code> 的 <code>dependencies</code> 和 <code>devDependencies</code> 就會多出這些小夥伴。</p>
-<hr>
-<h2 id="三、設定-TypeScript"><a href="#三、設定-TypeScript" class="headerlink" title="三、設定 TypeScript"></a>三、設定 TypeScript</h2><h3 id="1-建立-tsconfig-json"><a href="#1-建立-tsconfig-json" class="headerlink" title="1. 建立 tsconfig.json"></a>1. 建立 <code>tsconfig.json</code></h3><p>輸入：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx tsc --init</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>這會生成 <code>tsconfig.json</code>。接著編輯成以下版本（直接覆蓋即可）：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;compilerOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;target&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ES2020&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 ES2020 的 JavaScript 版本</span></span><br><span class="line">    <span class="attr">&quot;module&quot;</span><span class="punctuation">:</span> <span class="string">&quot;commonjs&quot;</span><span class="punctuation">,</span> <span class="comment">// 用 CommonJS 模組</span></span><br><span class="line">    <span class="attr">&quot;outDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dist&quot;</span><span class="punctuation">,</span> <span class="comment">// 編譯輸出目錄</span></span><br><span class="line">    <span class="attr">&quot;rootDir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;src&quot;</span><span class="punctuation">,</span> <span class="comment">// 程式碼根目錄</span></span><br><span class="line">    <span class="attr">&quot;strict&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用嚴格型別檢查</span></span><br><span class="line">    <span class="attr">&quot;esModuleInterop&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 支援模組互操作</span></span><br><span class="line">    <span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> <span class="comment">// 啟用裝飾器語法</span></span><br><span class="line">    <span class="attr">&quot;emitDecoratorMetadata&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> <span class="comment">// 為 TypeORM 生成元數據</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;include&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;src/**/*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span> <span class="comment">// 編譯 src 資料夾內的檔案</span></span><br><span class="line">  <span class="attr">&quot;exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;node_modules&quot;</span><span class="punctuation">]</span> <span class="comment">// 排除 node_modules</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>這邊要記住幾個關鍵設定：</p>
-<ul>
-<li><code>rootDir</code> → 原始碼放哪裡</li>
-<li><code>outDir</code> → 編譯輸出到哪裡</li>
-<li><code>strict</code> → 打開型別檢查，保護你的程式碼</li>
-<li><code>experimentalDecorators</code> + <code>emitDecoratorMetadata</code> → 為之後用 TypeORM 預先鋪路</li>
-</ul>
-<p>然後新增一個 <code>src</code> 資料夾：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> src</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="四、寫第一支程式-🚀"><a href="#四、寫第一支程式-🚀" class="headerlink" title="四、寫第一支程式 🚀"></a>四、寫第一支程式 🚀</h2><p>在 <code>src</code> 裡新增 <code>app.ts</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> src/app.ts</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>寫入以下內容：</p>
-<figure class="highlight tsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">get</span>(<span class="string">&quot;/&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.<span class="title function_">send</span>(<span class="string">&quot;Hello, iThome2025!&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">PORT</span> = process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>;</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="variable constant_">PORT</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`🚀 Server running on http://localhost:<span class="subst">$&#123;PORT&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>到這裡，你已經完成一個最小可運行的 Express + TS 程式！🎉</p>
-<hr>
-<h2 id="五、啟動與測試"><a href="#五、啟動與測試" class="headerlink" title="五、啟動與測試"></a>五、啟動與測試</h2><h3 id="1-修改-package-json"><a href="#1-修改-package-json" class="headerlink" title="1. 修改 package.json"></a>1. 修改 <code>package.json</code></h3><p>在 <code>scripts</code> 中加上：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dev&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ts-node-dev src/app.ts&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="2-啟動伺服器"><a href="#2-啟動伺服器" class="headerlink" title="2. 啟動伺服器"></a>2. 啟動伺服器</h3><p>執行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run dev</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果一切順利，你會看到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">🚀 Server running on http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="3-開瀏覽器測試"><a href="#3-開瀏覽器測試" class="headerlink" title="3. 開瀏覽器測試"></a>3. 開瀏覽器測試</h3><p>輸入：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://localhost:3000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>看到 **Hello, iThome2025 !**，就代表環境完成 ✅</p>
-<hr>
-<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>今天我們完成了專案初始化的整個流程：</p>
-<ul>
-<li>Git 分支管理</li>
-<li>設定 <code>.gitignore</code></li>
-<li>初始化 <code>package.json</code></li>
-<li>安裝必要套件</li>
-<li>設定 TypeScript</li>
-<li>建立第一個 Express 程式</li>
-</ul>
-<p>從現在開始，你已經有一個能跑起來的 <strong>TypeScript + Node.js 開發環境</strong> 🎯</p>
-<p>明天，我們會進一步讓專案結構更有組織感，並準備好迎接更複雜的 API 開發。</p>
-<hr>
-<h2 id="補充資源"><a href="#補充資源" class="headerlink" title="補充資源"></a>補充資源</h2><p><a href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">Github 範例程式碼</a></p>
-<blockquote>
-<p>commit message: Day 6 - set up Express + TS environment</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>TypeScript</tag>
-        <tag>Node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2025/08/27/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<span id="more"></span>
-
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>TypeScript 完整介紹：從入門到實戰</title>
     <url>/2025/01/27/TypeScript%20%E4%BB%8B%E7%B4%B9/</url>
     <content><![CDATA[<h2 id="什麼是-TypeScript？"><a href="#什麼是-TypeScript？" class="headerlink" title="什麼是 TypeScript？"></a>什麼是 TypeScript？</h2><p>TypeScript 是由 Microsoft 開發的一種開源程式語言，它是 JavaScript 的一個<strong>型別化超集</strong>（typed superset），最終會編譯成純 JavaScript 代碼。簡單來說，任何有效的 JavaScript 代碼都是有效的 TypeScript 代碼。</p>
@@ -2979,6 +3134,26 @@
         <tag>前端開發</tag>
         <tag>程式語言</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2025/08/27/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<span id="more"></span>
+
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>常用 Hexo 指令帶你無往不利</title>
