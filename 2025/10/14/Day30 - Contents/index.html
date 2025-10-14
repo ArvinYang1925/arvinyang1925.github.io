@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.2.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arvinyang1925.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.24.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="前言 &amp; 心得終於完賽了！🎉 每天數著日子發文，終於順利完成了第十七屆鐵人賽——真的超怕中途斷賽 😭 其實從以前開始開發時，就常常透過搜尋看到許多前輩在鐵人賽上的文章， 那時候覺得這是一個很酷的挑戰，也從中學到了不少東西。 所以今年就想給自己一個機會，從讀者變成參賽者，親自體驗這 30 天的歷程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Day 30 - 讓 TypeScript 把你的 Node.js 開發再升級 — 心得與完整目錄">
+<meta property="og:url" content="https://arvinyang1925.github.io/2025/10/14/Day30%20-%20Contents/index.html">
+<meta property="og:site_name" content="Arvin&#39;s Blog">
+<meta property="og:description" content="前言 &amp; 心得終於完賽了！🎉 每天數著日子發文，終於順利完成了第十七屆鐵人賽——真的超怕中途斷賽 😭 其實從以前開始開發時，就常常透過搜尋看到許多前輩在鐵人賽上的文章， 那時候覺得這是一個很酷的挑戰，也從中學到了不少東西。 所以今年就想給自己一個機會，從讀者變成參賽者，親自體驗這 30 天的歷程。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-10-14T13:32:13.000Z">
+<meta property="article:modified_time" content="2025-10-14T13:35:10.617Z">
+<meta property="article:author" content="Arvin Yang">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://arvinyang1925.github.io/2025/10/14/Day30%20-%20Contents/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://arvinyang1925.github.io/2025/10/14/Day30%20-%20Contents/","path":"2025/10/14/Day30 - Contents/","title":"Day 30 - 讓 TypeScript 把你的 Node.js 開發再升級 — 心得與完整目錄"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Day 30 - 讓 TypeScript 把你的 Node.js 開發再升級 — 心得與完整目錄 | Arvin's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Arvin's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">這是 Arvin 分享技術的地方</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80-%E5%BF%83%E5%BE%97"><span class="nav-number">1.</span> <span class="nav-text">前言 &amp; 心得</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E5%88%97%E7%9B%AE%E9%8C%84"><span class="nav-number">2.</span> <span class="nav-text">系列目錄</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-TypeScript-%E6%A0%B8%E5%BF%83%E8%AA%9E%E6%B3%95%E8%88%87%E5%9F%BA%E7%A4%8E%E8%A4%87%E7%BF%92"><span class="nav-number">2.1.</span> <span class="nav-text">1. TypeScript 核心語法與基礎複習</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%9F%BA%E7%A4%8E%E5%BB%BA%E7%BD%AE%E8%88%87%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.2.</span> <span class="nav-text">2. 基礎建置與環境設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%B0%88%E6%A1%88%E5%B7%A5%E5%85%B7%E8%88%87%E9%80%B2%E9%9A%8E%E5%8A%9F%E8%83%BD"><span class="nav-number">2.3.</span> <span class="nav-text">3. 專案工具與進階功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%BE%8C%E7%AB%AF%E5%B8%B8%E8%A6%8B%E9%80%B2%E9%9A%8E%E6%87%89%E7%94%A8"><span class="nav-number">2.4.</span> <span class="nav-text">4. 後端常見進階應用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9B%B2%E7%AB%AF%E9%83%A8%E7%BD%B2%E8%88%87%E7%B6%AD%E8%AD%B7"><span class="nav-number">2.5.</span> <span class="nav-text">5. 雲端部署與維護</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">3.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%BA%90"><span class="nav-number">4.</span> <span class="nav-text">參考資源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Arvin Yang</p>
+  <div class="site-description" itemprop="description">這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://arvinyang1925.github.io/2025/10/14/Day30%20-%20Contents/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Arvin Yang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Arvin's Blog">
+      <meta itemprop="description" content="這是 Arvin 分享生活的地方，網頁開發、職涯、生活、美食、旅遊">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Day 30 - 讓 TypeScript 把你的 Node.js 開發再升級 — 心得與完整目錄 | Arvin's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Day 30 - 讓 TypeScript 把你的 Node.js 開發再升級 — 心得與完整目錄
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-14 21:32:13 / 修改時間：21:35:10" itemprop="dateCreated datePublished" datetime="2025-10-14T21:32:13+08:00">2025-10-14</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言-心得"><a href="#前言-心得" class="headerlink" title="前言 &amp; 心得"></a>前言 &amp; 心得</h2><p>終於完賽了！🎉</p>
+<p>每天數著日子發文，終於順利完成了第十七屆鐵人賽——真的超怕中途斷賽 😭</p>
+<p>其實從以前開始開發時，就常常透過搜尋看到許多前輩在鐵人賽上的文章，</p>
+<p>那時候覺得這是一個很酷的挑戰，也從中學到了不少東西。</p>
+<p>所以今年就想給自己一個機會，從讀者變成參賽者，親自體驗這 30 天的歷程。</p>
+<span id="more"></span>
+
+<p>由於這系列文章有不少實作與程式碼範例，</p>
+<p>中間花了很多時間在測試、除錯、重跑流程，</p>
+<p>一開始還有囤一點備稿，但進入中後期幾乎是「邊學邊寫、日更實戰」。</p>
+<p>回頭看，真的蠻酷的。</p>
+<p>每天一小步、一點一滴的累積，最後竟然能完成一個完整的教學系列。</p>
+<p>這份成就感比想像中還要強烈。</p>
+<hr>
+<h2 id="系列目錄"><a href="#系列目錄" class="headerlink" title="系列目錄"></a>系列目錄</h2><p>為了讓讀者能更方便回顧整個系列，以下我將內容分為五大階段 👇</p>
+<hr>
+<h3 id="1-TypeScript-核心語法與基礎複習"><a href="#1-TypeScript-核心語法與基礎複習" class="headerlink" title="1. TypeScript 核心語法與基礎複習"></a><strong>1. TypeScript 核心語法與基礎複習</strong></h3><p>進入實戰前，先複習並掌握 TypeScript 的核心觀念，建立「型別思維」。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10381757">Day 3 ｜ TypeScript 核心語法 (1)：型別系統、基本型別</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10382560">Day 4 ｜ TypeScript 核心語法 (2)：Union、Enum</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10382689">Day 5 ｜ TypeScript 核心語法 (3)：interface、type、泛型</a></li>
+</ul>
+<hr>
+<h3 id="2-基礎建置與環境設定"><a href="#2-基礎建置與環境設定" class="headerlink" title="2. 基礎建置與環境設定"></a><strong>2. 基礎建置與環境設定</strong></h3><p>從零開始建立一個完善的 TypeScript + Node.js 開發環境，</p>
+<p>完成簡單的 API 實作，最後部署到 Render 雲端服務。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10384075">Day 6 ｜建立 TypeScript + Node.js 環境 (1)：初始化專案</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10384080">Day 7 ｜建立 TypeScript + Node.js 環境 (2)：專案架構與資料庫設定</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10385326">Day 8 ｜打造你的第一個 TodoList API：一步步實現 CRUD 功能</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10386281">Day 9 ｜ Render 雲端啟動：資料庫連線全攻略</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10386893">Day 10 ｜部署啟程！從 Render 部署前置作業到 GitHub PR</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10387580">Day 11 ｜一鍵上線！完整部署到 Render 的實戰流程</a></li>
+</ul>
+<hr>
+<h3 id="3-專案工具與進階功能"><a href="#3-專案工具與進階功能" class="headerlink" title="3. 專案工具與進階功能"></a><strong>3. 專案工具與進階功能</strong></h3><p>讓專案更專業！導入程式碼格式化工具、API 驗證、使用者登入驗證，</p>
+<p>並探索如何串接雲端檔案上傳。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10388279">Day 12 ｜程式碼自動排版神器：Prettier 實戰導入</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10388768">Day 13 ｜一致的程式碼：ESLint 導入</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10388774">Day 14 ｜ API 驗證救星：用 Zod 驗證來檢查</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10390867">Day 15 ｜ API 安全升級：JWT 登入驗證全流程實作</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10391259">Day 16 ｜ Firebase Storage 初探：輕鬆搞定專案檔案上傳前置作業</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10391803">Day 17 ｜ Firebase Storage 實戰：用 Node.js + multer 上傳圖片到雲端</a></li>
+</ul>
+<hr>
+<h3 id="4-後端常見進階應用"><a href="#4-後端常見進階應用" class="headerlink" title="4. 後端常見進階應用"></a><strong>4. 後端常見進階應用</strong></h3><p>這部分涵蓋專案升級必備的實務主題：日誌系統、Migration 管理、CI&#x2F;CD 自動化流程。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10392321">Day 18 ｜ console.log 退役啦！Node.js Pino 帶你升級專案 Log</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10392467">Day 19 ｜專案升級必備：資料庫 Migration 實戰</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10393411">Day 20 ｜從 0 到自動化：開啟你的第一個 GitHub Actions 旅程</a></li>
+</ul>
+<hr>
+<h3 id="5-雲端部署與維護"><a href="#5-雲端部署與維護" class="headerlink" title="5. 雲端部署與維護"></a><strong>5. 雲端部署與維護</strong></h3><p>最後，我們將專案部署到 AWS 雲端，探索雲端的核心服務與概念。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10393772">Day 21 ｜ AWS 初探 (1)：什麼是雲端服務？</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10394112">Day 22 ｜ AWS 初探 (2)：破關拿獎金・預算防護</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10394375">Day 23 ｜從零啟動雲端主機：帶你開出第一台 AWS EC2！</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10394986">Day 24 ｜從本地到雲端：把你的 Node.js 專案部署上 AWS EC2！</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10395279">Day 25 ｜ AWS RDS 入門：在雲端打造你的第一個資料庫服務</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10395419">Day 26 ｜雲端串接實戰：Node.js 成功連上 AWS RDS！</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10395913">Day 27 ｜ AWS S3 實作檔案上傳：打造你的雲端檔案儲存中心</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10396471">Day 28 ｜ AWS VPC 入門：初探雲端世界的隱形網路</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10396573">Day 29 ｜ AWS IAM 入門：讓雲端安全運作的身分與權限管理</a></li>
+</ul>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>挑戰鐵人賽真的不容易。</p>
+<p>每天想主題、寫內容、驗證程式、排版、上圖，還要兼顧可讀性與教學節奏。</p>
+<p>有時候邊寫邊懷疑：「我真的寫得完嗎？」</p>
+<p>但一步步走到這裡，才發現<strong>堅持本身就是一種力量。</strong></p>
+<p>感謝這三十天以來所有閱讀、按讚、留言、給建議的朋友們，</p>
+<p>你們的互動都是我撐下去的重要動力 ❤️</p>
+<p>如果這個系列能讓你對 TypeScript + Node.js</p>
+<p>或是部署到雲端的流程有更清晰的理解，那就太值得了。</p>
+<p>未來我也會持續更新相關技術主題，</p>
+<p>讓我們在開發這條路上，一起學習、一起成長。</p>
+<h2 id="參考資源"><a href="#參考資源" class="headerlink" title="參考資源"></a>參考資源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ArvinYang1925/iThome2025-node-ts/tree/feature/init-ts-express">GitHub 專案原始碼</a></li>
+<li><a href="https://arvinyang1925.github.io/">個人部落格</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+              <a href="/tags/Node-js/" rel="tag"># Node.js</a>
+              <a href="/tags/AWS/" rel="tag"># AWS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/13/Day29%20-%20AWS-IAM/" rel="prev" title="Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理">
+                  <i class="fa fa-angle-left"></i> Day 29 - AWS IAM 入門：讓雲端安全運作的身分與權限管理
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Arvin Yang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
